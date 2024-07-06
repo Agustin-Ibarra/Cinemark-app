@@ -1,0 +1,359 @@
+body{
+  background-color: #000000;
+}
+.movie-container{
+  margin: 4rem 0;
+  display: flex;
+  justify-content: space-around;
+  color: #ffffff;
+  /* border: #ffffff thin solid; */
+  }
+.poster-container{
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: start; */
+  align-items: start;
+}
+.poster{
+  width: 100%;
+}
+.movie-add{
+  width: 50%;
+  /* border: #ffffff thin solid; */
+}
+.description{
+  padding: 2rem 0;
+  font-size: 20px;
+}
+.title-movie{
+  margin-top: 1rem;
+  font-size: 32px;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  /* color: #36409e; */
+}
+.info{
+  border: #a1a1a1 2px solid;
+  border-radius: 5px;
+  /* padding-top: 1rem; */
+  font-weight: 600;
+  font-size: 18px;
+  color: #a1a1a1;
+  padding: 6px;
+  /* display: inline-block; */
+  margin-top: 1rem;
+}
+.list_ticket{
+  width: 450px;
+}
+.choice{
+  font-size: 20px;
+  padding: 14px 0;
+  background-color: #000000;
+  border: 0;
+  width: 450px;
+  color: #a1a1a1;
+  font-size: 20px;
+  transition: all .4s;
+  border: #a1a1a1 2px solid;
+  cursor: pointer;
+}
+.choice:hover{
+  border: #ffffff 2px solid;
+  color: #ffffff;
+}
+.ticket{
+  list-style: none;
+  /* padding: 10px 0; */
+  text-align: center;
+  cursor: pointer;
+  transition: all .5s;
+  /* border-bottom: #616161 2px solid; */
+}
+.ticket-info{
+  padding: 15px 5px;
+  transition: all.5s;
+  /* background-color: #616161; */
+  color: #a1a1a1;
+  border-bottom: #a1a1a1 2px solid;
+}
+.ticket-info:hover{
+  color: #ffffff;
+  border-bottom: #ffffff 2px solid;
+}
+.ticket-set{
+  display: flex;
+  align-items: center;
+  margin: 1rem 0;
+}
+.info-choice{
+  border-radius: 5px;
+  margin: 2rem auto;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  display: none;
+}
+.title-info{
+  font-size: 25px;
+  font-weight: 600;
+}
+.text-info{
+  font-size: 20px;
+  margin-top: 15px;
+  background-color: #292929;
+  padding: 8px 20px;
+  display: inline-block;
+  border-radius: 5px;
+}
+.btn-choice{
+  color: #cacaca;
+  background-color: #000000;
+  border: #cacaca 2px solid;
+  font-size: 20px;
+  padding: 8px 20px;
+  border-radius: 5px;
+  transition: all.4s;
+  cursor: pointer;
+}
+.btn-choice:hover{
+  color: #ffffff;
+  border: #ffffff 2px solid;
+}
+.btn-container{
+  /* border: #1a1a1a thin solid; */
+  margin-top: 2rem;
+  display: flex;
+}
+.text-choice{
+  padding:8px 20px;
+  font-size: 22px;
+  margin-left: 10px;
+}
+.amount{
+  margin: 0;
+  padding: 8px 0;
+  margin-right: 15px;
+}
+.pay{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  width: 90%;
+  background-color: #36409e;
+  font-size: 22px;
+  font-weight: 600;
+  color: #ffffff;
+  border: 0;
+  border-radius: 5px;
+  margin: 2rem 0 10px 0;
+  transition: all .4s;
+  cursor: pointer;
+}
+.pay:hover{
+  background-color: #4350c4;
+}
+.pay span{
+  margin-left: 5px;
+}
+iframe{
+  width: 100%;
+  /* border: #ffffff thin solid; */
+}
+.amount-div{
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  /* border: #5c5c5c thin solid; */
+}
+.amount-div .icon{
+  font-size: 30px;
+  border: #ffffff 2px solid;
+  border-radius: 5px;
+  padding: 3px 8px;
+  cursor: pointer;
+  transition: all .4s;
+  color: #ffffff;
+}
+.amount-div .icon:hover{
+  background-color: #202020;
+}
+#amount{
+  font-size: 25px;
+  font-weight: 600;
+  border-bottom: #ffffff 2px solid;
+  padding: 3px 5px;
+  margin: 0 15px;
+}
+.btn-div{
+  display: flex;
+  margin-top: 1rem;
+  justify-content: space-between;
+}
+.amount-btn{
+  background: none;
+  border: none;
+}
+.resume-container{
+  padding: 1rem;
+  margin-top: 2rem;
+  border: #ffffff 2px solid;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: space-around;
+}
+.resume-text{
+  font-size: 22px;
+  border-bottom: #ffffff 2px solid;
+  margin-top: 1.5rem;
+  font-weight: 600;
+}
+.resume-title{
+  font-weight: 600;
+  font-size: 30px;
+}
+.error-pay-art{
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+  background-color: #2f2c5e62;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  display: none;
+}
+.error-pay{
+  border: #cacaca 2px solid;
+  width: 400px;
+  padding: 1rem;
+  background-color: #000000;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+}
+.text-container{
+  display: flex;
+  align-items: center;
+}
+.error-pay-title{
+  font-size: 24px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+.error-pay-title .error-icon{
+  margin-right: 5px;
+  margin-top: 2px;
+}
+.text{
+  font-size: 22px;
+  color: #cacaca;
+  text-align: center;
+  margin: 15px 0;
+}
+.accept{
+  background-color: #36409e;
+  color: #ffffff;
+  border: 0;
+  border-radius: 5px;
+  padding: 8px;
+  font-size: 20px;
+  font-weight: 600;
+  margin-top: 1rem;
+  cursor: pointer;
+  transition: all .4s;
+}
+.accept:hover{
+  background-color: #4350c4;
+}
+.empty{
+  color: #ff1717;
+  font-size: 22px;
+  border-bottom: #ff1717 2px solid;
+  text-align: center;
+  font-weight: 600;
+  list-style: none;
+}
+.hidden{
+  display: none;
+}
+.show{
+  display: flex;
+}
+.visible{
+  display: block;
+}
+
+@media (max-width:1100px) {
+  .poster-container{
+    width: 300px;
+  }
+  .movie-add{
+    width: 60%;
+  }
+}
+
+@media (max-width:950px) {
+  .poster-container{
+    width: 250px;
+    margin: 0 auto;
+  }
+  .movie-container{
+    margin-top: 10rem;
+  }
+}
+@media (max-width:850px) {
+  .movie-container{
+    flex-direction: column;
+    /* align-items: center; */
+  }
+  .movie-add{
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 3rem;
+  }
+  .poster-container{
+    width: 400px;
+    margin: 0 auto;
+  }
+  .choice, .list_ticket{
+    margin: 0 auto;
+  }
+  .pay{
+    margin: 2rem auto;
+  }
+}
+@media (max-width:550px) {
+  .choice, .list_ticket,.pay,.info-choice{
+    width: 100%;
+  }
+  .poster-container{
+    width: 80%;
+  }
+}
+@media (max-width:450px) {
+  .poster-container{
+    width: 90%;
+  }
+  .text-info{
+    /* width: 100%; */
+    padding: 8px;
+  }
+  .btn-container{
+    display: none;
+  }
+  .amount-div .icon{
+    padding: 3px;
+  }
+}

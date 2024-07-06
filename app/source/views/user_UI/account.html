@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="account.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <title>Cinemark | Account</title>
+</head>
+<body>
+  <header>  
+    <section class="title-container">
+      <a href="/" class="title"><h1>Cinemark</h1></a>
+    </section>
+    <span class="material-symbols-outlined open">
+      menu
+    </span>
+    <nav>
+      <ul class="nav-list">
+        <li class="nav-item nav-back">
+          <span class="material-symbols-outlined back close">
+            arrow_forward
+          </span>
+        </li>
+        <li class="nav-item"><a href="/" class="nav-link">Home page</a></li>
+        <li class="nav-item"><a href="/#first" class="nav-link">Premiers</a></li>
+        <li class="nav-item">
+          <a href="/login" class="nav-link logout">
+            Log out
+            <span class="material-symbols-outlined icon logout">
+            logout
+            </span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+  <section class="loader-section">
+    <div class="loader"></div>
+  </section>
+    <section class="update-section">
+      <section class="update">
+        <p class="first-title">Personal information</p>
+        <p class="title-info" id="name">Full name | </p>
+        <p class="title-info" id="email">Email | </p>
+        <p class="title-info" id="username">Username | </p>
+        <p class="first-title" id="purchase-title">Purchases orders</p>
+        <ul class="purchase-list">
+          <p class="description">In this section you can see information about your recent purchases</p>
+          <p class="title-info" id="title">All my purchases: </p>
+      </ul>
+      </section>
+      <section class="delete">
+        <p class="first-title">Setting Personal information</p>
+        <p class="title-update">Update Full name</p>
+        <input type="text" placeholder="new fullname" id="new-fullname">
+        <p class="error-text" id="name-error"></p>
+        <button class="fullname">Update Full name</button>
+        <p class="title-update">Update Email</p>
+        <input type="text" placeholder="new email" id="new-email">
+        <p class="error-text" id="email-error"></p>
+        <button class="email">Update Email</button>
+        <p class="title-update">Update Username</p>
+        <input type="text" placeholder="new username" id="new-username">
+        <p class="error-text" id="username-error"></p>
+        <button class="username">Update Username</button>
+        <p class="title-update">Update Password</p>
+        <input type="password" placeholder="password" id="old-password">
+        <input type="password" placeholder="new password" id="new-password">
+        <input type="password" placeholder="confirm new password" id="confirm-password">
+        <p class="error-text" id="password-error"></p>
+        <button class="password">Update Password</button>
+        <button class="account-btn logout" id="logout">Logout</button>
+        <button id="delete" class="account-btn">Delete account</button>
+      </section>
+    </section>
+  <footer>
+    <p class="text-footer">Cinemark Av. sempervirens 223 opening hours tuesday to saturday from 9:00 to 13:00 and 17:00 to 22:00. To make a claim you can contact us through our telephone number 4231935 during business hours or through our email cinemarksupport@gmail.com.</p>
+  </footer>
+  <script src="account.js"></script>
+</body>
+</html>

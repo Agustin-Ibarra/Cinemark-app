@@ -1,0 +1,134 @@
+.main{
+  /* border: #ffffff 2px solid; */
+  width: 100%;
+  margin: 4rem auto;
+  padding: 2rem 20px;
+}
+.ticket{
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+  /* border: #ffffff thin solid; */
+}
+.poster-div{
+  width: 200px;
+  /* border: #e0e0e0 thin solid; */
+}
+img{
+  width: 100%;
+}
+.title-section{
+  font-size: 25px;
+  margin: 3rem;
+  font-weight: 600;
+  border-bottom: #ffffff 3px solid;
+  color: #ffffff;
+  padding: 10px;
+  /* width: 60%; */
+  /* display: inline-block; */
+}
+.title-movie{
+  color: #ffffff;
+  font-size: 30px;
+  font-weight: 600;
+  border-bottom: #ffffff 3px solid;
+  display: inline-block;
+  padding: 5px 15px;
+  margin-bottom: 10px;
+}
+.info{
+  color: #ffffff;
+  font-size: 20px;
+  margin-top: 15px;
+  font-weight: 600;
+  padding: 5px 0;
+  /* display: inline-block; */
+}
+.info-div{
+  margin-left: 4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  /* border: #e0e0e0 thin solid; */
+}
+#total{
+  padding-top: 1rem;
+  border-top: #ffffff 2px dashed;
+  font-size: 35px;
+}
+.warning{
+  color: #e0e0e0  ;
+  margin: 4rem 2rem 0 2rem;
+  font-size: 20px;
+  text-align: center;
+  padding: 15px;
+  border: #e0e0e0 thin solid;
+}
+.home{
+  border: #ffffff 2px solid;
+  border-radius: 5px;
+  width: 300px;
+  margin: 5rem auto 2rem auto;
+  padding: 8px;
+  font-size: 20px;
+  font-weight: 600;
+  text-decoration: none;
+  color: #ffffff;
+  display: block;
+  text-align: center;
+  transition: all .4s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.home:hover{
+  background-color: #ffffff27;
+}
+
+@media (max-width:960px) {
+  .ticket{
+    /* border: #ffffff thin solid; */
+    flex-direction: column;
+  }
+  .poster-div{
+    margin-left: 4rem;
+    margin-bottom: 2rem;
+  }
+  .main{
+    margin: 2rem auto;
+  }
+  .title-section{
+    margin: 8rem auto 0 auto;
+  }
+}
+@media (max-width:550px) {
+  .poster-div{
+    margin-left: 0;
+  }
+  .info-div{
+    margin-left: 0;
+  }
+  .title-section{
+    /* margin: 3rem auto; */
+    font-size: 22px;
+  }
+  #total{
+    font-size: 30px;
+  }
+  .warning{
+    margin: 2rem 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .home{
+    width: 80%;
+  }
+}
+@media (max-width:350px) {
+  #total{
+    font-size: 25px;
+  }
+  .home{
+    width: 100%;
+  }
+}
