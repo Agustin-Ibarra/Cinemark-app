@@ -4,7 +4,7 @@ import path from 'path';
 import bcrypt from 'bcryptjs';
 import jsonWebToken from 'jsonwebtoken';
 import dotenv  from 'dotenv';
-import { dataAutentication, getPassword, newUSer, setEmail, setFullName, setPassword, setUsername, userProfile } from '../../models/users_models.js'
+import { dataAutentication, deleteUserData, getPassword, newUSer, setEmail, setFullName, setPassword, setUsername, userProfile } from '../../models/users_models.js'
 
 dotenv.config();
 const __driname = path.dirname(fileURLToPath(import.meta.url));
@@ -265,4 +265,34 @@ export const updatePassword = function(req:Request,res:Response){
   .catch((error)=>{
     console.log(error);
   });
+}
+
+export const deleteAccount = function(req:Request,res:Response){
+  interface JwtPayload{
+    iduser:number,
+    levelAccess:number
+  }
+  interface ResultHeader{
+    fieldCount:number,
+    affectedRows:number,
+    insertId:number,
+    info:string,
+    serverStatus:number,
+    warningStatus:number,
+    changedRows:number
+  }
+  const token = req.headers.cookie?.replace('cmjwt=','');
+  const payload = jsonWebToken.verify(`${token}`,`${process.env.SECRET}`) as JwtPayload
+  const idUser = payload.iduser;
+  deleteUserData(idUser)
+  .then((result)=>{
+    const queryResult = result as ResultHeader
+    if(queryResult.serverStatus === 2 && queryResult.affectedRows === 1){
+      res.send({message:'delete'});
+    }
+    else{
+      res.status(400).send('error');
+    }
+  })
+  .catch((error)=>{console.log(error)});
 }

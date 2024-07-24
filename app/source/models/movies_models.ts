@@ -84,7 +84,7 @@ export const movieInfo = async function(idMovie:Number): Promise<QueryResult>{
 export const ticketData = async function(idMovie:Number):Promise<QueryResult>{
   try{
     const [result] = await connection.query(
-      `select id_ticket,type_format,date_ticket,subtitles,stock,ticket_price,title,hall_name from tickets inner join formats on formats.id_format = ticket_format inner join movies on movies.id_movie = movie inner join halls on halls.id_hall = hall where movie = ${idMovie} && stock > ${0};`
+      `select id_ticket,type_format,date_ticket,subtitles,stock,ticket_price,title,hall_name from tickets inner join formats on formats.id_format = ticket_format inner join movies on movies.id_movie = movie inner join halls on halls.id_hall = hall where movie = ${idMovie} and stock > ${0} and date_ticket >= current_timestamp();`
     );
     return result;
   }
@@ -104,7 +104,7 @@ export const ticketData = async function(idMovie:Number):Promise<QueryResult>{
 export const ticketData3D = async function (idMovie:Number):Promise<QueryResult>{
   try{
     const [result] = await connection.query(
-      `select type_format,id_ticket,date_ticket,subtitles,hall_name,title,stock,ticket_price from tickets  inner join formats on formats.id_format = ticket_format inner join halls on halls.id_hall = hall inner join movies on movies.id_movie = movie where movie = ${idMovie} and ticket_format = ${2} && stock > ${0}  && date_ticket > current_timestamp();`
+      `select type_format,id_ticket,date_ticket,subtitles,hall_name,title,stock,ticket_price from tickets  inner join formats on formats.id_format = ticket_format inner join halls on halls.id_hall = hall inner join movies on movies.id_movie = movie where movie = ${idMovie} and ticket_format = ${2} and stock > ${0} and date_ticket > current_timestamp();`
     );
     return result;
   }
@@ -124,7 +124,7 @@ export const ticketData3D = async function (idMovie:Number):Promise<QueryResult>
 export const ticketData2D = async function (idMovie:Number):Promise<QueryResult>{
   try{
     const [result] = await connection.query(
-      `select type_format,id_ticket,date_ticket,subtitles,stock,ticket_price,title,hall_name from tickets inner join formats on formats.id_format = ticket_format inner join halls on halls.id_hall = hall inner join movies on movies.id_movie = movie where movie = ${idMovie} and ticket_format = ${1} && stock > ${0};`
+      `select type_format,id_ticket,date_ticket,subtitles,stock,ticket_price,title,hall_name from tickets inner join formats on formats.id_format = ticket_format inner join halls on halls.id_hall = hall inner join movies on movies.id_movie = movie where movie = ${idMovie} and ticket_format = ${1} and stock > ${0} and date_ticket >= CURRENT_TIMESTAMP();`
     );
     return result;
   }
@@ -145,7 +145,7 @@ export const ticketData2D = async function (idMovie:Number):Promise<QueryResult>
 export const updateStock = async function(idTicket:Number,amount:Number):Promise<QueryResult>{
   try{
     const [result] = await connection.query(`
-      update tickets set stock = stock - ${amount} where id_ticket = ${idTicket} && stock >= ${amount} 
+      update tickets set stock = stock - ${amount} where id_ticket = ${idTicket} and stock >= ${amount} 
     `);
     return result;
   }

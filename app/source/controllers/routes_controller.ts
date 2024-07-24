@@ -1,11 +1,12 @@
 import express from 'express';
 import { Router } from 'express';
 import { getHome, get3DMovies, getMoviePage, get2DMovies, getPremiersMovies, getMovieInfo, getMovieTicketData, getMovieTicketDataFromat2D, getMovieTicketDataFromat3D, reserveTickets, successfulPaymentPage, newPurchaseOrder, newPurchaseDetails, getDataPurchase, getUserPurchase, restoreTicket } from './routes/routes_cinemark.js'
-import { getAccount, getLogin, getRegister, postLogin, postRegister, profile, updateEmail, updateFullname, updatePassword, updateUsername } from './routes/routes_user.js';
+import { deleteAccount, getAccount, getLogin, getRegister, postLogin, postRegister, profile, updateEmail, updateFullname, updatePassword, updateUsername } from './routes/routes_user.js';
 import { checkLogin, checkSingUp } from '../controllers/midlewares.js';
 import { paymentSession } from './routes/routes_payments.js';
 
 const router = Router();
+
 router.use(express.json());
 router.use('/login/user',checkLogin);
 router.use('/singup/user',checkSingUp);
@@ -39,5 +40,7 @@ router.put('/profile/update_email',updateEmail);
 router.put('/profile/update_password',updatePassword);
 router.put('/movie/reserve_tickets',reserveTickets);
 router.put('/movie/restore_tickets',restoreTicket);
+
+router.delete('/profile/delete_account',deleteAccount);
 
 export default router

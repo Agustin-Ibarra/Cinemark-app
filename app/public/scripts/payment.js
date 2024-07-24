@@ -25,10 +25,10 @@ fetch('/new_purchase',{
         subtotal:localStorage.getItem('total')
       })
     })
-    .catch((error)=>{console.log(error);});
+    .catch((error)=>{console.error(error);});
   }
 })
-.catch((error)=>{console.log(error);});
+.catch((error)=>{console.error(error);});
 
 $body.addEventListener("click",(e)=>{
   if(e.target.matches('.open') || e.target.matches('.close') || e.target.matches('nav-link')){
@@ -66,5 +66,5 @@ window.addEventListener("load",(e)=>{
     $title.textContent = data[0].title;
     $poster.setAttribute("src",`${data[0].poster}`)
   })
-  .catch((error)=>{console.log(error);})
+  .catch((error)=>{console.error(error);})
 });

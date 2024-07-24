@@ -26,7 +26,7 @@ if(localStorage.getItem('redirect') !== null){
       window.location.reload();
     }
   })
-  .catch((error)=>{console.log(error);});
+  .catch((error)=>{console.error(error);});
 }
 
 const generateTicket = function(array,$listTicket){
@@ -64,9 +64,9 @@ fetch(`/movie/id:${sessionStorage.getItem('id')}`)
   $time.textContent += movie[0].duration_time;
   $poster.setAttribute("src",movie[0].poster);
   $description.textContent = movie[0].description;
-  $div.innerHTML = movie[0].trailer;
+  // $div.innerHTML = movie[0].trailer;
 })
-.catch((error)=>{console.log(error);});
+.catch((error)=>{console.error(error);});
 
 if(sessionStorage.getItem('type') === 'premier'){
   fetch(`/movie/ticket/id:${sessionStorage.getItem('id')}`)
@@ -76,7 +76,7 @@ if(sessionStorage.getItem('type') === 'premier'){
     const $listTicket = document.querySelector('.list_ticket');
     generateTicket(tickets,$listTicket);
   })
-  .catch((error)=>{console.log(error);});
+  .catch((error)=>{console.error(error);});
 }
 else if(sessionStorage.getItem('type') === '3D'){
   fetch(`/movie/ticet3D/id:${sessionStorage.getItem('id')}`)
@@ -86,7 +86,7 @@ else if(sessionStorage.getItem('type') === '3D'){
     const $listTicket = document.querySelector('.list_ticket');
     generateTicket(tickets,$listTicket);
   })
-  .catch((error)=>{console.log(error);});
+  .catch((error)=>{console.error(error);});
 }
 else{
   fetch(`/movie/ticket2D/id:${sessionStorage.getItem('id')}`)
@@ -96,7 +96,7 @@ else{
     const $listTicket = document.querySelector('.list_ticket');
     generateTicket(tickets,$listTicket);
   })
-  .catch((error)=>{console.log(error);});
+  .catch((error)=>{console.error(error);});
 }
 
 $body.addEventListener("click",(e)=>{
@@ -168,7 +168,7 @@ $body.addEventListener("click",(e)=>{
               const data = await response.json();
               window.location.href = data.url;
             })
-            .catch((error)=>{console.log(error);});
+            .catch((error)=>{console.error(error);});
           }
         });
       }
@@ -179,13 +179,12 @@ $body.addEventListener("click",(e)=>{
         }
       }
     })
-    .catch((error)=>{console.log(error);});
+    .catch((error)=>{console.error(error);});
   }
   else if(e.target.matches('.open') || e.target.matches('.close') || e.target.matches('nav-link')){
     $nav.classList.toggle('open-nav');
   }
   else if(e.target.matches('.add')){
-    console.log('add');
     if(amountTickets < 5 && amountTickets < localStorage.getItem('stock')){
       amountTickets ++;
       total = total + price;
@@ -210,12 +209,14 @@ $body.addEventListener("click",(e)=>{
 });
 
 window.addEventListener("load",()=>{
-  $body.removeChild($loader);
-  if(sessionStorage.getItem('stock') > 0){
-    amountTickets = 1;
-  }
-  if(Array.isArray(ticketInfo) === false){
-    const $empty = document.querySelector('.empty');
-    $empty.classList.replace('hidden','visible');
-  }
+  setTimeout(() => {
+    $body.removeChild($loader);
+    if(sessionStorage.getItem('stock') > 0){
+      amountTickets = 1;
+    }
+    if(ticketInfo.length < 1){
+      const $empty = document.querySelector('.empty');
+      $empty.classList.replace('hidden','visible');
+    }
+  }, 550);
 });

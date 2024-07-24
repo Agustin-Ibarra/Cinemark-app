@@ -31,7 +31,7 @@ $body.addEventListener("click",(e)=>{
           window.location.href = localStorage.getItem('path') || result.redirect;
         }
       })
-      .catch((error)=>{console.log(error);});
+      .catch((error)=>{console.error(error);});
     }
   }
   else if(e.target.matches('.open') || e.target.matches('.nav-link') || e.target.matches('.close')){

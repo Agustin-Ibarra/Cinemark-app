@@ -30,7 +30,7 @@ fetch('/premiers')
   const movies = await data.json();
   generateMovies(movies,$premiers,"premier")
 })
-.catch((error)=>{console.log(error);});
+.catch((error)=>{console.error(error);});
 
 fetch('/movies_3D')
 .then(async(data)=>{
@@ -38,7 +38,7 @@ fetch('/movies_3D')
   generateMovies(movies,$list3D,"3D");
 })
 .catch((error)=>{
-  console.log(error);
+  console.error(error);
 })
 
 fetch('/movies_2D')
@@ -46,7 +46,7 @@ fetch('/movies_2D')
   const movies = await data.json();
   generateMovies(movies,$list2D,"2D")
 })
-.catch((error)=>{console.log(error);})
+.catch((error)=>{console.error(error);})
 
 const $body = document.querySelector('body');
 $body.addEventListener("click",(e)=>{

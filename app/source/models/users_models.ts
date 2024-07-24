@@ -169,3 +169,16 @@ export const getPassword = async function(idUser:number):Promise<QueryResult>{
     connection.releaseConnection;
   }
 }
+
+export const deleteUserData = async function(idUSer:number){
+  try{
+    const [result] = await connection.query(`delete from users where id_user = ${idUSer}`);
+    return result;
+  }
+  catch(error){
+    throw error;
+  }
+  finally{
+    connection.releaseConnection;
+  }
+}

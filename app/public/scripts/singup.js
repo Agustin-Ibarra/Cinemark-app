@@ -45,7 +45,7 @@ $body.addEventListener("click",(e)=>{
           }
         })
         .catch((error)=>{
-          console.log(error);
+          console.error(error);
         });
       }
     }
