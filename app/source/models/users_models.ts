@@ -170,7 +170,12 @@ export const getPassword = async function(idUser:number):Promise<QueryResult>{
   }
 }
 
-export const deleteUserData = async function(idUSer:number){
+/**
+ * esta consulta elemina los registros de un usario en la base de datos
+ * @param {number} idUSer 
+ * @returns {QueryResult}
+ */
+export const deleteUserData = async function(idUSer:number):Promise<QueryResult>{
   try{
     const [result] = await connection.query(`delete from users where id_user = ${idUSer}`);
     return result;
