@@ -10,7 +10,7 @@ dotenv.config();
 const __dirname  = path.dirname(fileURLToPath(import.meta.url));
 
 export const getHome = function(req:Request,res:Response){
-  res.sendFile(path.join(__dirname,'../../../views/cinemark_UI/home.html'));
+  res.sendFile(path.join(__dirname,'../../../source/views/cinemark_UI/home.html'));
 }
 
 export const getPremiersMovies = function(req:Request,res:Response){
@@ -41,7 +41,7 @@ export const get2DMovies = function(req:Request,res:Response){
 }
 
 export const getMoviePage = function(req:Request,res:Response){
-  res.sendFile(path.join(__dirname,'../../../views/cinemark_UI/movie.html'));
+  res.sendFile(path.join(__dirname,'../../../source/views/cinemark_UI/movie.html'));
 }
 
 export const getMovieInfo = function(req:Request,res:Response){
@@ -128,7 +128,7 @@ export const restoreTicket = function(req:Request,res:Response){
 }
 
 export const successfulPaymentPage = function(req:Request,res:Response){
-  res.sendFile(path.join(__dirname,'../../../views/cinemark_UI/success_payment.html'));
+  res.sendFile(path.join(__dirname,'../../../source/views/cinemark_UI/success_payment.html'));
 }
 
 export const newPurchaseOrder = function(req:Request,res:Response){

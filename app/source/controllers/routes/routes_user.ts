@@ -11,15 +11,15 @@ const __driname = path.dirname(fileURLToPath(import.meta.url));
 
 export const getAccount = function(req:Request,res:Response){
   if(!req.headers.cookie){
-    res.status(401).sendFile(path.join(__driname,'../../../views/user_UI/login.html'));
+    res.status(401).sendFile(path.join(__driname,'../../../source/views/user_UI/login.html'));
   }
   else{
-    res.sendFile(path.join(__driname,'../../../views/user_UI/account.html'));
+    res.sendFile(path.join(__driname,'../../../source/views/user_UI/account.html'));
   }
 }
 
 export const getLogin = function (req: Request, res: Response) {
-  res.sendFile(path.join(__driname, '../../../views/user_UI/login.html'));
+  res.sendFile(path.join(__driname, '../../../source/views/user_UI/login.html'));
 }
 
 export const postLogin = function (req: Request, res: Response) {
@@ -55,7 +55,7 @@ export const postLogin = function (req: Request, res: Response) {
 }
 
 export const getRegister = function (req: Request, res: Response) {
-  res.sendFile(path.join(__driname, '../../../views/user_UI/singup.html'));
+  res.sendFile(path.join(__driname, '../../../source/views/user_UI/singup.html'));
 }
 
 export const postRegister = function (req: Request, res: Response) {
