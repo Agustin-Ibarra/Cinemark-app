@@ -5,11 +5,29 @@ import {fileURLToPath} from 'url';
 import { v4 } from 'uuid';
 import  jsonWebToken  from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import { differenceInHours, logRouts } from '../../middlewres/monitoring.js';
 
 dotenv.config();
 const __dirname  = path.dirname(fileURLToPath(import.meta.url));
+interface data {
+  date:string,
+  method:string,
+  url:string,
+  status:string,
+  conetntLength:string,
+  responseTime:string,
+  ipAddres:string
+}
+const logs:data[] = []
 
 export const getHome = function(req:Request,res:Response){
+  logRouts(logs);
+  if(logs.length > 1){
+    const date1:string = logs[1].date;
+    const lastIndex:number = logs.length - 1;
+    const date2:string = logs[lastIndex].date;
+    const hours = differenceInHours(date1,date2)
+  }
   res.sendFile(path.join(__dirname,'../../../source/views/cinemark_UI/home.html'));
 }
 
@@ -41,6 +59,7 @@ export const get2DMovies = function(req:Request,res:Response){
 }
 
 export const getMoviePage = function(req:Request,res:Response){
+  logRouts(logs);
   res.sendFile(path.join(__dirname,'../../../source/views/cinemark_UI/movie.html'));
 }
 
@@ -88,6 +107,7 @@ export const getMovieTicketDataFromat3D = function(req:Request,res:Response){
 }
 
 export const reserveTickets = function(req:Request,res:Response){
+  logRouts(logs);
   interface ResultHeader{
     fieldCount:number,
     affectedRows:number,
@@ -120,6 +140,7 @@ export const reserveTickets = function(req:Request,res:Response){
 }
 
 export const restoreTicket = function(req:Request,res:Response){
+  logRouts(logs);
   const idTicket:number = req.body.idTicket;
   const amount:number = req.body.amount;
   restoreStock(idTicket,amount)
@@ -128,6 +149,7 @@ export const restoreTicket = function(req:Request,res:Response){
 }
 
 export const successfulPaymentPage = function(req:Request,res:Response){
+  logRouts(logs);
   res.sendFile(path.join(__dirname,'../../../source/views/cinemark_UI/success_payment.html'));
 }
 

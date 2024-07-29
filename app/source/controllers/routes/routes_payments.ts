@@ -1,8 +1,10 @@
 import { Request, Response } from 'express';
 import Stripe from 'stripe';
 import dotenv from 'dotenv';
+import { logRouts } from 'app/source/middlewres/monitoring.js';
 
 const stripe = new Stripe(`${process.env.STRIPE}`);
+const logsPayments:object[] = []
 dotenv.config();
 
 /**
@@ -12,6 +14,7 @@ dotenv.config();
  * @returns {void}
  */
 export const paymentSession = async function(req:Request,res:Response):Promise<void>{
+  logRouts(logsPayments);
   const total = req.body.total;
   const movie = req.body.movie;
   const amount = req.body.amount;

@@ -3,7 +3,6 @@ import path from 'path';
 import {fileURLToPath} from 'url';
 import router from './controllers/routes_controller.js';
 
-console.clear();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const port = 3001;
 const app = express();
@@ -13,6 +12,7 @@ app.use(express.static(path.join(__dirname,'../public/styles')));
 app.use(express.static(path.join(__dirname,'../public/posters')));
 app.use(express.static(path.join(__dirname,'../public/scripts')));
 app.listen(port,()=>{
+  console.clear();
   console.log('server on port',port);
 });
 
