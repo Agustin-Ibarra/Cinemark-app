@@ -13,6 +13,7 @@ export const getHome = function(req:Request,res:Response){
   res.sendFile(path.join(__dirname,'../../../source/views/cinemark_UI/home.html'));
 }
 
+// envia informacion de las peliculas del tipo premier
 export const getPremiersMovies = function(req:Request,res:Response){
   premiers()
   .then((data)=>{
@@ -23,6 +24,7 @@ export const getPremiersMovies = function(req:Request,res:Response){
   })
 }
 
+// envia informacion de las peliculas del fromato 3D
 export const get3DMovies = function(req:Request,res:Response){
   movies3D()
   .then((data)=>{
@@ -30,6 +32,8 @@ export const get3DMovies = function(req:Request,res:Response){
   })
   .catch((error)=>{console.log(error);})
 }
+
+// envia informacion de las peliculas del fromato 2D
 export const get2DMovies = function(req:Request,res:Response){
   movies2D()
   .then((data)=>{
@@ -44,6 +48,7 @@ export const getMoviePage = function(req:Request,res:Response){
   res.sendFile(path.join(__dirname,'../../../source/views/cinemark_UI/movie.html'));
 }
 
+// envia informacion de una pelicula seleccionada
 export const getMovieInfo = function(req:Request,res:Response){
   const id:Number = Number(req.params.id.replace(':',''));
   movieInfo(id)
@@ -55,6 +60,7 @@ export const getMovieInfo = function(req:Request,res:Response){
   })
 }
 
+// envia informacion de los tickets de una pelicula
 export const getMovieTicketData = function(req:Request,res:Response){
   const idMovie:Number = Number(req.params.id.replace(':',''));
   ticketData(idMovie)
@@ -65,6 +71,7 @@ export const getMovieTicketData = function(req:Request,res:Response){
   });
 }
 
+// envia informacion de los tickets de las peliculas de formato 2D
 export const getMovieTicketDataFromat2D = function(req:Request,res:Response){
   const idMovie:Number = Number(req.params.id.replace(':',''));
   ticketData2D(idMovie)
@@ -76,6 +83,7 @@ export const getMovieTicketDataFromat2D = function(req:Request,res:Response){
   });
 }
 
+// envia informacion de los tickets de las peliculas de formato 3D
 export const getMovieTicketDataFromat3D = function(req:Request,res:Response){
   const idMovie:Number = Number(req.params.id.replace(':',''));
   ticketData3D(idMovie)
@@ -87,6 +95,7 @@ export const getMovieTicketDataFromat3D = function(req:Request,res:Response){
   });
 }
 
+// crea una reserva de un ticket
 export const reserveTickets = function(req:Request,res:Response){
   interface ResultHeader{
     fieldCount:number,
@@ -119,6 +128,7 @@ export const reserveTickets = function(req:Request,res:Response){
   }
 }
 
+// restaura el stock de un ticket
 export const restoreTicket = function(req:Request,res:Response){
   const idTicket:number = req.body.idTicket;
   const amount:number = req.body.amount;
@@ -131,6 +141,7 @@ export const successfulPaymentPage = function(req:Request,res:Response){
   res.sendFile(path.join(__dirname,'../../../source/views/cinemark_UI/success_payment.html'));
 }
 
+// inserta una nueva orden de compra a la base de datos
 export const newPurchaseOrder = function(req:Request,res:Response){
   interface JwtPayload{
     iduser:Number,
@@ -152,15 +163,16 @@ export const newPurchaseOrder = function(req:Request,res:Response){
   const customer = payload.iduser;
   purchaseOrder(customer,idPurchase,total)
   .then((result)=>{
-    res.send('');
+    res.send();
   })
   .catch((error)=>{
     if(error.errno === 1062){
-      res.status(400).send({error:'Duplicate entry '})
+      res.status(400).send({error:'Duplicate entry!'})
     }
   });
 }
 
+// inserta el detalle de orden de compra en la base de datos
 export const newPurchaseDetails = function(req:Request,res:Response){
   const idTicket:number = Number(req.body.idTicket);
   const idPurchaseOrder:string = req.body.purchaseOrder;
@@ -171,6 +183,7 @@ export const newPurchaseDetails = function(req:Request,res:Response){
   res.send();
 }
 
+// envia la informacion de la orden de compra realizada
 export const getDataPurchase = function(req:Request,res:Response){
   const idPurchase:string = req.params.code.replace(':','');
   dataPurchase(idPurchase)
@@ -178,6 +191,7 @@ export const getDataPurchase = function(req:Request,res:Response){
   .catch((error)=>{console.log(error);})
 }
 
+// retorna los datos de las ordenes de comopra del usuario
 export const getUserPurchase = function(req:Request,res:Response){
   interface JwtPayload{
     iduser:number,

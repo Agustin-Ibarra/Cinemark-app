@@ -106,16 +106,16 @@ export const updateUsername = function(req:Request,res:Response){
   }
   const token = req.headers.cookie?.replace('cmjwt=','');
   const payload = jsonWebToken.verify(`${token}`,`${process.env.SECRET}`) as JwtPayload;
-  const username:String = req.body.username;
+  const newUsername:String = req.body.username;
   userProfile(payload.iduser)
   .then((result)=>{
     if(Array.isArray(result)){
       result.forEach((element:any) => {
-        if(element.username === username){
+        if(element.username === newUsername){
           res.status(400).send({error:'The new username cannot be the same as your current username!'})
         }
         else{
-          setUsername(payload.iduser,username)
+          setUsername(payload.iduser,newUsername)
           .then((result)=>{
             const statusQuery = result as ResultHeader;
             if(statusQuery.affectedRows === 1 && statusQuery.serverStatus === 2){

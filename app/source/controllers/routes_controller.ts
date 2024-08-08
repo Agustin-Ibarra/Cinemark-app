@@ -34,9 +34,9 @@ router.post('/new_purchase',newPurchaseOrder);
 router.post('/new_purchase_details',newPurchaseDetails);
 router.post('/payments',paymentSession);
 
-router.put('/profile/update_username',updateUsername);
 router.put('/profile/update_fullname',updateFullname);
 router.put('/profile/update_email',updateEmail);
+router.put('/profile/update_username',updateUsername);
 router.put('/profile/update_password',updatePassword);
 router.put('/movie/reserve_tickets',reserveTickets);
 router.put('/movie/restore_tickets',restoreTicket);

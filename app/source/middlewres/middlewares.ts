@@ -5,7 +5,7 @@ import {NextFunction, Request, Response} from 'express';
  * @param {string} value string a evaluar
  * @returns {boolean} true en caso de exito false en caso de error
  */
-const verifyString =  function(value:String){
+const verifyString =  function(value:String):boolean{
   if(value.includes('=') || value.includes(';') || value.includes('"')){
     return false;
   }
