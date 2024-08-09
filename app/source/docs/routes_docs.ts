@@ -629,6 +629,8 @@
  *                type: array
  *                items:
  *                  $ref: '#/components/schemas/userProfile'
+ *        503:
+ *          description: ocurrio un error temporal en la base de datos
  */
 
 /**
@@ -647,6 +649,8 @@
  *              type: array
  *              items:
  *                $ref: '#/components/schemas/AllCustomerPurchase'
+ *      503:
+ *        description: ocurrio un error temporal en la base de datos
  */
 
 /**
@@ -665,6 +669,8 @@
  *              type: array
  *              items:
  *                $ref: '#/components/schemas/purchaseCreated'
+ *      503:
+ *        description: ocurrio un error temporal en la base de datos
  */
 
 /**
@@ -683,6 +689,8 @@
  *              type: array
  *              items:
  *                $ref: '#/components/schemas/AllCustomerPurchase'
+ *      503:  
+ *        description: ocurrio un error temporal en la base de datos
  */
 
 /**
@@ -711,6 +719,8 @@
  *          application/json:
  *            schema:
  *              $ref: '#/components/schemas/badRequestLogin'
+ *      503:
+ *        description: ocurrio un error temporal en la base de datos
  */
 
 /**
@@ -739,6 +749,8 @@
  *          application/json:
  *            schema:
  *              $ref: '#/components/schemas/badRequestSingUp'
+ *      503:
+ *        description: ocurrio un error temporal en la base de datos 
  */
 
 /**
@@ -763,6 +775,8 @@
  *          application/json:
  *            schema:
  *              $ref: '#/components/schemas/badRequestFullname'
+ *      503:
+ *        description: ocurrio un error temporal en la base de datos
  */
 
 /**
@@ -787,6 +801,8 @@
  *          application/json:
  *            schema: 
  *              $ref: '#/components/schemas/badRequestEmail'
+ *      503:
+ *        description: ocurrio un error temporal en la base de datos
  */
 
 /**
@@ -811,6 +827,8 @@
  *          appliction/json:
  *            schema:
  *              $ref: '#/components/schemas/badRequestUsername'
+ *      503:
+ *        description: ocurrio un error temporal en la base de datos
  */
 
 /**
@@ -835,6 +853,8 @@
  *          application/json:
  *            schema:
  *              $ref: '#/components/schemas/badRequestPassword'
+ *      503:
+ *        description: ocurrio un error temporal en la base de datos
  */
 
 
@@ -856,6 +876,8 @@
  *        description: se elimino la cuenta exitosamente
  *      400:
  *        description: ocurrio un error
+ *      503:
+ *        description: ocurrio un error temporal en la base de datos
  *      
  */
 
@@ -877,6 +899,8 @@
  *                type: array
  *                items: 
  *                  $ref: '#/components/schemas/movieCatalog'
+ *        503:
+ *          description: ocurrio un error temporal en la base de datos
  */
 
 /**
@@ -902,6 +926,8 @@
  *              type: array
  *              items:
  *                $ref: '#/components/schemas/movieData'
+ *      503:
+ *        description: ocurrio un error temporal en la base de datos
  */
 
 /**
@@ -928,6 +954,8 @@
  *              type: array
  *              items:
  *                $ref: '#/components/schemas/ticketsData'
+ *      503:
+ *        description: ocurrio un error temporal en la base de datos
  */
 
 /**
@@ -948,6 +976,8 @@
  *        description: se creo una nueva orden de compra exitosamente
  *      400:
  *        description: ocurrio un error
+ *      503:
+ *        description: ocurrio un error temporal en la base de datos
  */
 
 /**
@@ -968,6 +998,8 @@
  *        description: se creo un detalle de la orden de compra exitosamente
  *      400:
  *        description: ocurrio un error
+ *      503:
+ *        description: ocurrio un error temporal en la base de datos
  */
 
 /**
@@ -1020,5 +1052,6 @@
  *          application/json:
  *            schema:
  *              $ref: '#/components/schemas/badRequestStockTickets'
- *        
+ *      503:
+ *        description: ocurrio un error temporal en la base de datos
  */
