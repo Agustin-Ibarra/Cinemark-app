@@ -23,7 +23,7 @@ export const newUSer = async function(fullName:String,email:String,username:Stri
 }
 
 /**
- * obtiene informacion de un usuario para realizar una autenticacion
+ * obtiene datos de un usuario para verificar su informacion
  * @param {string} username 
  * @returns {QueryResult} lista con un objeto que contiene la informacion solicitada
  */

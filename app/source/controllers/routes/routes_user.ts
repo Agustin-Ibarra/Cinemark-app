@@ -23,7 +23,7 @@ export const getLogin = function (req: Request, res: Response) {
 }
 
 export const postLogin = function (req: Request, res: Response) {
-  const username:String = req.body.username;
+  const username:string = req.body.username;
   const password:string = req.body.password;
   dataAutentication(username)
   .then((result)=>{
@@ -42,7 +42,7 @@ export const postLogin = function (req: Request, res: Response) {
             const token:string = jsonWebToken.sign(payload,secret,{expiresIn:expires});
             const sessionLimit:object = new Date(Date.now()+1000*60*60*24);
             const cookieOptions:object = {expires:sessionLimit};
-            res.cookie('cmjwt',token,cookieOptions).send({redirect:'/account'});
+            res.cookie('cmjwt',token,cookieOptions).send('succes');
           }
           else{
             res.status(400).send({error:"The username or password are incorrect!"});
@@ -51,7 +51,7 @@ export const postLogin = function (req: Request, res: Response) {
       }
     }
   })
-  .catch((error)=>{console.log(error);});
+  .catch((error)=>{res.status(503).send('Content not available')});
 }
 
 export const getRegister = function (req: Request, res: Response) {
@@ -66,13 +66,12 @@ export const postRegister = function (req: Request, res: Response) {
   const salt = bcrypt.genSaltSync(2);
   const hash: String = bcrypt.hashSync(password, salt);
   newUSer(fullName, email, username, hash)
-  .then((result) => {
-     res.send({redirect:'/login'});
-  })
+  .then((result) => {res.send('success');})
   .catch((error) => {
     if(error.errno === 1062){
       res.status(400).send({error:'The user already exists!'});
     }
+    else{res.status(503).send('Content not available');}
   });
 }
 
@@ -84,10 +83,8 @@ export const profile = function(req:Request,res:Response){
   const token = req.headers.cookie?.replace('cmjwt=','');
   const data = jsonWebToken.verify(`${token}`,`${process.env.SECRET}`) as JwtPayload;
   userProfile(data.iduser)
-  .then((result)=>{
-    res.send({user:result});
-  })
-  .catch((error)=>{console.log(error);});
+  .then((result)=>{res.send({user:result});})
+  .catch((error)=>{res.status(503).send('Content not available')});
 }
 
 export const updateUsername = function(req:Request,res:Response){
@@ -129,11 +126,13 @@ export const updateUsername = function(req:Request,res:Response){
             if(error.errno === 1062){
               res.status(400).send({error:'The username already exists!'});
             }
+            else{res.status(503).send('Content not available');}
           });
         }
       });
     }
   })
+  .catch((error)=>{res.status(503).send('Content not available')});
 }
 
 export const updateEmail = function(req:Request,res:Response){
@@ -180,7 +179,7 @@ export const updateEmail = function(req:Request,res:Response){
       });
     }
   })
-  .catch((error)=>{console.log(error);});
+  .catch((error)=>{res.status(503).send('Content not available')});
 }
 
 export const updateFullname = function(req:Request,res:Response){
@@ -210,7 +209,7 @@ export const updateFullname = function(req:Request,res:Response){
       res.status(400).send({error:'Failed to update full name, please try again later!'});
     }
   })
-  .catch((error)=>{console.log(error);});
+  .catch((error)=>{res.status(503).send('Content not available')});
 }
 
 export const updatePassword = function(req:Request,res:Response){
@@ -258,13 +257,11 @@ export const updatePassword = function(req:Request,res:Response){
             })
           }
         })
-        .catch((error)=>{console.log(error);});
+        .catch((error)=>{res.status(503).send('Content not available');});
       });
     }
   })
-  .catch((error)=>{
-    console.log(error);
-  });
+  .catch((error)=>{res.status(503).send('Content not available');});
 }
 
 export const deleteAccount = function(req:Request,res:Response){
@@ -294,5 +291,5 @@ export const deleteAccount = function(req:Request,res:Response){
       res.status(400).send('error');
     }
   })
-  .catch((error)=>{console.log(error)});
+  .catch((error)=>{res.status(503).send('Content not available');});
 }

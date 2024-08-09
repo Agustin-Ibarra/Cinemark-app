@@ -16,7 +16,7 @@ app.use(express.static(path.join(__dirname,'../public/scripts')));
 app.use('/docs',swaggerUI.serve,swaggerUI.setup(swaggerSetup));
 
 app.listen(port,()=>{
-  // console.clear();
+  console.clear();
   console.log('server on port',port);
 });
 

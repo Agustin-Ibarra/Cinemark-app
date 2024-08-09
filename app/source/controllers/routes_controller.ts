@@ -1,6 +1,6 @@
 import express from 'express';
 import { Router } from 'express';
-import { getHome, get3DMovies, getMoviePage, get2DMovies, getPremiersMovies, getMovieInfo, getMovieTicketData, getMovieTicketDataFromat2D, getMovieTicketDataFromat3D, reserveTickets, successfulPaymentPage, newPurchaseOrder, newPurchaseDetails, getDataPurchase, getUserPurchase, restoreTicket } from './routes/routes_cinemark.js'
+import { getHome, get3DMovies, getMoviePage, get2DMovies, getPremiersMovies, getMovieInfo, getMovieTicketData, getMovieTicketDataFromat2D, getMovieTicketDataFromat3D, reserveTickets, successfulPaymentPage, newPurchaseOrder, newPurchaseDetails, getDataPurchase, getUserPurchase, restoreTicket, serverError } from './routes/routes_cinemark.js'
 import { deleteAccount, getAccount, getLogin, getRegister, postLogin, postRegister, profile, updateEmail, updateFullname, updatePassword, updateUsername } from './routes/routes_user.js';
 import { checkLogin, checkSingUp } from '../middlewres/middlewares.js';
 import { paymentSession } from './routes/routes_payments.js';
@@ -11,10 +11,11 @@ router.use(express.json());
 router.use('/login/user',checkLogin);
 router.use('/singup/user',checkSingUp);
 
-router.get('/',getHome);
-router.get('/premiers',getPremiersMovies);
-router.get('/movies_3D',get3DMovies);
-router.get('/movies_2D',get2DMovies)
+router.get('/home',getHome);
+router.get('/home/premiers',getPremiersMovies);
+router.get('/home/movies_3D',get3DMovies);
+router.get('/home/movies_2D',get2DMovies)
+router.get('/home/server_error',serverError);
 router.get('/movie_page',getMoviePage)
 router.get('/movie/id:id',getMovieInfo);
 router.get('/movie/ticket/id:id',getMovieTicketData)

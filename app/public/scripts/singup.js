@@ -34,14 +34,17 @@ $body.addEventListener("click",(e)=>{
             password:password
           })
         })
-        .then(async(data)=>{
-          const result = await data.json();
-          if(data.status === 400){
+        .then(async(response)=>{
+          if(response.status == 500){
+            window.location.href = '/home/server_error';
+          }
+          if(response.status === 400){
+            const result = await response.json();
             $waring.textContent = result.error;
             $waring.classList.replace('hidden','visible');
           }
-          else if(data.status === 200){
-            window.location.href = result.redirect;
+          else if(response.status === 200){
+            window.location.href = '/login';
           }
         })
         .catch((error)=>{

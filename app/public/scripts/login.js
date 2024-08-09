@@ -20,15 +20,20 @@ $body.addEventListener("click",(e)=>{
         headers:{"Content-Type":"application/json"},
         body:JSON.stringify({username:username,password:password})
       })
-      .then(async(data)=>{
-        const result = await data.json();
-        if(data.status === 400){
-          $warning.textContent = result.error;
-          $warning.classList.replace('hidden','visible');
-          $spinner.classList.toggle('spinner');
+      .then(async(response)=>{
+        if(response.status === 500){
+          window.location.href = '/home/server_error';
         }
         else{
-          window.location.href = localStorage.getItem('path') || result.redirect;
+          if(response.status === 400){
+            const result = await response.json();
+            $warning.textContent = result.error;
+            $warning.classList.replace('hidden','visible');
+            $spinner.classList.toggle('spinner');
+          }
+          else{
+            window.location.href = localStorage.getItem('path');
+          }
         }
       })
       .catch((error)=>{console.error(error);});
