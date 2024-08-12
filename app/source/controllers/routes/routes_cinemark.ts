@@ -13,35 +13,25 @@ export const getHome = function(req:Request,res:Response){
   res.sendFile(path.join(__dirname,'../../../source/views/cinemark_UI/home.html'));
 }
 
-// envia informacion de las peliculas del tipo premier
+
 export const getPremiersMovies = function(req:Request,res:Response){
   premiers()
-  .then((data)=>{
-    res.send(data);
-  })
-  .catch((error)=>{
-    console.log(error);
-  })
+  .then((data)=>{res.send(data);})
+  .catch((error)=>{res.status(503).send('Content not available');});
 }
 
 // envia informacion de las peliculas del fromato 3D
 export const get3DMovies = function(req:Request,res:Response){
   movies3D()
-  .then((data)=>{
-    res.send(data);
-  })
-  .catch((error)=>{console.log(error);})
+  .then((data)=>{res.send(data);})
+  .catch((error)=>{res.status(503).send('Content not available')});
 }
 
 // envia informacion de las peliculas del fromato 2D
 export const get2DMovies = function(req:Request,res:Response){
   movies2D()
-  .then((data)=>{
-    res.send(data);
-  })
-  .catch((error)=>{
-    console.log(error);
-  })
+  .then((data)=>{res.send(data);})
+  .catch((error)=>{res.status(503).send('Content not available')});
 }
 
 export const getMoviePage = function(req:Request,res:Response){
@@ -52,47 +42,32 @@ export const getMoviePage = function(req:Request,res:Response){
 export const getMovieInfo = function(req:Request,res:Response){
   const id:Number = Number(req.params.id.replace(':',''));
   movieInfo(id)
-  .then((data)=>{
-    res.send(data);
-  })
-  .catch((error)=>{
-    console.log(error);
-  })
+  .then((data)=>{res.send(data);})
+  .catch((error)=>{res.status(503).send('Content not available');});
 }
 
 // envia informacion de los tickets de una pelicula
 export const getMovieTicketData = function(req:Request,res:Response){
   const idMovie:Number = Number(req.params.id.replace(':',''));
   ticketData(idMovie)
-  .then((results)=>{
-    res.send(results)
-  })
-  .catch((error)=>{console.log(error);
-  });
+  .then((results)=>{res.send(results);})
+  .catch((error)=>{res.status(503).send('Content not available')});
 }
 
 // envia informacion de los tickets de las peliculas de formato 2D
 export const getMovieTicketDataFromat2D = function(req:Request,res:Response){
   const idMovie:Number = Number(req.params.id.replace(':',''));
   ticketData2D(idMovie)
-  .then((results)=>{
-    res.send(results)
-  })
-  .catch((error)=>{
-    console.log(error);
-  });
+  .then((results)=>{res.send(results);})
+  .catch((error)=>{res.status(500).send('Content not available')});
 }
 
 // envia informacion de los tickets de las peliculas de formato 3D
 export const getMovieTicketDataFromat3D = function(req:Request,res:Response){
   const idMovie:Number = Number(req.params.id.replace(':',''));
   ticketData3D(idMovie)
-  .then((results)=>{
-    res.send(results)
-  })
-  .catch((error)=>{
-    console.log(error);
-  });
+  .then((results)=>{res.send(results);})
+  .catch((error)=>{res.status(500).send('Content not available')});
 }
 
 // crea una reserva de un ticket
@@ -108,9 +83,7 @@ export const reserveTickets = function(req:Request,res:Response){
   }
   const idPurchase = v4();
   const cookie = req.headers.cookie;
-  if(!cookie){
-    res.status(401).send();
-  }
+  if(!cookie){res.status(401).send();}
   else{
     const idTicket:number = Number( req.body.idTicket);
     const amount:number = req.body.amount;
@@ -120,11 +93,9 @@ export const reserveTickets = function(req:Request,res:Response){
       if(data.affectedRows === 1 && data.serverStatus === 2){
         res.status(201).send({code:idPurchase});
       }
-      else{
-        res.status(400).send({error:'empty'});
-      }
+      else{res.status(400).send({error:'empty'});}
     })
-    .catch((error)=>{console.log(error);});
+    .catch((error)=>{res.status(503).send('Content not available')});
   }
 }
 
@@ -133,8 +104,8 @@ export const restoreTicket = function(req:Request,res:Response){
   const idTicket:number = req.body.idTicket;
   const amount:number = req.body.amount;
   restoreStock(idTicket,amount)
-  .catch((error)=>{console.log(error);});
-  res.status(201).send();
+  .then((result)=>{res.status(201).send();})
+  .catch((error)=>{res.status(503).send('Content not available');});
 }
 
 export const successfulPaymentPage = function(req:Request,res:Response){
@@ -162,13 +133,10 @@ export const newPurchaseOrder = function(req:Request,res:Response){
   const total:number = Number(req.body.total);
   const customer = payload.iduser;
   purchaseOrder(customer,idPurchase,total)
-  .then((result)=>{
-    res.send();
-  })
+  .then((result)=>{res.send('success');})
   .catch((error)=>{
-    if(error.errno === 1062){
-      res.status(400).send({error:'Duplicate entry!'})
-    }
+    if(error.errno === 1062){res.status(400).send({error:'Duplicate entry!'});}
+    else{res.status(503).send('Content not available');}
   });
 }
 
@@ -179,8 +147,8 @@ export const newPurchaseDetails = function(req:Request,res:Response){
   const amount:number = Number(req.body.amount);
   const subtotal:number = Number(req.body.subtotal);
   purchaseDetails(idPurchaseOrder,idTicket,amount,idTicket,subtotal)
-  .catch((error)=>{console.log(error);});
-  res.send();
+  .then((result)=>{res.send('success');})
+  .catch((error)=>{res.status(503).send('Content not available');});
 }
 
 // envia la informacion de la orden de compra realizada
@@ -188,7 +156,7 @@ export const getDataPurchase = function(req:Request,res:Response){
   const idPurchase:string = req.params.code.replace(':','');
   dataPurchase(idPurchase)
   .then((result)=>{res.send(result)})
-  .catch((error)=>{console.log(error);})
+  .catch((error)=>{res.status(503).send('Content not available');});
 }
 
 // retorna los datos de las ordenes de comopra del usuario
@@ -201,5 +169,9 @@ export const getUserPurchase = function(req:Request,res:Response){
   const payload = jsonWebToken.verify(`${token}`,`${process.env.SECRET}`) as JwtPayload;
   userPurchase(payload.iduser)
   .then((result)=>{res.send(result);})
-  .catch((error)=>{console.log(error);res.status(400).send('error!')});
+  .catch((error)=>{console.log(error);res.status(400).send('Content not available')});
+}
+
+export const serverError = function(req:Request,res:Response){
+  res.sendFile(path.join(__dirname,'../../../source/views/cinemark_UI/server_error.html'))
 }

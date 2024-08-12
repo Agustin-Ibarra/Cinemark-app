@@ -28,6 +28,9 @@ $body.addEventListener("click",(e)=>{
         if(response.status === 200){
           window.location.reload();
         }
+        else if(response.status === 503){
+          window.location.href = '/home/server_error';
+        }
         else{
           $error.textContent = data.error;
           $error.classList.add('visible');

@@ -25,36 +25,55 @@ const generateMovies = function(movies,$list,type){
     $list.appendChild(item);
   });
 }
-fetch('/premiers')
-.then(async(data)=>{
-  const movies = await data.json();
-  generateMovies(movies,$premiers,"premier")
+fetch('/home/premiers')
+.then(async(response)=>{
+  if(response.status === 503){
+    const preimerError = document.getElementById('premier-error');
+    preimerError.classList.add('visible');
+  }
+  else{
+    const movies = await response.json();
+    generateMovies(movies,$premiers,"premier");
+  }
 })
 .catch((error)=>{console.error(error);});
 
-fetch('/movies_3D')
-.then(async(data)=>{
-  const movies = await data.json();
-  generateMovies(movies,$list3D,"3D");
+fetch('/home/movies_3D')
+.then(async(response)=>{
+  if(response.status === 503){
+    const movies3DError = document.getElementById('3D-error');  
+    movies3DError.classList.add('visible');
+  }
+  else{
+    const movies = await response.json();
+    generateMovies(movies,$list3D,"3D");
+  }
 })
-.catch((error)=>{
-  console.error(error);
-})
+.catch((error)=>{console.error(error);});
 
-fetch('/movies_2D')
-.then(async(data)=>{
-  const movies = await data.json();
-  generateMovies(movies,$list2D,"2D")
+fetch('/home/movies_2D')
+.then(async(response)=>{
+  if(response.status === 503){
+    const movies2DError = document.getElementById('2D-error');
+    movies2DError.classList.add('visible');
+  }
+  else{
+    const movies = await response.json();
+    generateMovies(movies,$list2D,"2D");
+  }
 })
-.catch((error)=>{console.error(error);})
+.catch((error)=>{console.error(error);});
 
 const $body = document.querySelector('body');
 $body.addEventListener("click",(e)=>{
   if(e.target.matches('.poster') || e.target.matches('.movie-title')){
     sessionStorage.setItem('id',e.target.id);
-    sessionStorage.setItem('type',e.target.classList[1])
+    sessionStorage.setItem('type',e.target.classList[1]);
   }
   else if(e.target.matches('.open') || e.target.matches('.nav-link') || e.target.matches('.close')){
+    if(e.target.matches('.account')){
+      localStorage.setItem('path','/account');
+    }
     $nav.classList.toggle('open-nav');
   }
 });

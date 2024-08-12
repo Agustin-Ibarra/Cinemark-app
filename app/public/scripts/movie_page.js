@@ -50,51 +50,71 @@ const generateTicket = function(array,$listTicket){
 }
 
 fetch(`/movie/id:${sessionStorage.getItem('id')}`)
-.then(async(data)=>{
-  const movie = await data.json();
-  const $movie = document.querySelector('.title-movie');
-  const $time = document.querySelector('.time');
-  const $description = document.querySelector('.description');
-  const $poster = document.querySelector('.poster');
-  const $div = document.querySelector('.frame');
-  const $type = document.querySelector('.type');
-  $title.textContent += movie[0].title;
-  $type.textContent += movie[0].type
-  $movie.textContent = movie[0].title;
-  $time.textContent += movie[0].duration_time;
-  $poster.setAttribute("src",movie[0].poster);
-  $description.textContent = movie[0].description;
-  // $div.innerHTML = movie[0].trailer;
+.then(async(response)=>{
+  if(response.status === 503){
+    window.location.href = '/home/server_error';
+  }
+  else{
+    const movie = await response.json();
+    const $movie = document.querySelector('.title-movie');
+    const $time = document.querySelector('.time');
+    const $description = document.querySelector('.description');
+    const $poster = document.querySelector('.poster');
+    const $div = document.querySelector('.frame');
+    const $type = document.querySelector('.type');
+    $title.textContent += movie[0].title;
+    $type.textContent += movie[0].type
+    $movie.textContent = movie[0].title;
+    $time.textContent += movie[0].duration_time;
+    $poster.setAttribute("src",movie[0].poster);
+    $description.textContent = movie[0].description;
+    $div.innerHTML = movie[0].trailer;
+  }
 })
 .catch((error)=>{console.error(error);});
 
 if(sessionStorage.getItem('type') === 'premier'){
   fetch(`/movie/ticket/id:${sessionStorage.getItem('id')}`)
-  .then(async(data)=>{
-    const tickets = await data.json();
-    ticketInfo = tickets;
-    const $listTicket = document.querySelector('.list_ticket');
-    generateTicket(tickets,$listTicket);
+  .then(async(response)=>{
+    if(response.status === 503){
+      window.location.href = '/home/server_error';
+    }
+    else{
+      const tickets = await response.json();
+      ticketInfo = tickets;
+      const $listTicket = document.querySelector('.list_ticket');
+      generateTicket(tickets,$listTicket);
+    }
   })
   .catch((error)=>{console.error(error);});
 }
 else if(sessionStorage.getItem('type') === '3D'){
   fetch(`/movie/ticet3D/id:${sessionStorage.getItem('id')}`)
-  .then(async(data)=>{
-    const tickets = await data.json();
-    ticketInfo = tickets;
-    const $listTicket = document.querySelector('.list_ticket');
-    generateTicket(tickets,$listTicket);
+  .then(async(respons)=>{
+    if(respons.status === 503){
+      window.location.href = '/home/server_error';
+    }
+    else{
+      const tickets = await respons.json();
+      ticketInfo = tickets;
+      const $listTicket = document.querySelector('.list_ticket');
+      generateTicket(tickets,$listTicket);
+    }
   })
   .catch((error)=>{console.error(error);});
 }
 else{
   fetch(`/movie/ticket2D/id:${sessionStorage.getItem('id')}`)
-  .then(async(data)=>{
-    const tickets = await data.json();
-    ticketInfo = tickets;
-    const $listTicket = document.querySelector('.list_ticket');
-    generateTicket(tickets,$listTicket);
+  .then(async(response)=>{
+    if(response.status === 503){
+      window.location.href = '/home/server_error';
+    }
+    else{
+      const tickets = await response.json();
+      ticketInfo = tickets;
+      const $listTicket = document.querySelector('.list_ticket');
+      generateTicket(tickets,$listTicket);
+    }
   })
   .catch((error)=>{console.error(error);});
 }
@@ -182,6 +202,9 @@ $body.addEventListener("click",(e)=>{
     .catch((error)=>{console.error(error);});
   }
   else if(e.target.matches('.open') || e.target.matches('.close') || e.target.matches('nav-link')){
+    if(e.target.matches('.account')){
+      localStorage.setItem('path','/account');
+    }
     $nav.classList.toggle('open-nav');
   }
   else if(e.target.matches('.add')){
