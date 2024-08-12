@@ -8,7 +8,6 @@ import morgan from 'morgan';
 import fs from 'fs';
 import path from 'path';
 import {fileURLToPath} from 'url'
-import { logRouts } from '../middlewres/monitoring.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const accesToLogStream = fs.createWriteStream(path.join(__dirname,'access.csv'),{flags:'a'});
