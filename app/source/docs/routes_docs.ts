@@ -61,7 +61,10 @@
  *    dataSingUp:
  *      type: object
  *      required:
- *        - singup
+ *        - fullName
+ *        - email
+ *        - username
+ *        - password
  *      properties:
  *        fullName:
  *          type: string
@@ -89,7 +92,8 @@
  *    dataLogin:
  *      type: object
  *      required:
- *        - login
+ *        - username
+ *        - password
  *      properties:
  *        username: 
  *          type: string
@@ -108,6 +112,8 @@
  *  schemas:
  *    updateFullname:
  *      type: object
+ *      required:
+ *        - newFullname
  *      properties:
  *        newFullname:
  *          type: string
@@ -123,6 +129,8 @@
  *  schemas:
  *    updateEmail:
  *      type: object
+ *      required:
+ *        - newEmail
  *      properties:
  *        newEmail:
  *          type: string
@@ -137,6 +145,8 @@
  *  schemas:
  *    updateUsername:
  *      type: object
+ *      required:
+ *        - newUsername
  *      properties:
  *        newUsername:
  *          type: string
@@ -151,6 +161,8 @@
  *  schemas:
  *    updatePassword: 
  *      type: object
+ *      required:
+ *        - newPassword
  *      properties:
  *        newPassword:
  *          type: string
@@ -223,7 +235,9 @@
  *    purchaseOrder:
  *      type: object
  *      required:
- *        - purchase
+ *        - idPurchase
+ *        - total
+ *        - idUser
  *      properties:
  *        idPurchase:
  *          type: string
@@ -247,7 +261,10 @@
  *    purchaseDetails:
  *      type: object
  *      required:
- *        - purchase details
+ *        - idPurchase
+ *        - idTicket
+ *        - amount
+ *        - subtotal
  *      properties:
  *        idPurchaseOrder:
  *          type: string
@@ -275,7 +292,13 @@
  *    AllCustomerPurchase:
  *      type: object
  *      required:
- *        - customer
+ *        - date_purchase
+ *        - title
+ *        - poster
+ *        - subtitle
+ *        - type_format
+ *        - total
+ *        - amount_ticket
  *      properties:
  *        date_purchase:
  *          type: string
@@ -315,7 +338,18 @@
  *    purchaseCreated:
  *      type: object
  *      required:
- *        - purchase created
+ *        - date_purchase
+ *        - title
+ *        - date_ticket
+ *        - type_format
+ *        - subtitles
+ *        - ticket_price
+ *        - subtotal
+ *        - total
+ *        - fullname
+ *        - id_purchase_order
+ *        - poster
+ *        - amount_ticket
  *      properties:
  *        date_purchase:
  *          type: string
@@ -375,7 +409,9 @@
  *    userProfile:
  *      type: object
  *      required:
- *        - user profile
+ *        - fullname
+ *        - email
+ *        - username
  *      properties:
  *        fullname:
  *          type: string
@@ -387,12 +423,10 @@
  *          type: string
  *          description: nombre de usuario
  *      example:
- *        fullname: Ana Reyes
- *        email: anareyes@gmail.com
- *        username: ana_reyes
+ *        fullname: Lucas Ruiz
+ *        email: lucasruiz@gmail.com
+ *        username: lucasruiZ57
  */ 
-
-// COMPONENTS CINEMA /////////////////////////////////////////////////////////////////////
 
 /**
  * @swagger
@@ -401,7 +435,9 @@
  *    movieCatalog:
  *      type: object
  *      required:
- *        - movie
+ *        - id_movie
+ *        - title
+ *        - poster
  *      properties:
  *        id_movie:
  *          type: integer
@@ -425,7 +461,13 @@
  *    movieData:
  *      type: object
  *      required:
- *        - movie data
+ *        - id_movie
+ *        - title
+ *        - description 
+ *        - duration_time
+ *        - poster
+ *        - trailer
+ *        - type
  *      properties:
  *        id_movie:
  *          type: integer
@@ -465,7 +507,14 @@
  *    ticketsData:
  *      type: object
  *      required:
- *        - tickets
+ *        - id_ticket
+ *        - type_fromat
+ *        - date_ticket
+ *        - subtitles
+ *        - stock
+ *        - ticket_price
+ *        - title
+ *        - hall_name
  *      properties:
  *        id_ticket:
  *          type: integer
@@ -535,6 +584,10 @@
  *  schemas:  
  *    paymentSession:
  *      type: object
+ *      required:
+ *        - total
+ *        - movie
+ *        - amount
  *      properties:
  *        total:
  *          type: decimal
@@ -571,6 +624,9 @@
  *  schemas:
  *    stockTickets:
  *      type: object
+ *      required:
+ *        - idTicket
+ *        - amount
  *      properties:
  *        idTicket:
  *          type: integer
@@ -610,8 +666,6 @@
  *      example:
  *        error: empty!
  */
-
-// REQUETS USER /////////////////////////////////////////////////////////////////////////////
 
 /**
  * @swagger
