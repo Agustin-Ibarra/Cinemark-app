@@ -1,15 +1,24 @@
-import express from 'express';
+import express, { request } from 'express';
 import { Router } from 'express';
 import { getHome, get3DMovies, getMoviePage, get2DMovies, getPremiersMovies, getMovieInfo, getMovieTicketData, getMovieTicketDataFromat2D, getMovieTicketDataFromat3D, reserveTickets, successfulPaymentPage, newPurchaseOrder, newPurchaseDetails, getDataPurchase, getUserPurchase, restoreTicket, serverError } from './routes/routes_cinemark.js'
 import { deleteAccount, getAccount, getLogin, getRegister, postLogin, postRegister, profile, updateEmail, updateFullname, updatePassword, updateUsername } from './routes/routes_user.js';
 import { checkLogin, checkSingUp } from '../middlewres/middlewares.js';
 import { paymentSession } from './routes/routes_payments.js';
+import morgan from 'morgan';
+import fs from 'fs';
+import path from 'path';
+import {fileURLToPath} from 'url'
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const accesToLogStream = fs.createWriteStream(path.join(__dirname,'access.csv'),{flags:'a'});
+accesToLogStream.write('date;method;url;status_code;content-length;response_time;remote_addres\n');
+const format = ':date;:method;:url;:status;:res[content-length];:response-time;:remote-addr';
 const router = Router();
 
 router.use(express.json());
 router.use('/login/user',checkLogin);
 router.use('/singup/user',checkSingUp);
+router.use(morgan(format,{stream:accesToLogStream}));
 
 router.get('/home',getHome);
 router.get('/home/premiers',getPremiersMovies);

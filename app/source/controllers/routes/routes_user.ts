@@ -5,11 +5,23 @@ import bcrypt from 'bcryptjs';
 import jsonWebToken from 'jsonwebtoken';
 import dotenv  from 'dotenv';
 import { dataAutentication, deleteUserData, getPassword, newUSer, setEmail, setFullName, setPassword, setUsername, userProfile } from '../../models/users_models.js'
+import { logRouts } from 'app/source/middlewres/monitoring.js';
 
 dotenv.config();
 const __driname = path.dirname(fileURLToPath(import.meta.url));
+interface logsData {
+  date:string,
+  method:string,
+  url:string,
+  status:string,
+  conetntLength:string,
+  responseTime:string,
+  ipAddres:string
+}
+const userLogs:logsData[] = [];
 
 export const getAccount = function(req:Request,res:Response){
+  logRouts(userLogs);
   if(!req.headers.cookie){
     res.status(401).sendFile(path.join(__driname,'../../../source/views/user_UI/login.html'));
   }
@@ -19,6 +31,7 @@ export const getAccount = function(req:Request,res:Response){
 }
 
 export const getLogin = function (req: Request, res: Response) {
+  logRouts(userLogs)
   res.sendFile(path.join(__driname, '../../../source/views/user_UI/login.html'));
 }
 
@@ -29,7 +42,15 @@ export const postLogin = function (req: Request, res: Response) {
   .then((result)=>{
     if(Array.isArray(result)){
       if(result.length === 0){
-        res.status(400).send({error:'The username or password are incorrect!'});
+        userLogs.forEach(data => {
+          if(data.ipAddres === req.ip && data.url === '/user_login' && data.status === '400'){
+            retery ++;
+            if(retery > 9){
+              blocked = true;
+            }
+          }
+        });
+        res.status(400).send({error:'The username or password are incorrect!',try:blocked});
       }
       else{
         result.forEach((userData: any) => {
@@ -55,10 +76,12 @@ export const postLogin = function (req: Request, res: Response) {
 }
 
 export const getRegister = function (req: Request, res: Response) {
+  logRouts(userLogs);
   res.sendFile(path.join(__driname, '../../../source/views/user_UI/singup.html'));
 }
 
 export const postRegister = function (req: Request, res: Response) {
+  logRouts(userLogs);
   const fullName: String = req.body.fullName;
   const email: String = req.body.email;
   const username: String = req.body.username;
@@ -88,6 +111,7 @@ export const profile = function(req:Request,res:Response){
 }
 
 export const updateUsername = function(req:Request,res:Response){
+  logRouts(userLogs);
   interface JwtPayload{
     iduser:number,
     levelAccess:number
@@ -136,6 +160,7 @@ export const updateUsername = function(req:Request,res:Response){
 }
 
 export const updateEmail = function(req:Request,res:Response){
+  logRouts(userLogs);
   interface JwtPayload{
     iduser:number,
     levelAccess:number
@@ -183,6 +208,7 @@ export const updateEmail = function(req:Request,res:Response){
 }
 
 export const updateFullname = function(req:Request,res:Response){
+  logRouts(userLogs);
   interface JwtPayload{
     iduser:number,
     levelAccess:number
@@ -213,6 +239,7 @@ export const updateFullname = function(req:Request,res:Response){
 }
 
 export const updatePassword = function(req:Request,res:Response){
+  logRouts(userLogs);
   const newPassword = req.body.newPassword;
   const oldPassword = req.body.oldPassword;
   console.log(newPassword,oldPassword);
@@ -265,6 +292,7 @@ export const updatePassword = function(req:Request,res:Response){
 }
 
 export const deleteAccount = function(req:Request,res:Response){
+  logRouts(userLogs);
   interface JwtPayload{
     iduser:number,
     levelAccess:number
