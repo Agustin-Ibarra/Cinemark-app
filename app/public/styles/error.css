@@ -48,11 +48,18 @@ footer{
   padding-bottom: 1rem;
 }
 .error{
-  color: #dfdfdf;
+  color: #ffffff;
   margin: 0 3rem;
   font-size: 22px;
   font-weight: 600;
   padding-top: 30px;
+}
+.explain{
+  font-size: 25px;
+  border-bottom: #ffffff 2px solid;
+  padding: 20px 0;
+  margin-top: 1rem;
+  display: inline-block;
 }
 
 @media (max-width:1260px) {

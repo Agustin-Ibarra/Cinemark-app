@@ -51,7 +51,7 @@ const generateTicket = function(array,$listTicket){
 
 fetch(`/movie/id:${sessionStorage.getItem('id')}`)
 .then(async(response)=>{
-  if(response.status === 500){
+  if(response.status === 503){
     window.location.href = '/home/server_error';
   }
   else{
@@ -76,7 +76,7 @@ fetch(`/movie/id:${sessionStorage.getItem('id')}`)
 if(sessionStorage.getItem('type') === 'premier'){
   fetch(`/movie/ticket/id:${sessionStorage.getItem('id')}`)
   .then(async(response)=>{
-    if(response.status === 500){
+    if(response.status === 503){
       window.location.href = '/home/server_error';
     }
     else{
@@ -91,7 +91,7 @@ if(sessionStorage.getItem('type') === 'premier'){
 else if(sessionStorage.getItem('type') === '3D'){
   fetch(`/movie/ticet3D/id:${sessionStorage.getItem('id')}`)
   .then(async(respons)=>{
-    if(respons.status === 500){
+    if(respons.status === 503){
       window.location.href = '/home/server_error';
     }
     else{
@@ -106,7 +106,7 @@ else if(sessionStorage.getItem('type') === '3D'){
 else{
   fetch(`/movie/ticket2D/id:${sessionStorage.getItem('id')}`)
   .then(async(response)=>{
-    if(response.status === 500){
+    if(response.status === 503){
       window.location.href = '/home/server_error';
     }
     else{

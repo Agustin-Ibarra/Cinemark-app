@@ -27,8 +27,9 @@ const generateMovies = function(movies,$list,type){
 }
 fetch('/home/premiers')
 .then(async(response)=>{
-  if(response.status === 500){
-    window.location.href = '/home/server_error';
+  if(response.status === 503){
+    const preimerError = document.getElementById('premier-error');
+    preimerError.classList.add('visible');
   }
   else{
     const movies = await response.json();
@@ -39,8 +40,9 @@ fetch('/home/premiers')
 
 fetch('/home/movies_3D')
 .then(async(response)=>{
-  if(response.status === 500){
-    window.location.href = '/home/server_error';
+  if(response.status === 503){
+    const movies3DError = document.getElementById('3D-error');  
+    movies3DError.classList.add('visible');
   }
   else{
     const movies = await response.json();
@@ -51,8 +53,9 @@ fetch('/home/movies_3D')
 
 fetch('/home/movies_2D')
 .then(async(response)=>{
-  if(response.status === 500){
-    window.location.href = '/home/server_error';
+  if(response.status === 503){
+    const movies2DError = document.getElementById('2D-error');
+    movies2DError.classList.add('visible');
   }
   else{
     const movies = await response.json();

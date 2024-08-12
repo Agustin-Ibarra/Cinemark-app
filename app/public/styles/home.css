@@ -26,6 +26,19 @@
   padding: 8px 0;
   color: #ffffff;
 }
+.warning{
+  color: #d3d3d3;
+  border: #d3d3d3 thin solid;
+  padding: 40px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
+  margin: 2rem;
+  display: none;
+}
+.visible{
+  display: block;
+}
 
 @media (max-width:590px) {
   .list-movies{
