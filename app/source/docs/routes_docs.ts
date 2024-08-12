@@ -685,8 +685,6 @@
  *                  $ref: '#/components/schemas/userProfile'
  *        503:
  *          description: ocurrio un error temporal en la base de datos
- *      security:
- *        - bearerAuth: []
  */
 
 /**
@@ -707,8 +705,6 @@
  *                $ref: '#/components/schemas/AllCustomerPurchase'
  *      503:
  *        description: ocurrio un error temporal en la base de datos
- *    security:
- *      - bearerAuth: []
  */
 
 /**
@@ -749,8 +745,6 @@
  *                $ref: '#/components/schemas/AllCustomerPurchase'
  *      503:  
  *        description: ocurrio un error temporal en la base de datos
- *    security:   
- *      - bearerAuth: []
  */
 
 /**
@@ -837,8 +831,6 @@
  *              $ref: '#/components/schemas/badRequestFullname'
  *      503:
  *        description: ocurrio un error temporal en la base de datos
- *    security:
- *      - bearerAuth: []
  */
 
 /**
@@ -865,8 +857,6 @@
  *              $ref: '#/components/schemas/badRequestEmail'
  *      503:
  *        description: ocurrio un error temporal en la base de datos
- *    security:
- *      - bearerAuth: []
  */
 
 /**
@@ -893,8 +883,6 @@
  *              $ref: '#/components/schemas/badRequestUsername'
  *      503:
  *        description: ocurrio un error temporal en la base de datos
- *    security:
- *      - bearerAuth: []
  */
 
 /**
@@ -921,8 +909,6 @@
  *              $ref: '#/components/schemas/badRequestPassword'
  *      503:
  *        description: ocurrio un error temporal en la base de datos
- *    security:
- *      - bearerAuth: []
  */
 
 
@@ -946,14 +932,14 @@
  *        description: ocurrio un error
  *      503:
  *        description: ocurrio un error temporal en la base de datos
- *    security:
- *      - bearerAuth: []
  *      
- */ 
+ */
+
+// CINEMA ROUTES /////////////////////////////////////////////////////////////////////////    
 
 /**
  * @swagger
- * /home/premiers:
+ * /premiers:
  *    get:
  *      tags:
  *        - movies
