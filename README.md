@@ -43,7 +43,7 @@ La base de datos es de tipo relacional diseñada desde 0 y graficada con la herr
 npm test
 ```
 ## Monitoreo de rutas
-- Monitoreo: se realiza con lalibreria morgan y node-cron, se implementa node-cron para ejecutar scripts, estos scripts realizan procesaminto de los archivos en un horario de poca actividad en el servidor
+- Monitoreo: se realiza con la libreria morgan, node-cron y nodemailer, se implementa node-cron para ejecutar scripts, estos scripts, realizan procesaminto de los archivos en un horario de poca actividad en el servidor, una vez procesados los datos, son enviados en un formato de archivo csv como notificacion a travez de un mail, posteriormente son analizados para resolver errores ocurridos durante el ciclo de funcionamiento del sistema
 ## FrontEnd
 - Tecnologias utilizadas: html5 CSS3 JavaScript
 ```
