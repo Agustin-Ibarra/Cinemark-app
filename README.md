@@ -34,7 +34,7 @@ La base de datos es de tipo relacional diseñada desde 0 y graficada con la herr
 - Getstor de base de datos: Maria DB
 ## Documentacion
 - Documentacion de APIs: la documentacion de los endpoint y APIs fue creada con Swagger Open.io
-- Documentacion del codigo funete: la documentacion del codigo fuente fue creada con jsdoc
+- Documentacion del codigo fuente: la documentacion del codigo fuente fue creada con jsdoc
 - Enlace: documentacion disponible en [docs](http://localhost:3001/docs/)
 ## Pruebas unitarias
 - Librerias: las pruebas unitarias estan creadas con las librerias de Jest y supertest
@@ -59,7 +59,7 @@ frontend/
 npm start
 ```
 ## Instalacion
-- Dependencias: para instalar las dependencias par el funcionamineto de la applicacion ejecuta el siguiente comando en la terminal
+- Dependencias: para instalar las dependencias para el correcto funcionamineto de la applicacion, ejecuta el siguiente comando en la terminal
 ```bash
 npm install
 ```
