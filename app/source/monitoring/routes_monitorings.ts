@@ -36,7 +36,7 @@ const sendErrorLogs = async function() {
   catch(error){throw error;}
 }
 
-cron.schedule('15 0 * * *',()=>{  
+cron.schedule('0 6 * * *',()=>{  
   const file = fs.readFileSync(path.join(__dirname,'../controllers/access.csv'),'utf-8');
   const rows:string[] = file.split('\n');
   const columns: string[][] = [];
