@@ -7,7 +7,7 @@ EL proyecto esta contruido basandose en la qruitectura MVC (modelo vista control
 3. [BackEnd](#backEnd)
 4. [Base de datos](#base-de-datos)
 5. [Documentacion](#documentacion)
-6. [Pruebas unitarias](#purebas-unitarias)
+6. [Pruebas unitarias](#pruebas-unitarias)
 7. [Monitoreo de rutas](#monitoreo-de-rutas)
 2. [FrontEnd](#frontEnd)
 ## Características
