@@ -3,7 +3,6 @@ import Stripe from 'stripe';
 import dotenv from 'dotenv';
 
 const stripe = new Stripe(`${process.env.STRIPE}`);
-const logsPayments:object[] = []
 dotenv.config();
 
 /**

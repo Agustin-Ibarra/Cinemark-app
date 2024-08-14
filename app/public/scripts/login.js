@@ -21,7 +21,7 @@ $body.addEventListener("click",(e)=>{
         body:JSON.stringify({username:username,password:password})
       })
       .then(async(response)=>{
-        if(response.status === 500){
+        if(response.status === 503){
           window.location.href = '/home/server_error';
         }
         else{

@@ -35,7 +35,7 @@ $body.addEventListener("click",(e)=>{
           })
         })
         .then(async(response)=>{
-          if(response.status == 500){
+          if(response.status == 503){
             window.location.href = '/home/server_error';
           }
           if(response.status === 400){

@@ -8,21 +8,10 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 const __dirname  = path.dirname(fileURLToPath(import.meta.url));
-interface data {
-  date:string,
-  method:string,
-  url:string,
-  status:string,
-  conetntLength:string,
-  responseTime:string,
-  ipAddres:string
-}
-const logs:data[] = []
 
 export const getHome = function(req:Request,res:Response){
   res.sendFile(path.join(__dirname,'../../../source/views/cinemark_UI/home.html'));
 }
-
 
 export const getPremiersMovies = function(req:Request,res:Response){
   premiers()

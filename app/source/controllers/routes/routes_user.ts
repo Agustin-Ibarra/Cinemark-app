@@ -8,16 +8,6 @@ import { dataAutentication, deleteUserData, getPassword, newUSer, setEmail, setF
 
 dotenv.config();
 const __driname = path.dirname(fileURLToPath(import.meta.url));
-interface logsData {
-  date:string,
-  method:string,
-  url:string,
-  status:string,
-  conetntLength:string,
-  responseTime:string,
-  ipAddres:string
-}
-const userLogs:logsData[] = [];
 
 export const getAccount = function(req:Request,res:Response){
   if(!req.headers.cookie){
