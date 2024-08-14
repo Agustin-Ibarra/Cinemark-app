@@ -4,14 +4,11 @@ import {fileURLToPath} from 'url';
 import router from './controllers/routes_controller.js';
 import swaggerUI from 'swagger-ui-express';
 import swaggerSetup from './docs/swagger.js';
-import fs from 'fs';
-import morgan from 'morgan';
 import cron from './monitoring/routes_monitorings.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const port = 3001;
 const app = express();
-// const logStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' });
 
 app.use(router);
 app.use(express.static(path.join(__dirname,'../public/styles')));

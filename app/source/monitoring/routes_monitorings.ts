@@ -36,7 +36,9 @@ const sendErrorLogs = async function() {
   catch(error){throw error;}
 }
 
-cron.schedule('0 6 * * *',()=>{  
+// establece un horario para revisar y prepara los archivo para notificar el monitoreo del sistema
+cron.schedule('0 6 * * *',()=>{ 
+  // examina el archivo que contiene informacion sobre la actividad de las rutas 
   const file = fs.readFileSync(path.join(__dirname,'../controllers/access.csv'),'utf-8');
   const rows:string[] = file.split('\n');
   const columns: string[][] = [];
@@ -53,7 +55,9 @@ cron.schedule('0 6 * * *',()=>{
   rows.forEach(element => {columns.push(element.split(';'));});
   columns.forEach(col => {
     if(col.length > 1 && col[0] !== 'date'){
+      // en cada iteracion de las columnas filtra las rutas que no son relevantes
       if(col[2].includes('css') === false && col[2].includes('js') === false && col.includes('html') === false && col[2].includes('jpg') === false && col[2].includes('/login') === false){
+        // filtra por peticiones que tuviron no tuvieron errores
         if(col[3] !== '200' && col[3] !== '304' && col[3] !== '401'){
           const data:object = {
             date:col[0],
@@ -70,6 +74,9 @@ cron.schedule('0 6 * * *',()=>{
     }
   });
   if(errorLogs.length > 0){
+    // si la lista de errorLogs tiene longitud superior a 0
+    // quiere decir ocurrion error en algunas peticiones
+    // por ende prepara el archivo para ser enviado y notificar los errores
     const errorLogsFile = fs.createWriteStream(path.join(__dirname,'../controllers/errorLogs.csv'),{flags:'a'});
     errorLogsFile.write('date;method;url;status_code;content-length;response_time;remote_addres\n');
     errorLogs.forEach(logs => {
@@ -78,10 +85,12 @@ cron.schedule('0 6 * * *',()=>{
     });
     sendErrorLogs()
     .then((result)=>{
+      // borra la informacion del archivo para evitar duplpicado de datos
       fs.writeFileSync(path.join(__dirname,'../controllers/errorLogs.csv'),'');
     })
     .catch((error)=>{console.log(error);});
   }
+  // borra la informacion del archivo porque ya fue procesada
   fs.writeFileSync(path.join(__dirname,'../controllers/access.csv'),'');
 });
 
