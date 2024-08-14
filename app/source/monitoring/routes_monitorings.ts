@@ -36,7 +36,7 @@ const sendErrorLogs = async function() {
   catch(error){throw error;}
 }
 
-cron.schedule('0 6 * * *',()=>{  
+cron.schedule('15 0 * * *',()=>{  
   const file = fs.readFileSync(path.join(__dirname,'../controllers/access.csv'),'utf-8');
   const rows:string[] = file.split('\n');
   const columns: string[][] = [];
@@ -52,7 +52,7 @@ cron.schedule('0 6 * * *',()=>{
   }
   rows.forEach(element => {columns.push(element.split(';'));});
   columns.forEach(col => {
-    if(col[0] !== 'date'){
+    if(col.length > 1 && col[0] !== 'date'){
       if(col[2].includes('css') === false && col[2].includes('js') === false && col.includes('html') === false && col[2].includes('jpg') === false && col[2].includes('/login') === false){
         if(col[3] !== '200' && col[3] !== '304' && col[3] !== '401'){
           const data:object = {
