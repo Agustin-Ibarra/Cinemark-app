@@ -33,9 +33,7 @@ const sendErrorLogs = async function() {
     const info = await transporter.sendMail(mailOptions);
     return info;
   }
-  catch(error){
-    throw error;
-  }
+  catch(error){throw error;}
 }
 
 cron.schedule('0 6 * * *',()=>{  
@@ -53,20 +51,18 @@ cron.schedule('0 6 * * *',()=>{
     remoteAddres:string
   }
   rows.forEach(element => {columns.push(element.split(';'));});
-  const errorLogsFile = fs.createWriteStream(path.join(__dirname,'../controllers/errorLogs.csv'),{flags:'a'});
-  errorLogsFile.write('date;method;url;status_code;content-length;response_time;remote_addres\n');
-  columns.forEach(element => {
-    if(element[0] !== 'date' && element.length>1){
-      if(element[2].includes('css') === false && element[2].includes('js') === false && element.includes('html') === false && element[2].includes('jpg') === false){
-        if(element[3] !== '200' && element[3] !== '304'){
+  columns.forEach(col => {
+    if(col[0] !== 'date'){
+      if(col[2].includes('css') === false && col[2].includes('js') === false && col.includes('html') === false && col[2].includes('jpg') === false && col[2].includes('/login') === false){
+        if(col[3] !== '200' && col[3] !== '304' && col[3] !== '401'){
           const data:object = {
-            date:element[0],
-            method:element[1],
-            url:element[2],
-            statusCode:element[3],
-            contentLength:element[4],
-            reponseTime:element[5],
-            remoteAddres:element[6]
+            date:col[0],
+            method:col[1],
+            url:col[2],
+            statusCode:col[3],
+            contentLength:col[4],
+            reponseTime:col[5],
+            remoteAddres:col[6]
           } as dataLogs
           errorLogs.push(data); 
         }
@@ -74,17 +70,19 @@ cron.schedule('0 6 * * *',()=>{
     }
   });
   if(errorLogs.length > 0){
+    const errorLogsFile = fs.createWriteStream(path.join(__dirname,'../controllers/errorLogs.csv'),{flags:'a'});
+    errorLogsFile.write('date;method;url;status_code;content-length;response_time;remote_addres\n');
     errorLogs.forEach(logs => {
       const data = logs as dataLogs;
       errorLogsFile.write(`${data.date};${data.method};${data.url};${data.statusCode};${data.contentLength};${data.reponseTime};${data.remoteAddres}\n`);
     });
     sendErrorLogs()
     .then((result)=>{
-      fs.writeFileSync(path.join(__dirname,'../controllers/access.csv'),'');
       fs.writeFileSync(path.join(__dirname,'../controllers/errorLogs.csv'),'');
     })
     .catch((error)=>{console.log(error);});
   }
+  fs.writeFileSync(path.join(__dirname,'../controllers/access.csv'),'');
 });
 
 export default cron;
