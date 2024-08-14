@@ -53,7 +53,7 @@ frontend/
 |   ├── source/
 |       └── views/ # archivos de vistas
 ```
-## Start
+## Inicio
 - Inicio de la plicacion: una vez clonado el repositorio se debe escribir el siguiente comando en la terminal
 ```bash
 npm start
