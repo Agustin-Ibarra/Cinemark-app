@@ -26,10 +26,10 @@ router.get('/home/movies_3D',get3DMovies);
 router.get('/home/movies_2D',get2DMovies)
 router.get('/home/server_error',serverError);
 router.get('/movie_page',getMoviePage)
-router.get('/movie/id:id',getMovieInfo);
-router.get('/movie/ticket/id:id',getMovieTicketData)
-router.get('/movie/ticket2D/id:id',getMovieTicketDataFromat2D);
-router.get('/movie/ticet3D/id:id',getMovieTicketDataFromat3D);
+router.get('/movie_page/movie/id:id',getMovieInfo);
+router.get('/movie_page/ticket/id:id',getMovieTicketData)
+router.get('/movie_page/ticket2D/id:id',getMovieTicketDataFromat2D);
+router.get('/movie_page/ticet3D/id:id',getMovieTicketDataFromat3D);
 router.get('/success_payment',successfulPaymentPage);
 router.get('/account',getAccount);
 router.get('/singup',getRegister);
