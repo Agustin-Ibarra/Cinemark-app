@@ -2,7 +2,6 @@ const $body = document.querySelector('body');
 const $warning = document.querySelector('.warning-text');
 const $nav = document.querySelector('nav');
 const $spinner = document.querySelector('.spinner');
-let retry = 0;
 
 const login = function(){
   const username = document.getElementById('username').value;
