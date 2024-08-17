@@ -7,7 +7,7 @@ EL proyecto esta contruido basandose en la qruitectura MVC (modelo vista control
 3. [BackEnd](#backEnd)
 4. [Base de datos](#base-de-datos)
 5. [Documentacion](#documentacion)
-6. [Pruebas unitarias](#purebas-unitarias)
+6. [Pruebas unitarias](#pruebas-unitarias)
 7. [Monitoreo de rutas](#monitoreo-de-rutas)
 2. [FrontEnd](#frontEnd)
 ## Características
@@ -34,7 +34,7 @@ La base de datos es de tipo relacional diseñada desde 0 y graficada con la herr
 - Getstor de base de datos: Maria DB
 ## Documentacion
 - Documentacion de APIs: la documentacion de los endpoint y APIs fue creada con Swagger Open.io
-- Documentacion del codigo fuente: la documentacion del codigo fuente fue creada con jsdoc
+- Documentacion del codigo fuente: la documentacion del codigo fuente fue creada con JSDoc
 - Enlace: documentacion disponible en [docs](http://localhost:3001/docs/)
 ## Pruebas unitarias
 - Librerias: las pruebas unitarias estan creadas con las librerias de Jest y supertest
