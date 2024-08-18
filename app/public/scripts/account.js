@@ -5,7 +5,7 @@ const $nav = document.querySelector('nav');
 $body.addEventListener("click",(e)=>{
   // console.log(e.target);
   if(e.target.matches('.logout')){
-    document.cookie = 'cmjwt=; Expires=Thu, 01 Jan 1970 00:00:01';
+    document.cookie = 'cmjwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     window.location.reload();
   }
   else if(e.target.matches('.username')){
@@ -133,7 +133,7 @@ $body.addEventListener("click",(e)=>{
 });
 
 
-fetch('/profile')
+fetch('/home/account/profile')
 .then(async(data)=>{
   const profile = await data.json();
   const $fullName = document.getElementById('name');
@@ -145,7 +145,7 @@ fetch('/profile')
 })
 .catch((error)=>{console.log(error);});
 
-fetch('/account/user_purchase')
+fetch('/home/account/user_purchase')
 .then(async(response)=>{
   const data = await response.json();
   const $title = document.getElementById('title');
@@ -162,7 +162,7 @@ fetch('/account/user_purchase')
     const $total = document.createElement('p');
     $item.setAttribute('class','purchase-item');
     $divPoster.setAttribute('class','poster-div');
-    $poster.setAttribute('src',element.poster);
+    $poster.setAttribute('src',`../../${element.poster}`);
     $divText.setAttribute('class','text-div');
     $datePurchase.setAttribute('class','purchase-text');
     $movieinfo.setAttribute('class','purchase-text');

@@ -19,37 +19,38 @@ router.use(express.json());
 router.use('/login/user',checkLogin);
 router.use('/singup/user',checkSingUp);
 router.use(morgan(format,{stream:accesToLogStream}));
+console.log('test');
 
 router.get('/home',getHome);
 router.get('/home/premiers',getPremiersMovies);
 router.get('/home/movies_3D',get3DMovies);
 router.get('/home/movies_2D',get2DMovies)
 router.get('/home/server_error',serverError);
-router.get('/movie_page',getMoviePage)
-router.get('/movie_page/movie/id:id',getMovieInfo);
-router.get('/movie_page/ticket/id:id',getMovieTicketData)
-router.get('/movie_page/ticket2D/id:id',getMovieTicketDataFromat2D);
-router.get('/movie_page/ticet3D/id:id',getMovieTicketDataFromat3D);
-router.get('/success_payment',successfulPaymentPage);
-router.get('/account',getAccount);
+router.get('/home/movie_page',getMoviePage)
+router.get('/home/movie_page/movie/id:id',getMovieInfo);
+router.get('/home/movie_page/ticket/id:id',getMovieTicketData)
+router.get('/home/movie_page/ticket2D/id:id',getMovieTicketDataFromat2D);
+router.get('/home/movie_page/ticket3D/id:id',getMovieTicketDataFromat3D);
+router.get('/home/movie_page/success_payment',successfulPaymentPage);
+router.get('/home/movie_page/success_payment/data_purchase/code:code',getDataPurchase);
+router.get('/home/account',getAccount);
+router.get('/home/account/user_purchase',getUserPurchase);
+router.get('/home/account/profile',profile);
 router.get('/singup',getRegister);
 router.get('/login',getLogin);
-router.get('/data_purchase/code:code',getDataPurchase);
-router.get('/account/user_purchase',getUserPurchase);
-router.get('/profile',profile);
 
 router.post('/login/user',postLogin);
 router.post('/singup/user',postRegister);
-router.post('/new_purchase',newPurchaseOrder);
-router.post('/new_purchase_details',newPurchaseDetails);
-router.post('/payments',paymentSession);
+router.post('/home/movie_page/success_payment/new_purchase',newPurchaseOrder);
+router.post('/home/movie_page/success_payment/new_purchase_details',newPurchaseDetails);
+router.post('/home/movie_page/payments',paymentSession);
 
 router.put('/profile/update_fullname',updateFullname);
 router.put('/profile/update_email',updateEmail);
 router.put('/profile/update_username',updateUsername);
 router.put('/profile/update_password',updatePassword);
-router.put('/movie/reserve_tickets',reserveTickets);
-router.put('/movie/restore_tickets',restoreTicket);
+router.put('/home/movie_page/reserve_tickets',reserveTickets);
+router.put('/home/movie_page/restore_tickets',restoreTicket);
 
 router.delete('/profile/delete_account',deleteAccount);
 

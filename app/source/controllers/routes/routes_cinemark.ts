@@ -134,7 +134,7 @@ export const newPurchaseOrder = function(req:Request,res:Response){
   purchaseOrder(customer,idPurchase,total)
   .then((result)=>{res.send('success');})
   .catch((error)=>{
-    if(error.errno === 1062){res.status(400).send({error:'Duplicate entry!'});}
+    if(error.errno === 1062){res.status(400).send('Duplicate entry!');}
     else{res.status(503).send('Content not available');}
   });
 }

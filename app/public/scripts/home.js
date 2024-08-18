@@ -12,7 +12,7 @@ const generateMovies = function(movies,$list,type){
     const title = document.createElement("h3");
     item.setAttribute("class","movie");
     link.setAttribute("class","link-movie");
-    link.setAttribute('href','/movie_page')
+    link.setAttribute('href','/home/movie_page')
     image.setAttribute("class",`poster ${type}`);
     image.setAttribute("src",movie.poster);
     image.setAttribute("id",movie.id_movie);
@@ -72,7 +72,7 @@ $body.addEventListener("click",(e)=>{
   }
   else if(e.target.matches('.open') || e.target.matches('.nav-link') || e.target.matches('.close')){
     if(e.target.matches('.account')){
-      localStorage.setItem('path','/account');
+      localStorage.setItem('path','/home/account');
     }
     $nav.classList.toggle('open-nav');
   }

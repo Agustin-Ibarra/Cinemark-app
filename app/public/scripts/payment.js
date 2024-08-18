@@ -4,7 +4,7 @@ const $loader = document.querySelector('.loader-section');
 
 localStorage.removeItem('redirect');
 
-fetch('/new_purchase',{
+fetch('/home/movie_page/success_payment/new_purchase',{
   method:"POST",
   headers:{"Content-Type":"application/json"},
   body:JSON.stringify({
@@ -13,9 +13,9 @@ fetch('/new_purchase',{
     total:localStorage.getItem('total')
   })
 })
-.then((response)=>{
+.then(async(response)=>{
   if(response.status === 200){
-    fetch('/new_purchase_details',{
+    fetch('/home/movie_page/success_payment/new_purchase_details',{
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body:JSON.stringify({
@@ -37,7 +37,8 @@ $body.addEventListener("click",(e)=>{
 });
 window.addEventListener("load",(e)=>{
   $body.removeChild($loader);
-  fetch(`/data_purchase/code:${localStorage.getItem('code')}`)
+  const code = localStorage.getItem('code');
+  fetch(`/home/movie_page/success_payment/data_purchase/code:${code}`)
   .then(async(response)=>{
     const data = await response.json();
     let audio = ''
@@ -64,7 +65,7 @@ window.addEventListener("load",(e)=>{
     $subtotal.textContent = `Subtotal: $${data[0].sub_total}`;
     $total.textContent = `Total paid: $${data[0].total}`;
     $title.textContent = data[0].title;
-    $poster.setAttribute("src",`${data[0].poster}`)
+    $poster.setAttribute("src",`../../${data[0].poster}`)
   })
   .catch((error)=>{console.error(error);})
 });

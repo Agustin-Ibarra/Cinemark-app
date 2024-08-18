@@ -11,7 +11,7 @@ const __driname = path.dirname(fileURLToPath(import.meta.url));
 
 export const getAccount = function(req:Request,res:Response){
   if(!req.headers.cookie){
-    res.status(401).sendFile(path.join(__driname,'../../../source/views/user_UI/login.html'));
+    res.status(401).redirect('/login');
   }
   else{
     res.sendFile(path.join(__driname,'../../../source/views/user_UI/account.html'));
