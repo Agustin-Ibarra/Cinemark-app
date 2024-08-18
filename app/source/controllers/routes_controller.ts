@@ -19,7 +19,6 @@ router.use(express.json());
 router.use('/login/user',checkLogin);
 router.use('/singup/user',checkSingUp);
 router.use(morgan(format,{stream:accesToLogStream}));
-console.log('test');
 
 router.get('/home',getHome);
 router.get('/home/premiers',getPremiersMovies);
