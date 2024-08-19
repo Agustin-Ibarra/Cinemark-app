@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
-import { dataPurchase, movieInfo, movies2D, movies3D, premiers, purchaseDetails, purchaseOrder, restoreStock, ticketData, ticketData2D, ticketData3D, updateStock, userPurchase } from '../../models/movies_models.js';
+import { dataPurchase, movieInfo, movies2D, movies3D, premiers, purchaseDetails, purchaseOrder, restoreStock, ticketData, ticketData2D, ticketData3D, updateStock, userPurchase } from '../models/movies_models.js';
 import path from 'path';
 import {fileURLToPath} from 'url';
 import { v4 } from 'uuid';
 import  jsonWebToken  from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import { getPayload } from './routes_user.js';
+import { getPayload } from '../controllers/routes/routes_user.js';
 
 dotenv.config();
 const __dirname  = path.dirname(fileURLToPath(import.meta.url));
