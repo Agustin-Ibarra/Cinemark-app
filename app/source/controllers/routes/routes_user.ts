@@ -9,13 +9,34 @@ import { dataAutentication, deleteUserData, getPassword, newUSer, setEmail, setF
 dotenv.config();
 const __driname = path.dirname(fileURLToPath(import.meta.url));
 
+interface JwtPayload{
+  iduser:number,
+  levelAccess:number
+}
+
+interface ResultHeader{
+  fieldCount:number,
+  affectedRows:number,
+  insertId:number,
+  info:string,
+  serverStatus:number,
+  warningStatus:number,
+  changedRows:number
+}
+
+export const getPayload = function(req:Request){
+  const token = req.headers.cookie?.replace('cmjwt=','');
+  try{
+    const payload = jsonWebToken.verify(`${token}`,`${process.env.SECRET}`) as JwtPayload;
+    return payload;
+  }
+  catch(error){
+    throw error
+  }
+}
+
 export const getAccount = function(req:Request,res:Response){
-  if(!req.headers.cookie){
-    res.status(401).redirect('/login');
-  }
-  else{
-    res.sendFile(path.join(__driname,'../../../source/views/user_UI/account.html'));
-  }
+  res.sendFile(path.join(__driname,'../../../source/views/user_UI/account.html'));
 }
 
 export const getLogin = function (req: Request, res: Response) {
@@ -29,7 +50,7 @@ export const postLogin = function (req: Request, res: Response) {
   .then((result)=>{
     if(Array.isArray(result)){
       if(result.length === 0){
-        res.status(400).send({error:'The username or password are incorrect!'});
+        res.status(404).send({error:'The username or password are incorrect!'});
       }
       else{
         result.forEach((userData: any) => {
@@ -63,7 +84,7 @@ export const postRegister = function (req: Request, res: Response) {
   const email: String = req.body.email;
   const username: String = req.body.username;
   const password: string = req.body.password;
-  const salt = bcrypt.genSaltSync(2);
+  const salt = bcrypt.genSaltSync(5);
   const hash: String = bcrypt.hashSync(password, salt);
   newUSer(fullName, email, username, hash)
   .then((result) => {res.send('success');})
@@ -76,129 +97,59 @@ export const postRegister = function (req: Request, res: Response) {
 }
 
 export const profile = function(req:Request,res:Response){
-  interface JwtPayload{
-    iduser:number,
-    levelAccess:number
-  }
-  const token = req.headers.cookie?.replace('cmjwt=','');
-  const data = jsonWebToken.verify(`${token}`,`${process.env.SECRET}`) as JwtPayload;
-  userProfile(data.iduser)
+  const payload = getPayload(req)
+  userProfile(payload.iduser)
   .then((result)=>{res.send({user:result});})
   .catch((error)=>{res.status(503).send('Content not available')});
 }
 
 export const updateUsername = function(req:Request,res:Response){
-  interface JwtPayload{
-    iduser:number,
-    levelAccess:number
-  }
-  interface ResultHeader{
-    fieldCount:number,
-    affectedRows:number,
-    insertId:number,
-    info:string,
-    serverStatus:number,
-    warningStatus:number,
-    changedRows:number
-  }
-  const token = req.headers.cookie?.replace('cmjwt=','');
-  const payload = jsonWebToken.verify(`${token}`,`${process.env.SECRET}`) as JwtPayload;
-  const newUsername:String = req.body.username;
-  userProfile(payload.iduser)
+  const payload = getPayload(req)
+  const newUsername:String = req.body.newUsername;
+  setUsername(payload.iduser,newUsername)
   .then((result)=>{
-    if(Array.isArray(result)){
-      result.forEach((element:any) => {
-        if(element.username === newUsername){
-          res.status(400).send({error:'The new username cannot be the same as your current username!'})
-        }
-        else{
-          setUsername(payload.iduser,newUsername)
-          .then((result)=>{
-            const statusQuery = result as ResultHeader;
-            if(statusQuery.affectedRows === 1 && statusQuery.serverStatus === 2){
-              res.status(201).send({result:'ok'});
-            }
-            else{
-              res.status(400).send({error:'Failed to update username please try again later!'});
-            }
-          })
-          .catch((error)=>{
-            if(error.errno === 1062){
-              res.status(400).send({error:'The username already exists!'});
-            }
-            else{res.status(503).send('Content not available');}
-          });
-        }
-      });
+    console.log(result);
+    const statusQuery = result as ResultHeader;
+    if(statusQuery.affectedRows === 1 && statusQuery.serverStatus === 2){
+      res.status(201).send({result:'ok'});
+    }
+    else{
+      res.status(400).send({error:'Failed to update username please try again later!'});
     }
   })
-  .catch((error)=>{res.status(503).send('Content not available')});
+  .catch((error)=>{
+    if(error.errno === 1062){
+      res.status(400).send({error:'The username already exists!'});
+    }
+    else{
+      res.status(503).send('Content not available');
+    }
+  });
 }
 
 export const updateEmail = function(req:Request,res:Response){
-  interface JwtPayload{
-    iduser:number,
-    levelAccess:number
-  }
-  interface ResultHeader{
-    fieldCount:number,
-    affectedRows:number,
-    insertId:number,
-    info:string,
-    serverStatus:number,
-    warningStatus:number,
-    changedRows:number
-  }
-  const newEmail:String = req.body.email;
-  const token = req.headers.cookie?.replace('cmjwt=','');
-  const payload = jsonWebToken.verify(`${token}`,`${process.env.SECRET}`) as JwtPayload;
-  userProfile(payload.iduser)
+  const payload = getPayload(req);
+  const newEmail = req.body.newEmail;
+  setEmail(payload.iduser,newEmail)
   .then((result)=>{
-    if(Array.isArray(result)){
-      result.forEach((element:any) => {
-        if(element.email === newEmail){
-          res.status(400).send({error:'The new email cannot be the same as your current email!'});
-        }
-        else{
-          setEmail(payload.iduser,newEmail)
-          .then((result)=>{
-            const statusQuery = result as ResultHeader;
-            if(statusQuery.affectedRows === 1 && statusQuery.serverStatus === 2){
-              res.status(201).send({result:'ok'});
-            }
-            else{
-              res.status(400).send({error:'The email could not be updated, please try again later!'});
-            }
-          })
-          .catch((error)=>{
-            if(error.errno === 1062){
-              res.status(400).send({error:'The email already exist!'});
-            }
-          });
-        }
-      });
+    const statusQuery = result as ResultHeader;
+    if(statusQuery.affectedRows === 1 && statusQuery.serverStatus === 2){
+      res.status(201).send({result:'ok'});
+    }
+    else{
+      res.status(400).send({error:'The email could not be updated, please try again later!'});
     }
   })
-  .catch((error)=>{res.status(503).send('Content not available')});
+  .catch((error)=>{
+    if(error.errno === 1062){
+      res.status(400).send({error:'The email already exist!'});
+    }
+  });
 }
 
 export const updateFullname = function(req:Request,res:Response){
-  interface JwtPayload{
-    iduser:number,
-    levelAccess:number
-  }
-  interface ResultHeader{
-    fieldCount:number,
-    affectedRows:number,
-    insertId:number,
-    info:string,
-    serverStatus:number,
-    warningStatus:number,
-    changedRows:number
-  }
-  const newFullname:string = req.body.fullname;
-  const token = req.headers.cookie?.replace('cmjwt=','');
-  const payload = jsonWebToken.verify(`${token}`,`${process.env.SECRET}`) as JwtPayload;
+  const newFullname:string = req.body.newFullname;
+  const payload = getPayload(req);
   setFullName(payload.iduser,newFullname)
   .then((result)=>{
     const statusQuery = result as ResultHeader;
@@ -216,22 +167,7 @@ export const updatePassword = function(req:Request,res:Response){
   const newPassword = req.body.newPassword;
   const oldPassword = req.body.oldPassword;
   console.log(newPassword,oldPassword);
-  
-  interface JwtPayload{
-    iduser:number,
-    levelAccess:number
-  }
-  interface ResultHeader{
-    fieldCount:number,
-    affectedRows:number,
-    insertId:number,
-    info:string,
-    serverStatus:number,
-    warningStatus:number,
-    changedRows:number
-  }
-  const token = req.headers.cookie?.replace('cmjwt=','');
-  const payload = jsonWebToken.verify(`${token}`,`${process.env.SECRET}`) as JwtPayload;
+  const payload = getPayload(req);
   getPassword(payload.iduser)
   .then((result)=>{
     if(Array.isArray(result)){
@@ -265,21 +201,7 @@ export const updatePassword = function(req:Request,res:Response){
 }
 
 export const deleteAccount = function(req:Request,res:Response){
-  interface JwtPayload{
-    iduser:number,
-    levelAccess:number
-  }
-  interface ResultHeader{
-    fieldCount:number,
-    affectedRows:number,
-    insertId:number,
-    info:string,
-    serverStatus:number,
-    warningStatus:number,
-    changedRows:number
-  }
-  const token = req.headers.cookie?.replace('cmjwt=','');
-  const payload = jsonWebToken.verify(`${token}`,`${process.env.SECRET}`) as JwtPayload
+  const payload = getPayload(req);
   const idUser = payload.iduser;
   deleteUserData(idUser)
   .then((result)=>{

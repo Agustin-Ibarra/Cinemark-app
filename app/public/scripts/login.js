@@ -18,9 +18,11 @@ const login = function(){
       body:JSON.stringify({username:username,password:password})
     })
     .then(async(response)=>{
-      if(response.status === 503){window.location.href = '/home/server_error';}
+      if(response.status === 503){
+        window.location.href = '/home/server_error';
+      }
       else{
-        if(response.status === 400){
+        if(response.status === 400 || response.status === 404){
           const result = await response.json();
           $warning.textContent = result.error;
           $warning.classList.replace('hidden','visible');

@@ -1,6 +1,16 @@
 import { QueryResult } from 'mysql2';
 import { connection } from './connection.js';
 
+interface ResultHeader{
+  fieldCount:number,
+  affectedRows:number,
+  insertId:number,
+  info:string,
+  serverStatus:number,
+  warningStatus:number,
+  changedRows:number
+}
+
 /**
  * agrega un nuevo usuario en los registro, este usuario tendra el rol de cliente con acceso nivel 1
  * @param {string} fullName

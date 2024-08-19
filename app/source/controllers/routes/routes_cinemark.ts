@@ -5,9 +5,20 @@ import {fileURLToPath} from 'url';
 import { v4 } from 'uuid';
 import  jsonWebToken  from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import { getPayload } from './routes_user.js';
 
 dotenv.config();
 const __dirname  = path.dirname(fileURLToPath(import.meta.url));
+
+interface ResultHeader{
+  fieldCount:number,
+  affectedRows:number,
+  insertId:number,
+  info:string,
+  serverStatus:number,
+  warningStatus:number,
+  changedRows:number
+}
 
 export const getHome = function(req:Request,res:Response){
   res.sendFile(path.join(__dirname,'../../../source/views/cinemark_UI/home.html'));
@@ -71,31 +82,18 @@ export const getMovieTicketDataFromat3D = function(req:Request,res:Response){
 
 // crea una reserva de un ticket
 export const reserveTickets = function(req:Request,res:Response){
-  interface ResultHeader{
-    fieldCount:number,
-    affectedRows:number,
-    insertId:number,
-    info:string,
-    serverStatus:number,
-    warningStatus:number,
-    changedRows:number
-  }
   const idPurchase = v4();
-  const cookie = req.headers.cookie;
-  if(!cookie){res.status(401).send();}
-  else{
-    const idTicket:number = Number( req.body.idTicket);
-    const amount:number = req.body.amount;
-    updateStock(idTicket,amount)
-    .then((result)=>{
-      const data = result as ResultHeader;
-      if(data.affectedRows === 1 && data.serverStatus === 2){
-        res.status(201).send({code:idPurchase});
-      }
-      else{res.status(400).send({error:'empty'});}
-    })
-    .catch((error)=>{res.status(503).send('Content not available')});
-  }
+  const idTicket:number = Number( req.body.idTicket);
+  const amount:number = req.body.amount;
+  updateStock(idTicket,amount)
+  .then((result)=>{
+    const data = result as ResultHeader;
+    if(data.affectedRows === 1 && data.serverStatus === 2){
+      res.status(201).send({code:idPurchase});
+    }
+    else{res.status(400).send({error:'empty'});}
+  })
+  .catch((error)=>{res.status(503).send('Content not available')});
 }
 
 // restaura el stock de un ticket
@@ -113,29 +111,20 @@ export const successfulPaymentPage = function(req:Request,res:Response){
 
 // inserta una nueva orden de compra a la base de datos
 export const newPurchaseOrder = function(req:Request,res:Response){
-  interface JwtPayload{
-    iduser:Number,
-    levelAccess:Number
-  }
-  interface ResultHeader{
-    fieldCount:number,
-    affectedRows:number,
-    insertId:number,
-    info:string,
-    serverStatus:number,
-    warningStatus:number,
-    changedRows:number
-  }
-  const token = req.headers.cookie?.replace('cmjwt=','');
-  const payload = jsonWebToken.verify(`${token}`,`${process.env.SECRET}`) as JwtPayload;
+  const payload = getPayload(req);
   const idPurchase:string = req.body.idPurchase;
   const total:number = Number(req.body.total);
-  const customer = payload.iduser;
-  purchaseOrder(customer,idPurchase,total)
-  .then((result)=>{res.send('success');})
+  purchaseOrder(payload.iduser,idPurchase,total)
+  .then((result)=>{
+    res.send('success');
+  })
   .catch((error)=>{
-    if(error.errno === 1062){res.status(400).send('Duplicate entry!');}
-    else{res.status(503).send('Content not available');}
+    if(error.errno === 1062){
+      res.status(400).send('Duplicate entry!');
+    }
+    else{
+      res.status(503).send('Content not available');
+    }
   });
 }
 
@@ -150,24 +139,32 @@ export const newPurchaseDetails = function(req:Request,res:Response){
   .catch((error)=>{res.status(503).send('Content not available');});
 }
 
-// envia la informacion de la orden de compra realizada
+// obtiene la informacion de la orden de compra realizada
 export const getDataPurchase = function(req:Request,res:Response){
   const idPurchase:string = req.params.code.replace(':','');
   dataPurchase(idPurchase)
-  .then((result)=>{res.send(result)})
-  .catch((error)=>{res.status(503).send('Content not available');});
+  .then((result)=>{
+    res.send(result)
+  })
+  .catch((error)=>{
+    res.status(503).send('Content not available');
+  });
 }
 
 // retorna los datos de las ordenes de comopra del usuario
 export const getUserPurchase = function(req:Request,res:Response){
-  interface JwtPayload{
-    iduser:number,
-    levelAccess:number
-  }
-  const token = req.headers.cookie?.replace('cmjwt=','');
-  const payload = jsonWebToken.verify(`${token}`,`${process.env.SECRET}`) as JwtPayload;
+  const payload = getPayload(req);
   userPurchase(payload.iduser)
-  .then((result)=>{res.send(result);})
+  .then((result)=>{
+    if(Array.isArray(result)){
+      if(result.length === 0){
+        res.status(404).send();
+      }
+      else{
+        res.send(result);
+      }
+    }
+  })
   .catch((error)=>{console.log(error);res.status(400).send('Content not available')});
 }
 

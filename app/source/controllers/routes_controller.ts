@@ -2,7 +2,7 @@ import express  from 'express';
 import { Router } from 'express';
 import { getHome, get3DMovies, getMoviePage, get2DMovies, getPremiersMovies, getMovieInfo, getMovieTicketData, getMovieTicketDataFromat2D, getMovieTicketDataFromat3D, reserveTickets, successfulPaymentPage, newPurchaseOrder, newPurchaseDetails, getDataPurchase, getUserPurchase, restoreTicket, serverError } from './routes/routes_cinemark.js'
 import { deleteAccount, getAccount, getLogin, getRegister, postLogin, postRegister, profile, updateEmail, updateFullname, updatePassword, updateUsername } from './routes/routes_user.js';
-import { checkLogin, checkSingUp } from '../middlewres/middlewares.js';
+import { checkLogin, checkSingUp, isAuth } from '../middlewres/middlewares.js';
 import { paymentSession } from './routes/routes_payments.js';
 import morgan from 'morgan';
 import fs from 'fs';
@@ -18,6 +18,7 @@ const router = Router();
 router.use(express.json());
 router.use('/login/user',checkLogin);
 router.use('/singup/user',checkSingUp);
+router.use('/home/account',isAuth);
 router.use(morgan(format,{stream:accesToLogStream}));
 
 router.get('/home',getHome);
@@ -44,13 +45,13 @@ router.post('/home/movie_page/success_payment/new_purchase',newPurchaseOrder);
 router.post('/home/movie_page/success_payment/new_purchase_details',newPurchaseDetails);
 router.post('/home/movie_page/payments',paymentSession);
 
-router.put('/profile/update_fullname',updateFullname);
-router.put('/profile/update_email',updateEmail);
-router.put('/profile/update_username',updateUsername);
-router.put('/profile/update_password',updatePassword);
+router.put('/home/account/profile/update_fullname',updateFullname);
+router.put('/home/account/profile/update_email',updateEmail);
+router.put('/home/account/profile/update_username',updateUsername);
+router.put('/home/account/profile/update_password',updatePassword);
 router.put('/home/movie_page/reserve_tickets',reserveTickets);
 router.put('/home/movie_page/restore_tickets',restoreTicket);
 
-router.delete('/profile/delete_account',deleteAccount);
+router.delete('/home/account/profile/delete_account',deleteAccount);
 
 export default router
