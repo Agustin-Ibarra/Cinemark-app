@@ -68,7 +68,7 @@ fetch(`/home/movie_page/movie/id:${sessionStorage.getItem('id')}`)
     $time.textContent += movie[0].duration_time;
     $poster.setAttribute("src",`../${movie[0].poster}`);
     $description.textContent = movie[0].description;
-    // $div.innerHTML = movie[0].trailer;
+    $div.innerHTML = movie[0].trailer;
   }
 })
 .catch((error)=>{console.error(error);});

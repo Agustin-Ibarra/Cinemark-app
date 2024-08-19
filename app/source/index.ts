@@ -14,6 +14,7 @@ app.use(router);
 app.use(express.static(path.join(__dirname,'../public/styles')));
 app.use(express.static(path.join(__dirname,'../public/posters')));
 app.use(express.static(path.join(__dirname,'../public/scripts')));
+app.use(express.static(path.join(__dirname,'../public/icon')));
 app.use('/docs',swaggerUI.serve,swaggerUI.setup(swaggerSetup));
 
 app.listen(port,()=>{
