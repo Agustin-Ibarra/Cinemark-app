@@ -3,9 +3,8 @@ import { dataPurchase, movieInfo, movies2D, movies3D, premiers, purchaseDetails,
 import path from 'path';
 import {fileURLToPath} from 'url';
 import { v4 } from 'uuid';
-import  jsonWebToken  from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import { getPayload } from '../controllers/routes/routes_user.js';
+import { getPayload } from '../routes/routes_user.js';
 
 dotenv.config();
 const __dirname  = path.dirname(fileURLToPath(import.meta.url));
@@ -21,7 +20,7 @@ interface ResultHeader{
 }
 
 export const getHome = function(req:Request,res:Response){
-  res.sendFile(path.join(__dirname,'../../../source/views/cinemark_UI/home.html'));
+  res.sendFile(path.join(__dirname,'../../source/views/cinemark_UI/home.html'));
 }
 
 export const getPremiersMovies = function(req:Request,res:Response){
@@ -45,7 +44,7 @@ export const get2DMovies = function(req:Request,res:Response){
 }
 
 export const getMoviePage = function(req:Request,res:Response){
-  res.sendFile(path.join(__dirname,'../../../source/views/cinemark_UI/movie.html'));
+  res.sendFile(path.join(__dirname,'../../source/views/cinemark_UI/movie.html'));
 }
 
 // envia informacion de una pelicula seleccionada
@@ -106,7 +105,7 @@ export const restoreTicket = function(req:Request,res:Response){
 }
 
 export const successfulPaymentPage = function(req:Request,res:Response){
-  res.sendFile(path.join(__dirname,'../../../source/views/cinemark_UI/success_payment.html'));
+  res.sendFile(path.join(__dirname,'../../source/views/cinemark_UI/success_payment.html'));
 }
 
 // inserta una nueva orden de compra a la base de datos
@@ -169,5 +168,5 @@ export const getUserPurchase = function(req:Request,res:Response){
 }
 
 export const serverError = function(req:Request,res:Response){
-  res.sendFile(path.join(__dirname,'../../../source/views/cinemark_UI/server_error.html'))
+  res.sendFile(path.join(__dirname,'../../source/views/cinemark_UI/server_error.html'))
 }

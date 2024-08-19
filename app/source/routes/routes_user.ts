@@ -4,7 +4,7 @@ import path from 'path';
 import bcrypt from 'bcryptjs';
 import jsonWebToken from 'jsonwebtoken';
 import dotenv  from 'dotenv';
-import { dataAutentication, deleteUserData, getPassword, newUSer, setEmail, setFullName, setPassword, setUsername, userProfile } from '../../models/users_models.js'
+import { dataAutentication, deleteUserData, getPassword, newUSer, setEmail, setFullName, setPassword, setUsername, userProfile } from '../models/users_models.js'
 
 dotenv.config();
 const __driname = path.dirname(fileURLToPath(import.meta.url));
@@ -36,11 +36,11 @@ export const getPayload = function(req:Request){
 }
 
 export const getAccount = function(req:Request,res:Response){
-  res.sendFile(path.join(__driname,'../../../source/views/user_UI/account.html'));
+  res.sendFile(path.join(__driname,'../../source/views/user_UI/account.html'));
 }
 
 export const getLogin = function (req: Request, res: Response) {
-  res.sendFile(path.join(__driname, '../../../source/views/user_UI/login.html'));
+  res.sendFile(path.join(__driname, '../../source/views/user_UI/login.html'));
 }
 
 export const postLogin = function (req: Request, res: Response) {
