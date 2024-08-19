@@ -137,37 +137,43 @@ fetch('/home/account/profile')
 
 fetch('/home/account/user_purchase')
 .then(async(response)=>{
-  const data = await response.json();
-  const $title = document.getElementById('title');
-  const $list = document.querySelector('.purchase-list');
-  $title.textContent += data.length;
-  data.forEach(element => {
-    const dateFormat = new Date(element.date_purchase);
-    const $item = document.createElement("li");
-    const $divPoster = document.createElement("div");
-    const $poster = document.createElement('img');
-    const $divText = document.createElement('div');
-    const $datePurchase = document.createElement('p');
-    const $movieinfo = document.createElement('p');
-    const $total = document.createElement('p');
-    $item.setAttribute('class','purchase-item');
-    $divPoster.setAttribute('class','poster-div');
-    $poster.setAttribute('src',`../../${element.poster}`);
-    $divText.setAttribute('class','text-div');
-    $datePurchase.setAttribute('class','purchase-text');
-    $movieinfo.setAttribute('class','purchase-text');
-    $total.setAttribute('class','purchase-text');
-    $datePurchase.textContent = `Date purchase ${dateFormat.toLocaleString()}`;
-    $movieinfo.textContent = `${element.title}, Format ${element.type_format} tickets x ${element.amount_ticket}`;
-    $total.textContent = `Total $${element.total}`;
-    $divPoster.appendChild($poster);
-    $divText.appendChild($datePurchase);
-    $divText.appendChild($movieinfo);
-    $divText.appendChild($total);
-    $item.appendChild($divPoster);
-    $item.appendChild($divText);
-    $list.appendChild($item);
-  });
+  if(response.status === 200){
+    const data = await response.json();
+    const $title = document.getElementById('title');
+    const $list = document.querySelector('.purchase-list');
+    $title.textContent += data.length;
+    data.forEach(element => {
+      const dateFormat = new Date(element.date_purchase);
+      const $item = document.createElement("li");
+      const $divPoster = document.createElement("div");
+      const $poster = document.createElement('img');
+      const $divText = document.createElement('div');
+      const $datePurchase = document.createElement('p');
+      const $movieinfo = document.createElement('p');
+      const $total = document.createElement('p');
+      $item.setAttribute('class','purchase-item');
+      $divPoster.setAttribute('class','poster-div');
+      $poster.setAttribute('src',`../../${element.poster}`);
+      $divText.setAttribute('class','text-div');
+      $datePurchase.setAttribute('class','purchase-text');
+      $movieinfo.setAttribute('class','purchase-text');
+      $total.setAttribute('class','purchase-text');
+      $datePurchase.textContent = `Date purchase ${dateFormat.toLocaleString()}`;
+      $movieinfo.textContent = `${element.title}, Format ${element.type_format} tickets x ${element.amount_ticket}`;
+      $total.textContent = `Total $${element.total}`;
+      $divPoster.appendChild($poster);
+      $divText.appendChild($datePurchase);
+      $divText.appendChild($movieinfo);
+      $divText.appendChild($total);
+      $item.appendChild($divPoster);
+      $item.appendChild($divText);
+      $list.appendChild($item);
+    });
+  }
+  else{
+    const $title = document.getElementById('title');
+    $title.textContent += '0';
+  }
 })
 .catch((error)=>{console.log(error);});
 

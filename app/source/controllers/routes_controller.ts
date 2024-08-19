@@ -19,6 +19,7 @@ router.use(express.json());
 router.use('/login/user',checkLogin);
 router.use('/singup/user',checkSingUp);
 router.use('/home/account',isAuth);
+router.use('/home/movie_page/reserve_tickets',isAuth);
 router.use(morgan(format,{stream:accesToLogStream}));
 
 router.get('/home',getHome);
