@@ -23,6 +23,7 @@ export const getHome = function(req:Request,res:Response){
   res.sendFile(path.join(__dirname,'../../source/views/cinemark_UI/home.html'));
 }
 
+// envia una lista con informcacion de peliculas de la categoria premier
 export const getPremiersMovies = function(req:Request,res:Response){
   premiers()
   .then((data)=>{res.send(data);})
@@ -47,7 +48,7 @@ export const getMoviePage = function(req:Request,res:Response){
   res.sendFile(path.join(__dirname,'../../source/views/cinemark_UI/movie.html'));
 }
 
-// envia informacion de una pelicula seleccionada
+// obtiene informacion de una pelicula y la envia en la respuesta
 export const getMovieInfo = function(req:Request,res:Response){
   const id:Number = Number(req.params.id.replace(':',''));
   movieInfo(id)
@@ -55,7 +56,7 @@ export const getMovieInfo = function(req:Request,res:Response){
   .catch((error)=>{res.status(503).send('Content not available');});
 }
 
-// envia informacion de los tickets de una pelicula
+// obtiene informacion de los ticekets de una pelicula y los envia en la respuesta
 export const getMovieTicketData = function(req:Request,res:Response){
   const idMovie:Number = Number(req.params.id.replace(':',''));
   ticketData(idMovie)
@@ -79,7 +80,7 @@ export const getMovieTicketDataFromat3D = function(req:Request,res:Response){
   .catch((error)=>{res.status(500).send('Content not available')});
 }
 
-// crea una reserva de un ticket
+// crea una reserva y actualiza el stock del ticket seleccionado
 export const reserveTickets = function(req:Request,res:Response){
   const idPurchase = v4();
   const idTicket:number = Number( req.body.idTicket);
@@ -95,7 +96,7 @@ export const reserveTickets = function(req:Request,res:Response){
   .catch((error)=>{res.status(503).send('Content not available')});
 }
 
-// restaura el stock de un ticket
+// reautaura el stock de un ticket al cancelar la compra
 export const restoreTicket = function(req:Request,res:Response){
   const idTicket:number = req.body.idTicket;
   const amount:number = req.body.amount;
@@ -138,7 +139,7 @@ export const newPurchaseDetails = function(req:Request,res:Response){
   .catch((error)=>{res.status(503).send('Content not available');});
 }
 
-// obtiene la informacion de la orden de compra realizada
+// obtiene la informacion de la orden de una compra realizada
 export const getDataPurchase = function(req:Request,res:Response){
   const idPurchase:string = req.params.code.replace(':','');
   dataPurchase(idPurchase)
@@ -150,7 +151,7 @@ export const getDataPurchase = function(req:Request,res:Response){
   });
 }
 
-// retorna los datos de las ordenes de comopra del usuario
+// envia las ordenes de compra de un usuario
 export const getUserPurchase = function(req:Request,res:Response){
   const payload = getPayload(req);
   userPurchase(payload.iduser)

@@ -24,7 +24,12 @@ interface ResultHeader{
   changedRows:number
 }
 
-export const getPayload = function(req:Request){
+/**
+ * verifica el token de una peticion
+ * @param {Request} req objeto request
+ * @returns {JwtPayload} retorna el payload de un token verificado
+ */
+export const getPayload = function(req:Request): JwtPayload{
   const token = req.headers.cookie?.replace('cmjwt=','');
   try{
     const payload = jsonWebToken.verify(`${token}`,`${process.env.SECRET}`) as JwtPayload;
@@ -49,6 +54,7 @@ export const postLogin = function (req: Request, res: Response) {
   dataAutentication(username)
   .then((result)=>{
     if(Array.isArray(result)){
+      // si la longitud de la consulta es 0 no se encontro el usuario
       if(result.length === 0){
         res.status(404).send({error:'The username or password are incorrect!'});
       }
@@ -60,8 +66,8 @@ export const postLogin = function (req: Request, res: Response) {
             const payload:Object = {iduser:userData.id_user,levelAccess:userData.level_access}
             const secret:string = process.env.SECRET || '';
             const expires:string = process.env.EXPIRES || '';
-            const token:string = jsonWebToken.sign(payload,secret,{expiresIn:expires});
-            const sessionLimit:object = new Date(Date.now()+1000*60*60*24);
+            const token:string = jsonWebToken.sign(payload,secret,{expiresIn:expires}); // creacion del token
+            const sessionLimit:object = new Date(Date.now()+1000*60*60*24); // duracion del token
             const cookieOptions:object = {expires:sessionLimit};
             res.cookie('cmjwt',token,cookieOptions).send('succes');
           }
@@ -96,6 +102,7 @@ export const postRegister = function (req: Request, res: Response) {
   });
 }
 
+// envia informacion del perfil del usuario
 export const profile = function(req:Request,res:Response){
   const payload = getPayload(req)
   userProfile(payload.iduser)
@@ -103,6 +110,45 @@ export const profile = function(req:Request,res:Response){
   .catch((error)=>{res.status(503).send('Content not available')});
 }
 
+// actualiza el nombre completo del usuario
+export const updateFullname = function(req:Request,res:Response){
+  const newFullname:string = req.body.newFullname;
+  const payload = getPayload(req);
+  setFullName(payload.iduser,newFullname)
+  .then((result)=>{
+    const statusQuery = result as ResultHeader;
+    if(statusQuery.serverStatus === 2 && statusQuery.affectedRows === 1){
+      res.status(201).send({result:'ok'});
+    }
+    else{
+      res.status(400).send({error:'Failed to update full name, please try again later!'});
+    }
+  })
+  .catch((error)=>{res.status(503).send('Content not available')});
+}
+
+// actualiza el email del usuario
+export const updateEmail = function(req:Request,res:Response){
+  const payload = getPayload(req);
+  const newEmail = req.body.newEmail;
+  setEmail(payload.iduser,newEmail)
+  .then((result)=>{
+    const statusQuery = result as ResultHeader;
+    if(statusQuery.affectedRows === 1 && statusQuery.serverStatus === 2){
+      res.status(201).send({result:'ok'});
+    }
+    else{
+      res.status(400).send({error:'The email could not be updated, please try again later!'});
+    }
+  })
+  .catch((error)=>{
+    if(error.errno === 1062){
+      res.status(400).send({error:'The email already exist!'});
+    }
+  });
+}
+
+// actualiza el nombre de usuario
 export const updateUsername = function(req:Request,res:Response){
   const payload = getPayload(req)
   const newUsername:String = req.body.newUsername;
@@ -127,42 +173,7 @@ export const updateUsername = function(req:Request,res:Response){
   });
 }
 
-export const updateEmail = function(req:Request,res:Response){
-  const payload = getPayload(req);
-  const newEmail = req.body.newEmail;
-  setEmail(payload.iduser,newEmail)
-  .then((result)=>{
-    const statusQuery = result as ResultHeader;
-    if(statusQuery.affectedRows === 1 && statusQuery.serverStatus === 2){
-      res.status(201).send({result:'ok'});
-    }
-    else{
-      res.status(400).send({error:'The email could not be updated, please try again later!'});
-    }
-  })
-  .catch((error)=>{
-    if(error.errno === 1062){
-      res.status(400).send({error:'The email already exist!'});
-    }
-  });
-}
-
-export const updateFullname = function(req:Request,res:Response){
-  const newFullname:string = req.body.newFullname;
-  const payload = getPayload(req);
-  setFullName(payload.iduser,newFullname)
-  .then((result)=>{
-    const statusQuery = result as ResultHeader;
-    if(statusQuery.serverStatus === 2 && statusQuery.affectedRows === 1){
-      res.status(201).send({result:'ok'});
-    }
-    else{
-      res.status(400).send({error:'Failed to update full name, please try again later!'});
-    }
-  })
-  .catch((error)=>{res.status(503).send('Content not available')});
-}
-
+// actualiza la contraseña del usuario
 export const updatePassword = function(req:Request,res:Response){
   const newPassword = req.body.newPassword;
   const oldPassword = req.body.oldPassword;
@@ -200,6 +211,7 @@ export const updatePassword = function(req:Request,res:Response){
   .catch((error)=>{res.status(503).send('Content not available');});
 }
 
+// elimina la cuenta del usuario
 export const deleteAccount = function(req:Request,res:Response){
   const payload = getPayload(req);
   const idUser = payload.iduser;

@@ -2,13 +2,17 @@ import cron from 'node-cron';
 import fs from 'fs';
 import path from 'path';
 import {fileURLToPath} from 'url';
-import nodemailer from 'nodemailer';
+import nodemailer, { SentMessageInfo } from 'nodemailer';
 import dotenv from 'dotenv';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 dotenv.config();
 
-const sendErrorLogs = async function() {
+/**
+ * envia por mail el archivos con errores en la aplicacion
+ * @returns {SentMessageInfo}
+ */
+const sendErrorLogs = async function():Promise<SentMessageInfo> {
   const transporter = nodemailer.createTransport({
     service:'gmail',
     auth:{
@@ -36,12 +40,12 @@ const sendErrorLogs = async function() {
   catch(error){throw error;}
 }
 
-// establece un horario para revisar y prepara los archivo para notificar el monitoreo del sistema
+// establece un horario para procesar y preparar los archivo para notificar el monitoreo del sistema
 cron.schedule('0 6 * * *',()=>{ 
   // examina el archivo que contiene informacion sobre la actividad de las rutas 
   const file = fs.readFileSync(path.join(__dirname,'../controllers/access.csv'),'utf-8');
-  const rows:string[] = file.split('\n');
-  const columns: string[][] = [];
+  const rows:string[] = file.split('\n'); // crea un array que representan las filas
+  const columns: string[][] = []; //crea un array que representan las columnas
   const errorLogs:object[] = [];
   interface dataLogs {
     date:string,

@@ -68,7 +68,15 @@ export const checkSingUp = function(req:Request,res:Response,next:NextFunction):
   }
 }
 
-export const isAuth = function(req:Request,res:Response,next:NextFunction){
+
+/**
+ * verifica que las peticiones contengan una cookie
+ * @param {Request} req
+ * @param {Response} res 
+ * @param {NextFunction} next 
+ * @returns {void}
+ */
+export const isAuth = function(req:Request,res:Response,next:NextFunction):void{
   if(!req.headers.cookie){
     res.status(401).redirect('/login');
   }

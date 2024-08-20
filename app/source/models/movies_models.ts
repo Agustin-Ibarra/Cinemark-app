@@ -21,7 +21,7 @@ export const premiers = async function():Promise<QueryResult>{
 }
 
 /**
- * selecciona el id,titulo,poster de las peliculas que sean de un formato 3D
+ * selecciona el id,titulo,poster de las peliculas que sean formato 3D
  * @returns {QueryResult} lista de peliculas
  */
 export const movies3D = async function():Promise<QueryResult>{
@@ -38,7 +38,7 @@ export const movies3D = async function():Promise<QueryResult>{
 }
 
 /**
- * selecciona el id,titulo,poster de las peliculas que sean de un formato 2D
+ * selecciona el id,titulo,poster de las peliculas que sean formato 2D
  * @returns {QueryResult} lista de peliculas
  */
 export const movies2D = async function():Promise<QueryResult>{
