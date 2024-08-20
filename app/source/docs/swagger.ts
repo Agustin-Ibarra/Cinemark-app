@@ -9,7 +9,7 @@ const swaggerDefinition: OAS3Definition = {
     title:'Documentacion de apis',
     version:'1.0.0'
   },
-  servers:[{url:'http//localhost:3001'}],
+  servers:[{url:'http://localhost:3001'}],
   components:{
     securitySchemes:{
       bearerAuth:{

@@ -667,9 +667,11 @@
  *        error: empty!
  */
 
+// USER ROUTES
+
 /**
  * @swagger
- * /profile:
+ * /home/account/profile:
  *    get:
  *      tags:
  *        - user
@@ -689,7 +691,7 @@
 
 /**
  * @swagger
- * /account/user_purchase:
+ * /home/account/user_purchase:
  *  get:
  *    tags:
  *      - user
@@ -709,7 +711,7 @@
 
 /**
  * @swagger
- * /data_purchase/code{code}:
+ * /home/movie_page/success_payment/data_purchase/code:code:
  *  get:
  *    tags:
  *      - user
@@ -724,26 +726,6 @@
  *              items:
  *                $ref: '#/components/schemas/purchaseCreated'
  *      503:
- *        description: ocurrio un error temporal en la base de datos
- */
-
-/**
- * @swagger
- * /account/user_purchase:
- *  get:
- *    tags:
- *      - user
- *    summary: retorna una lista de las ordenes de compras realizadas
- *    reponses:
- *      200:
- *        description: cada objeto contiene informacion de una orden de compra
- *        content:
- *          application/json:
- *            schema:
- *              type: array
- *              items:
- *                $ref: '#/components/schemas/AllCustomerPurchase'
- *      503:  
  *        description: ocurrio un error temporal en la base de datos
  */
 
@@ -809,7 +791,7 @@
 
 /**
  * @swagger
- * /profile/update_fullname:
+ * /home/account/profile/update_fullname:
  *  put:
  *    summary: actualiza el nobre completo del usuario
  *    tags:
@@ -835,7 +817,7 @@
 
 /**
  * @swagger
- * /profile/update_email:
+ * /home/account/profile/update_email:
  *  put:
  *    summary: actualiza el correo electronico de usuarioñ
  *    tags:
@@ -861,7 +843,7 @@
 
 /**
  * @swagger
- * /profile/update_username:
+ * /home/account/profile/update_username:
  *  put:
  *    summary: actualiza el nombre de usuario
  *    tags:
@@ -887,7 +869,7 @@
 
 /**
  * @swagger
- * /profile/update_password:
+ * /home/account/profile/update_password:
  *  put:
  *    summary: actualiza la contraseña del usuario
  *    tags:
@@ -914,7 +896,7 @@
 
 /**
  * @swagger
- * /profile/delete_account:
+ * /home/account/profile/delete_account:
  *  delete:
  *    summary: elimina la cuenta del usuario
  *    tags:
@@ -935,11 +917,11 @@
  *      
  */
 
-// CINEMA ROUTES /////////////////////////////////////////////////////////////////////////    
+// CINEMARK ROUTES  
 
 /**
  * @swagger
- * /premiers:
+ * /home/premiers:
  *    get:
  *      tags:
  *        - movies
@@ -959,7 +941,7 @@
 
 /**
  * @swagger
- * /movie/id{id}:
+ * /home/movie_page/movie/id{id}:
  *  get:
  *    tags:
  *      - movies
@@ -986,7 +968,7 @@
 
 /**
  * @swagger
- * /movie/ticket/id:{id}:
+ * /home/movie_page/ticket/id:{id}:
  *  get:
  *    tags:
  *      - movies
@@ -1014,7 +996,7 @@
 
 /**
  * @swagger
- * /new_purchase:
+ * /home/movie_page/success_payment/new_purchase:
  *  post:
  *    summary: crea una nueva orden de compra
  *    tags:
@@ -1036,7 +1018,7 @@
 
 /**
  * @swagger
- * /new_purchase_details:
+ * /home/movie_page/success_payment/new_purchase_details:
  *  post:
  *    summary: crea un detalle de la orden de compra
  *    tags:
@@ -1058,7 +1040,7 @@
 
 /**
  * @swagger
- * /payments:
+ * /home/movie_page/payments:
  *  post:
  *    summary: crea una sesion en stripe
  *    tags:
@@ -1082,7 +1064,7 @@
 
 /**
  * @swagger
- * /movie/reserve_tickets:
+ * /home/movie_page/reserve_tickets:
  *  put:
  *    summary: crea una reserva de los tickets y actualiza el stock en la base de datos
  *    tags:
@@ -1096,6 +1078,36 @@
  *    responses:
  *      201:
  *        description: se creo una reserva exitosamente
+ *        conetent:
+ *          application/json:
+ *          schema:
+ *            $ref: '#/components/schemas/responseStockTickets'
+ *      400:
+ *        description: ocurrio un error!
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/badRequestStockTickets'
+ *      503:
+ *        description: ocurrio un error temporal en la base de datos
+ */
+
+/**
+ * @swagger
+ * /home/movie_page/restore_tickets:
+ *  put:
+ *    summary: restaura el stock al cancelar la compra
+ *    tags:
+ *      - movies
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            $ref: '#/components/schemas/stockTickets'
+ *    responses:
+ *      201:
+ *        description: se restauro el stock exitosamente
  *        conetent:
  *          application/json:
  *          schema:
