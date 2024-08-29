@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { fileURLToPath } from 'url';
 import path from 'path';
-import bcrypt, { hash } from 'bcryptjs';
+import bcrypt from 'bcryptjs';
 import jsonWebToken from 'jsonwebtoken';
 import dotenv  from 'dotenv';
 import { User } from '../models/users_models.js';
@@ -14,20 +14,12 @@ interface JwtPayload{
   levelAccess:number
 }
 
-/**
- * verifica el token de una peticion
- * @param {Request} req objeto request
- * @returns {JwtPayload} retorna el payload de un token verificado
- */
-export const getPayload = function(req:Request): JwtPayload{
-  const token = req.headers.cookie?.replace('cmjwt=','');
-  try{
-    const payload = jsonWebToken.verify(token as string,process.env.SECRET as string) as JwtPayload;
-    return payload;
-  }
-  catch(error){
-    throw error
-  }
+
+export const getPayload = function(req:Request):JwtPayload{
+  const cookies = req.headers.cookie?.split(';') as string[]
+  const token = cookies.find((cookie)=>cookie.startsWith('cmjwt='))?.replace('cmjwt=','') as string;
+  const payload = jsonWebToken.verify(token,process.env.SECRET as string) as JwtPayload
+  return payload;
 }
 
 export const getAccount = function(req:Request,res:Response){

@@ -78,7 +78,12 @@ export const checkSingUp = function(req:Request,res:Response,next:NextFunction):
  */
 export const isAuth = function(req:Request,res:Response,next:NextFunction):void{
   if(!req.headers.cookie){
-    res.status(401).send('unauthorized!');
+    if(req.method === 'GET'){
+      res.status(401).redirect('/login');
+    }
+    else{
+      res.status(401).send('unauthorized');
+    }
   }
   else{
     const cookies = req.headers.cookie.split(';')

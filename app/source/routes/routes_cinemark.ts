@@ -343,7 +343,7 @@ export const getUserPurchase = function(req:Request,res:Response){
   })
   .catch((error)=>{
     console.log(error);
-  })
+  });
 }
 
 export const serverError = function(req:Request,res:Response){
