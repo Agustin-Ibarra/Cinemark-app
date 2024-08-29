@@ -7,8 +7,8 @@ dotenv.config();
 
 /**
  * crea una sesion para poder realizar los pagos a travez de la API de srtipe
- * @param {object} req objeto Request 
- * @param {object} res objetos Response
+ * @param req interface Request 
+ * @param res interface Response
  * @returns {void}
  */
 export const paymentSession = async function(req:Request,res:Response):Promise<void>{

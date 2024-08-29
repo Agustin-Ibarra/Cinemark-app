@@ -18,8 +18,13 @@ export const getHome = function(req:Request,res:Response){
   res.sendFile(path.join(__dirname,'../../source/views/cinemark_UI/home.html'));
 }
 
-// envia una lista con informcacion de peliculas de la categoria premier
-export const getPremiersMovies = async function(req:Request,res:Response){
+/**
+ * obtiene el catalogo de las peliculas de la categoria premier
+ * @param req interface Request
+ * @param res interface Response
+ * @returns {void}
+ */
+export const getPremiersMovies = function(req:Request,res:Response):void{
   Movie.findAll({
     where:{
       premier:1
@@ -34,8 +39,13 @@ export const getPremiersMovies = async function(req:Request,res:Response){
   })
 }
 
-// envia informacion de las peliculas del fromato 3D
-export const get3DMovies = function(req:Request,res:Response){
+/**
+ * obtiene el catalago de peliculas del formato 3D
+ * @param req interface Request
+ * @param res interface Response
+ * @returns {void}
+ */
+export const get3DMovies = function(req:Request,res:Response): void{
   Movie.findAll({
     where:{
       [Op.or]:[
@@ -53,8 +63,13 @@ export const get3DMovies = function(req:Request,res:Response){
   });
 }
 
-// envia informacion de las peliculas del fromato 2D
-export const get2DMovies = function(req:Request,res:Response){
+/**
+ * obtiene el catalago de peliculas del formato 2D
+ * @param req 
+ * @param res 
+ * @returns {void}
+ */
+export const get2DMovies = function(req:Request,res:Response):void{
   Movie.findAll({
     where:{
       [Op.or]:[
@@ -76,8 +91,13 @@ export const getMoviePage = function(req:Request,res:Response){
   res.sendFile(path.join(__dirname,'../../source/views/cinemark_UI/movie.html'));
 }
 
-// obtiene informacion de una pelicula y la envia en la respuesta
-export const getMovieInfo = function(req:Request,res:Response){
+/**
+ * obtiene informacion de una pelicula mediante el id
+ * @param req interface Request
+ * @param res interface Response
+ * @returns {void}
+ */
+export const getMovieInfo = function(req:Request,res:Response):void{
   const id:Number = Number(req.params.id.replace(':',''));
   Movie.findAll({
     include:[{
@@ -98,8 +118,13 @@ export const getMovieInfo = function(req:Request,res:Response){
   })
 }
 
-// obtiene informacion de los ticekets de una pelicula y los envia en la respuesta
-export const getMovieTicketData = function(req:Request,res:Response){
+/**
+ * obtiene informacion de los tickets disponibles de una pelicula
+ * @param req interface Request
+ * @param res interface Response
+ * @returns {void}
+ */
+export const getMovieTicketData = function(req:Request,res:Response):void{
   const idMovie:Number = Number(req.params.id.replace(':',''));
   Ticket.findAll({
     include:[
@@ -127,8 +152,13 @@ export const getMovieTicketData = function(req:Request,res:Response){
   })
 }
 
-// envia informacion de los tickets de las peliculas de formato 2D
-export const getMovieTicketDataFromat2D = function(req:Request,res:Response){
+/**
+ * obtiene informacion de los tickets de una pelicula del formato 2D
+ * @param req interface Request
+ * @param res interface Response
+ * @returns {void}
+ */
+export const getMovieTicketDataFromat2D = function(req:Request,res:Response):void{
   const idMovie:Number = Number(req.params.id.replace(':',''));
   Ticket.findAll({
     include:[
@@ -152,8 +182,13 @@ export const getMovieTicketDataFromat2D = function(req:Request,res:Response){
   })
 }
 
-// envia informacion de los tickets de las peliculas de formato 3D
-export const getMovieTicketDataFromat3D = function(req:Request,res:Response){
+/**
+ * obtiene informacion de los tickets de una pelicula del formato 3D
+ * @param req interface Request
+ * @param res interface Response
+ * @returns {void}
+ */
+export const getMovieTicketDataFromat3D = function(req:Request,res:Response):void{
   const idMovie:Number = Number(req.params.id.replace(':',''));
   Ticket.findAll({
     include:[
@@ -177,8 +212,13 @@ export const getMovieTicketDataFromat3D = function(req:Request,res:Response){
   })
 }
 
-// crea una reserva y actualiza el stock del ticket seleccionado
-export const reserveTickets = function(req:Request,res:Response){
+/**
+ * actualiza el stock de un ticket al realizar la compra
+ * @param req interface Request
+ * @param res interface Response
+ * @returns {void}
+ */
+export const reserveTickets = function(req:Request,res:Response):void{
   const idPurchase = v4();
   const {amount,idTicket} = req.body;
   Ticket.update(
@@ -193,8 +233,13 @@ export const reserveTickets = function(req:Request,res:Response){
   });
 }
 
-// reautaura el stock de un ticket al cancelar la compra
-export const restoreTicket = function(req:Request,res:Response){
+/**
+ * actualiza el stock de un ticket al cancelar la compra
+ * @param req interface Request
+ * @param res interface Response
+ * @returns {void}
+ */
+export const restoreTicket = function(req:Request,res:Response):void{
   const {amount,idTicket} = req.body;
   Ticket.update(
     {stock:Sequelize.literal(`stock + ${amount}`)},
@@ -212,8 +257,13 @@ export const successfulPaymentPage = function(req:Request,res:Response){
   res.sendFile(path.join(__dirname,'../../source/views/cinemark_UI/success_payment.html'));
 }
 
-// inserta una nueva orden de compra a la base de datos
-export const newPurchaseOrder = function(req:Request,res:Response){
+/**
+ * crea un nuevo registro de una orden de compra
+ * @param req interface Request
+ * @param res interface Response
+ * @returns {void}
+ */
+export const newPurchaseOrder = function(req:Request,res:Response):void{
   type purchase = {
     idPurchase:string,
     total:number
@@ -239,8 +289,13 @@ export const newPurchaseOrder = function(req:Request,res:Response){
   });
 }
 
-// inserta el detalle de orden de compra en la base de datos
-export const newPurchaseDetails = function(req:Request,res:Response){
+/**
+ * crea un nuevo registro de un detalle de una orden de compra
+ * @param req interface Request
+ * @param res interface Response
+ * @returns {void}
+ */
+export const newPurchaseDetails = function(req:Request,res:Response):void{
   type purchaseData = {
     idTicket:number,
     idPurchaseOrder:string,
@@ -264,8 +319,13 @@ export const newPurchaseDetails = function(req:Request,res:Response){
   })
 }
 
-// obtiene la informacion de la orden de una compra realizada
-export const getDataPurchase = function(req:Request,res:Response){
+/**
+ * obtiene informacion de una orden de compra que acaba de ser realizada
+ * @param req interface Request
+ * @param res interface Response
+ * @returns {void}
+ */
+export const getDataPurchase = function(req:Request,res:Response):void{
   const idPurchase:string = req.params.code.replace(':','');
   PurchaseDetails.findAll({
     include:[{
@@ -307,8 +367,13 @@ export const getDataPurchase = function(req:Request,res:Response){
   })
 }
 
-// envia las ordenes de compra de un usuario
-export const getUserPurchase = function(req:Request,res:Response){
+/**
+ * obtiene informacion de las ordenes de compra de un usuario
+ * @param req interface Request
+ * @param res interface Request
+ * @returns {void}
+ */
+export const getUserPurchase = function(req:Request,res:Response):void{
   const payload = getPayload(req);
   PurchaseDetails.findAll({
     include:[

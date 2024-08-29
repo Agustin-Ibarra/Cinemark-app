@@ -14,7 +14,11 @@ interface JwtPayload{
   levelAccess:number
 }
 
-
+/**
+ * verifica un token de autorizacion de una peticion
+ * @param req interface Request
+ * @returns {JwtPayload} token extraido de la cookie que incluye la peticion
+ */
 export const getPayload = function(req:Request):JwtPayload{
   const cookies = req.headers.cookie?.split(';') as string[]
   const token = cookies.find((cookie)=>cookie.startsWith('cmjwt='))?.replace('cmjwt=','') as string;
@@ -30,7 +34,13 @@ export const getLogin = function (req: Request, res: Response) {
   res.sendFile(path.join(__driname, '../../source/views/user_UI/login.html'));
 }
 
-export const postLogin = function (req: Request, res: Response) {
+/**
+ * procesa la peticion cuando el usario inicia sesion
+ * @param req interface Request
+ * @param res interface Response
+ * @returns {void}
+ */
+export const postLogin = function (req: Request, res: Response):void {
   interface user {
     id_user:number,
     user_password:string,
@@ -73,7 +83,13 @@ export const getRegister = function (req: Request, res: Response) {
   res.sendFile(path.join(__driname, '../../source/views/user_UI/singup.html'));
 }
 
-export const postRegister = function (req: Request, res: Response) {
+/**
+ * procesa la peticion para crear un nuevo usuario en la base de datos
+ * @param req interface Request
+ * @param res interface Response
+ * @returns {void}
+ */
+export const postRegister = function (req: Request, res: Response):void{
   type user = {
     fullname:string,
     email:string,
@@ -104,8 +120,13 @@ export const postRegister = function (req: Request, res: Response) {
   });
 }
 
-// envia informacion del perfil del usuario
-export const profile = function(req:Request,res:Response){
+/**
+ * obtiene informacion del perfil del usuario y la envia en la respuesta
+ * @param req interface Request
+ * @param res interface Response
+ * @returns {void}
+ */
+export const profile = function(req:Request,res:Response):void{
   const payload = getPayload(req)
   User.findAll({
     where:{
@@ -121,8 +142,13 @@ export const profile = function(req:Request,res:Response){
   })  
 }
 
-// actualiza el nombre completo del usuario
-export const updateFullname = function(req:Request,res:Response){
+/**
+ * actualiza el nombre de usuario
+ * @param req interface Request
+ * @param res interface Response
+ * @returns {void}
+ */
+export const updateFullname = function(req:Request,res:Response):void{
   // const newFullname:string = req.body.newFullname;
   // const payload = getPayload(req);
   // setFullName(payload.iduser,newFullname)
@@ -138,7 +164,11 @@ export const updateFullname = function(req:Request,res:Response){
   // .catch((error)=>{res.status(503).send('Content not available')});
 }
 
-// actualiza el email del usuario
+/**
+ * actualiza el email del usuario
+ * @param req interface Request
+ * @param res interface Response
+ */
 export const updateEmail = function(req:Request,res:Response){
   // const payload = getPayload(req);
   // const newEmail = req.body.newEmail;
@@ -159,8 +189,13 @@ export const updateEmail = function(req:Request,res:Response){
   // });
 }
 
-// actualiza el nombre de usuario
-export const updateUsername = function(req:Request,res:Response){
+/**
+ * actualiza la contraseña del usuario
+ * @param req interface Request
+ * @param res interface Response
+ * @returns {void}
+ */
+export const updateUsername = function(req:Request,res:Response):void{
   // const payload = getPayload(req)
   // const newUsername:String = req.body.newUsername;
   // setUsername(payload.iduser,newUsername)
@@ -184,8 +219,13 @@ export const updateUsername = function(req:Request,res:Response){
   // });
 }
 
-// actualiza la contraseña del usuario
-export const updatePassword = function(req:Request,res:Response){
+/**
+ * actualiza la contraseña de un usuario
+ * @param req interface Request
+ * @param res interface Response
+ * @returns {void}
+ */
+export const updatePassword = function(req:Request,res:Response):void{
   // const newPassword = req.body.newPassword;
   // const oldPassword = req.body.oldPassword;
   // console.log(newPassword,oldPassword);
@@ -222,8 +262,13 @@ export const updatePassword = function(req:Request,res:Response){
   // .catch((error)=>{res.status(503).send('Content not available');});
 }
 
-// elimina la cuenta del usuario
-export const deleteAccount = function(req:Request,res:Response){
+/**
+ * elimina de la base de datos a un usuario
+ * @param req interface Request
+ * @param res interface Response
+ * @returns {void}
+ */
+export const deleteAccount = function(req:Request,res:Response):void{
   // const payload = getPayload(req);
   // const idUser = payload.iduser;
   // deleteUserData(idUser)
