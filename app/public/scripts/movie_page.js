@@ -22,7 +22,7 @@ if(localStorage.getItem('redirect') !== null){
     body:JSON.stringify({idTicket:localStorage.getItem('ticket'),amount:localStorage.getItem('amount')})
   })
   .then((response)=>{
-    if(response.status === 200){
+    if(response.status === 201){
       window.location.reload();
     }
   })
@@ -37,7 +37,7 @@ const generateTicket = function(array,$listTicket){
     text.setAttribute("class","ticket-info");
     text.setAttribute("id",ticket.id_ticket);
     const formatDate = new Date(ticket.date_ticket);
-    text.textContent = `Function of ${formatDate.toLocaleString()} format ${ticket.type_format}`;
+    text.textContent = `Function of ${formatDate.toLocaleString()} format ${ticket.formats.type_format}`;
     if(ticket.subtitles === 1){
       text.textContent += ' origin audio w/subtitle';
     }
@@ -63,7 +63,7 @@ fetch(`/home/movie_page/movie/id:${sessionStorage.getItem('id')}`)
     const $div = document.querySelector('.frame');
     const $type = document.querySelector('.type');
     $title.textContent += movie[0].title;
-    $type.textContent += movie[0].type
+    $type.textContent += movie[0].clasifications.type
     $movie.textContent = movie[0].title;
     $time.textContent += movie[0].duration_time;
     $poster.setAttribute("src",`../${movie[0].poster}`);
@@ -129,12 +129,10 @@ $body.addEventListener("click",(e)=>{
     ticketInfo.forEach(element => {
       if(element.id_ticket === Number(e.target.id)){
         const formatDate = new Date(element.date_ticket);
-        const $title = document.getElementById('movie-title');
         const $date = document.getElementById('date');
         const $format = document.getElementById('format-audio');
         const $stock = document.getElementById('stock');
         const $price = document.getElementById('price');
-        $title.textContent =`Movie selected | ${element.title}` ;
         $date.textContent = `Movie date | ${formatDate.toLocaleString()}`;
         $price.textContent = `Ticket price | $${element.ticket_price}`;
         price = Number(element.ticket_price);
@@ -146,10 +144,10 @@ $body.addEventListener("click",(e)=>{
         $totalTickets.textContent = `Amount Tickets: ${amountTickets} x $${total.toFixed(2)}`;
         $total.textContent = `Total: $${total.toFixed(2)}`;
         if(element.subtitles === 0){
-          $format.textContent = `Fromat ${element.type_format} audio english`;
+          $format.textContent = `Format ${element.formats.type_format} audio english`;
         }
         else{
-          $format.textContent = `Fromat ${element.type_format} audio orginal w/ subtitles`;
+          $format.textContent = `Format ${element.formats.type_format} audio orginal w/ subtitles`;
         }
         $items.classList.toggle('hidden');
       }
@@ -159,6 +157,7 @@ $body.addEventListener("click",(e)=>{
     $spinner.classList.add('visible');
     localStorage.setItem('amount',amountTickets);
     localStorage.setItem('total',total);
+    localStorage.setItem('path','/home/movie_page');
     fetch('/home/movie_page/reserve_tickets',{
       method:"PUT",
       headers:{"Content-Type":"application/json"},
@@ -169,20 +168,19 @@ $body.addEventListener("click",(e)=>{
     })
     .then(async(response)=>{
       if(response.status === 401){
-        $spinner.classList.toggle('visible');
-        localStorage.setItem('path','/home/movie_page');
         window.location.href = '/login';
       }
       else if(response.status === 201){
         const data = await response.json();
         localStorage.setItem('code',data.code);
         localStorage.setItem('redirect','true');
-        ticketInfo.forEach(element => {
-          if((element.id_ticket) === Number(localStorage.getItem('ticket'))){
+        ticketInfo.forEach(data => {
+          console.log(data);
+          if((data.id_ticket) === Number(localStorage.getItem('ticket'))){
             fetch('/home/movie_page/payments',{
               method:"post",
               headers:{"Content-Type":"application/json"},
-              body:JSON.stringify({movie:element.title,amount:amountTickets,total:element.ticket_price})
+              body:JSON.stringify({movie:data.movies.title,amount:amountTickets,total:data.ticket_price})
             })
             .then(async(response)=>{
               const data = await response.json();
@@ -228,6 +226,9 @@ $body.addEventListener("click",(e)=>{
   else if(e.target.matches('.accept')){
     $emptyTickets.classList.add('empty');
     window.location.reload();
+  }
+  else if(e.target.matches('.account')){
+    localStorage.setItem('path','/home/account');
   }
 });
 

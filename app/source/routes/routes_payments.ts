@@ -12,9 +12,9 @@ dotenv.config();
  * @returns {void}
  */
 export const paymentSession = async function(req:Request,res:Response):Promise<void>{
-  const total = req.body.total;
-  const movie = req.body.movie;
-  const amount = req.body.amount;
+  const total:number = Number(req.body.total);
+  const movie:string = req.body.movie;
+  const amount:number = req.body.amount;
   const session = await stripe.checkout.sessions.create({
     line_items:[{
       price_data:{

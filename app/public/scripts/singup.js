@@ -5,12 +5,13 @@ const $nav = document.querySelector('nav');
 $body.addEventListener("click",(e)=>{
   if(e.target.matches('.submit')){
     e.preventDefault();
-    const fullName = document.getElementById('name').value;
+    const fullname = document.getElementById('name').value;
     const email = document.getElementById('email').value;
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
     const confirmPassword = document.getElementById('confirm-password').value;
-    if(!fullName || !email || !username || !password || !confirmPassword){
+    console.log(!fullname,email,username,password,confirmPassword)
+    if(!fullname || !email || !username || !password || !confirmPassword){
       $waring.classList.replace('hidden','visible');
       $waring.textContent = 'All fields must be complete!'
     }
@@ -28,7 +29,7 @@ $body.addEventListener("click",(e)=>{
           method:"POST",
           headers: {"Content-Type":"application/json"},
           body:JSON.stringify({
-            fullName:fullName,
+            fullname:fullname,
             email:email,
             username:username,
             password:password

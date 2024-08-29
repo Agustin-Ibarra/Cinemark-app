@@ -23,8 +23,8 @@ const login = function(){
       }
       else{
         if(response.status === 400 || response.status === 404){
-          const result = await response.json();
-          $warning.textContent = result.error;
+          const errorText = await response.json();
+          $warning.textContent = errorText.error;
           $warning.classList.replace('hidden','visible');
           $spinner.classList.toggle('spinner');
         }

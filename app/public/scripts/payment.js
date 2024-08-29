@@ -42,10 +42,10 @@ window.addEventListener("load",(e)=>{
   .then(async(response)=>{
     const data = await response.json();
     let audio = ''
-    if(data[0].subtitles === 0){audio = 'audio english';}
+    if(data.tickets.subtitles === 0){audio = 'audio english';}
     else{audio = 'audio original w/subtitles';}
-    const purchaseDate = new Date(data[0].date_purchase);
-    const ticketDate = new Date(data[0].date_ticket);
+    const purchaseDate = new Date(data.purchasesOrders.date_purchase);
+    const ticketDate = new Date(data.tickets.date_ticket);
     const $datePurchase = document.getElementById('date-purchase');
     const $code = document.getElementById('code');
     const $customer = document.getElementById('customer');
@@ -57,15 +57,15 @@ window.addEventListener("load",(e)=>{
     const $poster = document.getElementById('poster');
     const $title = document.querySelector('.title-movie');
     $datePurchase.textContent = `Date Purchase | ${purchaseDate.toLocaleString()}`;
-    $code.textContent = `Code purchase | ${data[0].id_purchase_order}`;
-    $customer.textContent = `Customer | ${data[0].fullname}`;
+    $code.textContent = `Code purchase | ${data.purchasesOrders.id_purchase}`;
+    $customer.textContent = `Customer | ${data.purchasesOrders.users.fullname}`;
     $dateTicket.textContent = `Date Ticket | ${ticketDate.toLocaleString()}`;
-    $format.textContent = `Format | ${data[0].type_format} ${audio}`;
-    $amount.textContent = `Tickets ${data[0].amount_ticket} x $${data[0].ticket_price}`
-    $subtotal.textContent = `Subtotal: $${data[0].sub_total}`;
-    $total.textContent = `Total paid: $${data[0].total}`;
-    $title.textContent = data[0].title;
-    $poster.setAttribute("src",`../../${data[0].poster}`)
+    $format.textContent = `Format | ${data.tickets.formats.type_format} ${audio}`;
+    $amount.textContent = `Tickets ${data.amount_ticket} x $${data.tickets.ticket_price}`
+    $subtotal.textContent = `Subtotal: $${data.sub_total}`;
+    $total.textContent = `Total paid: $${data.purchasesOrders.total}`;
+    $title.textContent = data.tickets.movies.title;
+    $poster.setAttribute("src",`../../${data.tickets.movies.poster}`)
   })
   .catch((error)=>{console.error(error);})
 });

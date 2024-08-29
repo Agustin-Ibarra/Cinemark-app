@@ -47,15 +47,15 @@ export const checkLogin = function(req:Request,res:Response,next:NextFunction): 
  * @returns {void} 
  */
 export const checkSingUp = function(req:Request,res:Response,next:NextFunction):void{
-  const fullName:String = req.body.fullName;
+  const fullname:String = req.body.fullname;
   const email:String = req.body.email;
   const username:String = req.body.username;
   const password:String = req.body.password;
-  if(!fullName || !email || !username || !password){
+  if(!fullname || !email || !username || !password){
     res.status(400).send({error:'All fields must be complete!'})
   }
   else{
-    const resultFullNAme:Boolean = verifyString(fullName);
+    const resultFullNAme:Boolean = verifyString(fullname);
     const resultEmail:Boolean = verifyString(email);
     const resultUsername:Boolean = verifyString(username);
     const resultPassword:Boolean = verifyString(password);
@@ -70,7 +70,7 @@ export const checkSingUp = function(req:Request,res:Response,next:NextFunction):
 
 
 /**
- * verifica que las peticiones contengan una cookie
+ * verifica que las peticiones contengan una cookie generada por el servidor
  * @param {Request} req
  * @param {Response} res 
  * @param {NextFunction} next 
@@ -78,9 +78,16 @@ export const checkSingUp = function(req:Request,res:Response,next:NextFunction):
  */
 export const isAuth = function(req:Request,res:Response,next:NextFunction):void{
   if(!req.headers.cookie){
-    res.status(401).redirect('/login');
+    res.status(401).send('unauthorized!');
   }
   else{
-    next();
+    const cookies = req.headers.cookie.split(';')
+    const token = cookies.find((token)=> token.startsWith('cmjwt='));
+    if(!token){
+      res.status(401).send('unauthorized!');
+    }
+    else{
+      next();
+    }
   }
 }

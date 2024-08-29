@@ -129,21 +129,21 @@ fetch('/home/account/profile')
   const $fullName = document.getElementById('name');
   const $email = document.getElementById('email');
   const $username = document.getElementById('username');
-  $fullName.textContent += profile.user[0].fullname;
-  $email.textContent += profile.user[0].email;
-  $username.textContent += profile.user[0].username
+  $fullName.textContent += profile[0].fullname;
+  $email.textContent += profile[0].email;
+  $username.textContent += profile[0].username
 })
 .catch((error)=>{console.log(error);});
 
 fetch('/home/account/user_purchase')
 .then(async(response)=>{
   if(response.status === 200){
-    const data = await response.json();
+    const purchase = await response.json();
     const $title = document.getElementById('title');
     const $list = document.querySelector('.purchase-list');
-    $title.textContent += data.length;
-    data.forEach(element => {
-      const dateFormat = new Date(element.date_purchase);
+    $title.textContent += purchase.length;
+    purchase.forEach(data => {
+      const dateFormat = new Date(data.purchasesOrders.date_purchase);
       const $item = document.createElement("li");
       const $divPoster = document.createElement("div");
       const $poster = document.createElement('img');
@@ -151,18 +151,23 @@ fetch('/home/account/user_purchase')
       const $datePurchase = document.createElement('p');
       const $movieinfo = document.createElement('p');
       const $total = document.createElement('p');
+      const $code = document.createElement('p');
       $item.setAttribute('class','purchase-item');
       $divPoster.setAttribute('class','poster-div');
-      $poster.setAttribute('src',`../../${element.poster}`);
+      $poster.setAttribute('src',`../../${data.tickets.movies.poster}`);
       $divText.setAttribute('class','text-div');
       $datePurchase.setAttribute('class','purchase-text');
       $movieinfo.setAttribute('class','purchase-text');
       $total.setAttribute('class','purchase-text');
+      $total.classList.add('total');
+      $code.setAttribute('class','purchase-text');
       $datePurchase.textContent = `Date purchase ${dateFormat.toLocaleString()}`;
-      $movieinfo.textContent = `${element.title}, Format ${element.type_format} tickets x ${element.amount_ticket}`;
-      $total.textContent = `Total $${element.total}`;
+      $movieinfo.textContent = `${data.tickets.movies.title}, Format ${data.tickets.formats.type_format} tickets x ${data.amount_ticket}`;
+      $total.textContent = `Total $${data.purchasesOrders.total}`;
+      $code.textContent = `pusrchase code: ${data.id_purchase_order}`
       $divPoster.appendChild($poster);
       $divText.appendChild($datePurchase);
+      $divText.appendChild($code);
       $divText.appendChild($movieinfo);
       $divText.appendChild($total);
       $item.appendChild($divPoster);

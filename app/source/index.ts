@@ -5,6 +5,7 @@ import router from './controllers/routes_controller.js';
 import swaggerUI from 'swagger-ui-express';
 import swaggerSetup from './docs/swagger.js';
 import cron from './monitoring/routes_monitorings.js';
+import sequlize from './config/db.config.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const port = 3001;
@@ -21,6 +22,13 @@ app.listen(port,()=>{
   console.clear();
   console.log('server on port',port);
   cron;
+  sequlize.authenticate()
+  .then((result)=>{
+    console.log('success');
+  })
+  .catch((error)=>{
+    console.log('error');
+  })
 });
 
 export default app;
