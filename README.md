@@ -29,9 +29,9 @@ backend/
 |   └── index/         # archivo indice (configuracion del servidor)
 ```
 ## Base de datos
-La base de datos es de tipo relacional diseñada desde 0 y graficada con la herramienta [dbdiagram.io](https://dbdiagram.io/)
+La informacion esta almacebada en una base de datos relacional, utiliza la libreria de sequelize para definir los medelos la conexion e interaccion con la base de datos a travez de un ORM, esta diseñada desde 0 y graficada con la herramienta [dbdiagram.io](https://dbdiagram.io/)
 - Base de datos relacional
-- Getstor de base de datos: Maria DB
+- Getstor de base de datos: MySql
 ## Documentacion
 - Documentacion de APIs: la documentacion de los endpoint y APIs fue creada con Swagger Open.io
 - Documentacion del codigo fuente: la documentacion del codigo fuente fue creada con JSDoc
