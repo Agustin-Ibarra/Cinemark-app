@@ -31,6 +31,7 @@ backend/
 ## Base de datos
 La informacion esta almacebada en una base de datos relacional, utiliza la libreria de sequelize para definir los medelos, conexion e interaccion con la base de datos a travez de un ORM, esta diseñada y graficada con la herramienta [dbdiagram.io](https://dbdiagram.io/)
 - Base de datos relacional
+- Modelos y consultas utilizando ORM
 - Getstor de base de datos: MySql
 ## Documentacion
 - Documentacion de APIs: la documentacion de los endpoint y APIs fue creada con Swagger Open.io
