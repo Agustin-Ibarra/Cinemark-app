@@ -11,7 +11,7 @@ EL proyecto esta contruido basandose en la qruitectura (MVC).
 7. [Monitoreo de rutas](#monitoreo-de-rutas)
 2. [FrontEnd](#frontEnd)
 ## Características
-- Gestión de usuarios implementacion de tokens de seguridad
+- Gestión de usuarios implementacion de tokens de autorizacion y autenticacion
 - Integración con API de terceros, utiliza los servicios de stripe para realizar pagos online
 - implementacion de varibles de entorno para el acceso a diferentes ervicios y otros usos especificos
 ## BackEnd
