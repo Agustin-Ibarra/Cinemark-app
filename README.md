@@ -20,11 +20,13 @@ EL proyecto esta contruido basandose en la qruitectura (MVC).
 backend/
 │
 ├── source/            # carpeta donde se encuentra el codigo fuente
+|   ├── config/        # configuracion de conexiones a la base de datos
 │   ├── controllers/   # Controladores de las rutas
 |   ├── docs/          # archivos de configuracion de swagger y documentacion de los endpoints
 |   ├── middlewares/   # inspeccionan los datos de transaccion en los endpoints
 |   ├── models/        # coneccion configuracion y modelos de datos y sus consultas
 |   ├── monitoring/    # procesamintos y preparacion de los archivos de logs
+|   ├── routes/        # definicion de la funciones  que procesan las peticiones
 |   ├── testing/       # archivos de testing (pruebas unitarias) de la aplicacion
 |   └── index/         # archivo indice (configuracion del servidor)
 ```
