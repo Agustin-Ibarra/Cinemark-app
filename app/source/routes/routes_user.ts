@@ -53,13 +53,13 @@ export const postLogin = function (req: Request, res: Response):void {
     },
     attributes:['user_password','id_user']
   })
-  .then((result)=>{
+  .then(async(result)=>{
     if(result.length < 1){
       res.status(404).send({error:'The username or password are incorrect!'});
     }
     else{
       const userData = result[0].dataValues as user
-      const isEqual = bcrypt.compareSync(password,userData.user_password);
+      const isEqual = await bcrypt.compare(password,userData.user_password);
       if(isEqual === true){
         const payload: Object = { iduser: userData.id_user, levelAccess: 1 }
         const secret: string = process.env.SECRET || '';
@@ -89,16 +89,16 @@ export const getRegister = function (req: Request, res: Response) {
  * @param res interface Response
  * @returns {void}
  */
-export const postRegister = function (req: Request, res: Response):void{
-  type user = {
+export const postRegister = async function (req: Request, res: Response):Promise<void>{
+  type userData = {
     fullname:string,
     email:string,
     username:string,
     password:string
   }
-  const {fullname,email,username,password}: user = req.body
-  const salt = bcrypt.genSaltSync(5);
-  const hash: String = bcrypt.hashSync(password, salt);
+  const {fullname,email,username,password}: userData = req.body
+  const salt = await bcrypt.genSalt(5);
+  const hash: String = await bcrypt.hash(password, salt);
   const userData = {
     fullname:fullname,
     email:email,
@@ -149,19 +149,23 @@ export const profile = function(req:Request,res:Response):void{
  * @returns {void}
  */
 export const updateFullname = function(req:Request,res:Response):void{
-  // const newFullname:string = req.body.newFullname;
-  // const payload = getPayload(req);
-  // setFullName(payload.iduser,newFullname)
-  // .then((result)=>{
-  //   const statusQuery = result as ResultHeader;
-  //   if(statusQuery.serverStatus === 2 && statusQuery.affectedRows === 1){
-  //     res.status(201).send({result:'ok'});
-  //   }
-  //   else{
-  //     res.status(400).send({error:'Failed to update full name, please try again later!'});
-  //   }
-  // })
-  // .catch((error)=>{res.status(503).send('Content not available')});
+  const payload = getPayload(req);
+  type userData = {
+    newFullname:string
+  }
+  const {newFullname}: userData = req.body;
+  User.update(
+    {fullname:newFullname},
+    {where:{
+        id_user:payload.iduser
+    }}
+  )
+  .then((result)=>{
+    res.status(201).send('update fullname');
+  })
+  .catch((error)=>{
+    console.log(error);
+  })
 }
 
 /**
@@ -170,23 +174,23 @@ export const updateFullname = function(req:Request,res:Response):void{
  * @param res interface Response
  */
 export const updateEmail = function(req:Request,res:Response){
-  // const payload = getPayload(req);
-  // const newEmail = req.body.newEmail;
-  // setEmail(payload.iduser,newEmail)
-  // .then((result)=>{
-  //   const statusQuery = result as ResultHeader;
-  //   if(statusQuery.affectedRows === 1 && statusQuery.serverStatus === 2){
-  //     res.status(201).send({result:'ok'});
-  //   }
-  //   else{
-  //     res.status(400).send({error:'The email could not be updated, please try again later!'});
-  //   }
-  // })
-  // .catch((error)=>{
-  //   if(error.errno === 1062){
-  //     res.status(400).send({error:'The email already exist!'});
-  //   }
-  // });
+  type userData = {
+    newEmail:string
+  }
+  const payload = getPayload(req);
+  const {newEmail}:userData = req.body;
+  User.update(
+    {email:newEmail},
+    {where:{
+      id_user:payload.iduser
+    }}
+  )
+  .then((result)=>{
+    res.status(201).send('update email');
+  })
+  .catch((error)=>{
+    console.log(error);
+  })
 }
 
 /**
@@ -196,27 +200,23 @@ export const updateEmail = function(req:Request,res:Response){
  * @returns {void}
  */
 export const updateUsername = function(req:Request,res:Response):void{
-  // const payload = getPayload(req)
-  // const newUsername:String = req.body.newUsername;
-  // setUsername(payload.iduser,newUsername)
-  // .then((result)=>{
-  //   console.log(result);
-  //   const statusQuery = result as ResultHeader;
-  //   if(statusQuery.affectedRows === 1 && statusQuery.serverStatus === 2){
-  //     res.status(201).send({result:'ok'});
-  //   }
-  //   else{
-  //     res.status(400).send({error:'Failed to update username please try again later!'});
-  //   }
-  // })
-  // .catch((error)=>{
-  //   if(error.errno === 1062){
-  //     res.status(400).send({error:'The username already exists!'});
-  //   }
-  //   else{
-  //     res.status(503).send('Content not available');
-  //   }
-  // });
+  type userData = {
+    newUsername:string
+  }
+  const {newUsername}:userData = req.body;
+  const payload = getPayload(req);
+  User.update(
+    {username:newUsername},
+    {where:{
+      id_user:payload.iduser
+    }}
+  )
+  .then((result)=>{
+    res.status(201).send('update username');
+  })
+  .catch((error)=>{
+    console.log(error);
+  });
 }
 
 /**
@@ -226,40 +226,44 @@ export const updateUsername = function(req:Request,res:Response):void{
  * @returns {void}
  */
 export const updatePassword = function(req:Request,res:Response):void{
-  // const newPassword = req.body.newPassword;
-  // const oldPassword = req.body.oldPassword;
-  // console.log(newPassword,oldPassword);
-  // const payload = getPayload(req);
-  // getPassword(payload.iduser)
-  // .then((result)=>{
-  //   if(Array.isArray(result)){
-  //     result.forEach((element:any) => {
-  //       const comparePassword = bcrypt.compare(newPassword,element.user_password);
-  //       comparePassword
-  //       .then((isEqual)=>{
-  //         if(isEqual === true){
-  //           res.status(400).send({error:'The new password cannot be the same as the current password!'});
-  //         }
-  //         else{
-  //           const salt = bcrypt.genSaltSync(5);
-  //           const hash = bcrypt.hashSync(newPassword,salt);
-  //           setPassword(payload.iduser,hash)
-  //           .then((result)=>{
-  //             const queryResult = result as ResultHeader;
-  //             if(queryResult.affectedRows === 1 && queryResult.serverStatus === 2){
-  //               res.status(201).send('success!');
-  //             }
-  //             else{
-  //               res.status(400).send({error:'Failed to update password, please try again later!'});
-  //             }
-  //           })
-  //         }
-  //       })
-  //       .catch((error)=>{res.status(503).send('Content not available');});
-  //     });
-  //   }
-  // })
-  // .catch((error)=>{res.status(503).send('Content not available');});
+  type UserData = {
+    newPassword:string,
+    oldPassword:string
+  }
+  type userPasword = {
+    user_password:string
+  }
+  const {newPassword,oldPassword}:UserData = req.body;
+  const payload = getPayload(req);
+  User.findAll({
+    where:{
+      id_user:payload.iduser
+    },
+    attributes:['user_password']
+  })
+  .then(async(resutl)=>{
+    const data = resutl[0].dataValues as userPasword
+    const isEqual = await bcrypt.compare(oldPassword,data.user_password);
+    if(isEqual === true){
+      const salt = await bcrypt.genSalt(5);
+      const hash = await bcrypt.hash(newPassword,salt);
+      User.update(
+        {user_password:hash},
+        {where:{
+          id_user:payload.iduser
+        }}
+      )
+      .then((result)=>{
+        res.status(201).send('update password');
+      })
+      .catch((error)=>{
+        console.log(error);
+      });
+    }
+    else{
+      res.status(400).json({error:'the password are incorrect'});
+    }
+  })
 }
 
 /**
@@ -269,17 +273,16 @@ export const updatePassword = function(req:Request,res:Response):void{
  * @returns {void}
  */
 export const deleteAccount = function(req:Request,res:Response):void{
-  // const payload = getPayload(req);
-  // const idUser = payload.iduser;
-  // deleteUserData(idUser)
-  // .then((result)=>{
-  //   const queryResult = result as ResultHeader
-  //   if(queryResult.serverStatus === 2 && queryResult.affectedRows === 1){
-  //     res.send({message:'delete'});
-  //   }
-  //   else{
-  //     res.status(400).send('error');
-  //   }
-  // })
-  // .catch((error)=>{res.status(503).send('Content not available');});
+  const payload = getPayload(req);
+  User.destroy({
+    where:{
+      id_user:payload.iduser
+    }
+  })
+  .then((result)=>{
+    res.send('delete');
+  })
+  .catch((error)=>{
+    console.log(error);
+  });
 }
