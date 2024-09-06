@@ -1,6 +1,5 @@
 # Cinemark aplicacion web
-Este software permite al usuario ver el catalago de peliculas que ofrece Cinemark en sus diferentes formatos, como tambien, poder comprar entradas de la pelicula, desde su telefono computadora u otros dispositvos, esta solucion ademas le permite gestioner el perfil y ver su historial de comprars, esta solucion permite reducir la concurrencia y largas filas a la hora de comprar entradas de manera presencial, como tambien tener una mejor organizacion en cunato a la disponibilidad al momento de realizar un a compra.
-De este modo el usurio puede acceder a este servicio en cualquier lugar y momento.
+Este software soluciona la organizacion y descongestion al momento de comprar entradas de manera presencial, simplificacndo este proceso, dando la posibilidad de que el usuario pueda acceder al amplio catalogo de películas en sus diferentes formatos, con información acerca de las entradas como las fechas y horarios disponibles, de esta manera podra comprar las entradas que necesite a travez de la aplicación web. Al crear una cuenta, el usuario puede gestionar su información como tanbien, puede acceder a su historial de compras realizadas, simplemente ingresando a la aplicación web  desde su telefono computadora u otros dispositvos.
 EL proyecto esta contruido basandose en la qruitectura (MVC).
 ## Tabla de contenido
 1. [Características](#características)
