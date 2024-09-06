@@ -25,7 +25,7 @@ backend/
 |   ├── middlewares/   # inspeccionan los datos de transaccion en los endpoints
 |   ├── models/        # coneccion configuracion y modelos de datos y sus consultas
 |   ├── monitoring/    # procesamintos y preparacion de los archivos de logs
-|   ├── routes/        # definicion de la funciones  que procesaran las peticiones
+|   ├── routes/        # definicion de la funciones que procesaran las peticiones
 |   ├── testing/       # archivos de testing (pruebas unitarias) para el asegurar el correcto funcionamiento de la aplicacion
 |   └── index/         # punto de entrada de la aplicacion (configuracion del servidor)
 ```
