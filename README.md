@@ -1,5 +1,5 @@
 # Cinemark aplicacion web
-Este software, fue creado para permitir al usuario ver el catalago de peliculas que ofrece Cinemark en sus diferentes formatos, como tambien, permitir comprar entradas de la pelicula, desde su telefono computadora u otros dispositvos, de esta forma evitara tener que hacerlo de forma presencial dentro de los horarios de atencion.
+Este software permite al usuario ver el catalago de peliculas que ofrece Cinemark en sus diferentes formatos, como tambien, poder comprar entradas de la pelicula, desde su telefono computadora u otros dispositvos, esta solucion ademas le permite gestioner el perfil y ver su historial de comprars, esta solucion permite reducir la concurrencia y largas filas a la hora de comprar entradas de manera presencial, como tambien tener una mejor organizacion en cunato a la disponibilidad al momento de realizar un a compra.
 De este modo el usurio puede acceder a este servicio en cualquier lugar y momento.
 EL proyecto esta contruido basandose en la qruitectura (MVC).
 ## Tabla de contenido
