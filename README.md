@@ -25,9 +25,9 @@ backend/
 |   ├── middlewares/   # inspeccionan los datos de transaccion en los endpoints
 |   ├── models/        # coneccion configuracion y modelos de datos y sus consultas
 |   ├── monitoring/    # procesamintos y preparacion de los archivos de logs
-|   ├── routes/        # definicion de la funciones  que procesan las peticiones
-|   ├── testing/       # archivos de testing (pruebas unitarias) de la aplicacion
-|   └── index/         # archivo indice (configuracion del servidor)
+|   ├── routes/        # definicion de la funciones  que procesaran las peticiones
+|   ├── testing/       # archivos de testing (pruebas unitarias) para el asegurar el correcto funcionamiento de la aplicacion
+|   └── index/         # punto de entrada de la aplicacion (configuracion del servidor)
 ```
 ## Base de datos
 La informacion esta almacebada en una base de datos relacional, utiliza la libreria de sequelize para definir los medelos, conexion e interaccion con la base de datos a travez de un ORM, esta diseñada y graficada con la herramienta [dbdiagram.io](https://dbdiagram.io/)
