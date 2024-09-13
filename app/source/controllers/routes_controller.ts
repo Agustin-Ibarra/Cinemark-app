@@ -1,13 +1,13 @@
 import express  from 'express';
 import { Router } from 'express';
+import morgan from 'morgan';
+import fs from 'fs';
+import path from 'path';
+import {fileURLToPath} from 'url';
 import { getHome, get3DMovies, getMoviePage, get2DMovies, getPremiersMovies, getMovieInfo, getMovieTicketData, getMovieTicketDataFromat2D, getMovieTicketDataFromat3D, reserveTickets, successfulPaymentPage, newPurchaseOrder, newPurchaseDetails, getDataPurchase, getUserPurchase, restoreTicket, serverError } from '../routes/routes_cinemark.js'
 import { deleteAccount, getAccount, getLogin, getRegister, postLogin, postRegister, profile, updateEmail, updateFullname, updatePassword, updateUsername } from '../routes/routes_user.js';
 import { checkLogin, checkSingUp, isAuth } from '../middlewres/middlewares.js';
 import { paymentSession } from '../routes/routes_payments.js';
-import morgan from 'morgan';
-import fs from 'fs';
-import path from 'path';
-import {fileURLToPath} from 'url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const accesToLogStream = fs.createWriteStream(path.join(__dirname,'access.csv'),{flags:'a'});

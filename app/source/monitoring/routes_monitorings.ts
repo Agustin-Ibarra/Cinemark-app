@@ -1,9 +1,9 @@
 import cron from 'node-cron';
 import fs from 'fs';
 import path from 'path';
+import dotenv from 'dotenv';
 import {fileURLToPath} from 'url';
 import nodemailer, { SentMessageInfo } from 'nodemailer';
-import dotenv from 'dotenv';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 dotenv.config();

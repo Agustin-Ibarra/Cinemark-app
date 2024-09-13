@@ -1,9 +1,9 @@
 import { Request, Response } from 'express'
 import { fileURLToPath } from 'url';
+import dotenv  from 'dotenv';
 import path from 'path';
 import bcrypt from 'bcryptjs';
 import jsonWebToken from 'jsonwebtoken';
-import dotenv  from 'dotenv';
 import { User } from '../models/users_models.js';
 
 dotenv.config();
