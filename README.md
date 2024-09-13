@@ -1,7 +1,6 @@
 # Cinemark aplicacion web
-Este software, fue creado para permitir al usuario ver el catalago de peliculas que ofrece Cinemark en sus diferentes formatos, como tambien, permitir comprar entradas de la pelicula, desde su telefono computadora u otros dispositvos, de esta forma evitara tener que hacerlo de forma presencial dentro de los horarios de atencion.
-De este modo el usurio puede acceder a este servicio en cualquier lugar y momento.
-EL proyecto esta contruido basandose en la qruitectura MVC (modelo vista controlador).
+Este software soluciona la organizacion y descongestion al momento de comprar entradas de manera presencial, simplificacndo este proceso, dando la posibilidad de que el usuario pueda acceder al amplio catalogo de películas en sus diferentes formatos, con información acerca de las entradas como las fechas y horarios disponibles, de esta manera podra comprar las entradas que necesite a travez de la aplicación web. Al crear una cuenta, el usuario puede gestionar su información como tanbien, puede acceder a su historial de compras realizadas, simplemente ingresando a la aplicación web  desde su telefono computadora u otros dispositvos.
+EL proyecto esta contruido basandose en la qruitectura (MVC).
 ## Tabla de contenido
 1. [Características](#características)
 3. [BackEnd](#backEnd)
@@ -11,7 +10,7 @@ EL proyecto esta contruido basandose en la qruitectura MVC (modelo vista control
 7. [Monitoreo de rutas](#monitoreo-de-rutas)
 2. [FrontEnd](#frontEnd)
 ## Características
-- Gestión de usuarios implementacion de tokens de seguridad
+- Gestión de usuarios implementacion de tokens de autorizacion y autenticacion
 - Integración con API de terceros, utiliza los servicios de stripe para realizar pagos online
 - implementacion de varibles de entorno para el acceso a diferentes ervicios y otros usos especificos
 ## BackEnd
@@ -20,18 +19,21 @@ EL proyecto esta contruido basandose en la qruitectura MVC (modelo vista control
 backend/
 │
 ├── source/            # carpeta donde se encuentra el codigo fuente
+|   ├── config/        # configuracion y conexion a la base de datos
 │   ├── controllers/   # Controladores de las rutas
 |   ├── docs/          # archivos de configuracion de swagger y documentacion de los endpoints
 |   ├── middlewares/   # inspeccionan los datos de transaccion en los endpoints
 |   ├── models/        # coneccion configuracion y modelos de datos y sus consultas
 |   ├── monitoring/    # procesamintos y preparacion de los archivos de logs
-|   ├── testing/       # archivos de testing (pruebas unitarias) de la aplicacion
-|   └── index/         # archivo indice (configuracion del servidor)
+|   ├── routes/        # definicion de la funciones que procesaran las peticiones
+|   ├── testing/       # archivos de testing (pruebas unitarias) para el asegurar el correcto funcionamiento de la aplicacion
+|   └── index/         # punto de entrada de la aplicacion (configuracion del servidor)
 ```
 ## Base de datos
-La base de datos es de tipo relacional diseñada desde 0 y graficada con la herramienta [dbdiagram.io](https://dbdiagram.io/)
+La informacion esta almacebada en una base de datos relacional, utiliza la libreria de sequelize para definir los medelos, conexion e interaccion con la base de datos a travez de un ORM, esta diseñada y graficada con la herramienta [dbdiagram.io](https://dbdiagram.io/)
 - Base de datos relacional
-- Getstor de base de datos: Maria DB
+- Modelos y consultas utilizando ORM
+- Getstor de base de datos: MySql
 ## Documentacion
 - Documentacion de APIs: la documentacion de los endpoint y APIs fue creada con Swagger Open.io
 - Documentacion del codigo fuente: la documentacion del codigo fuente fue creada con JSDoc
