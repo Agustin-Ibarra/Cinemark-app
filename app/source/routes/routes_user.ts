@@ -1,5 +1,4 @@
 import { Request, Response } from 'express'
-import { fileURLToPath } from 'url';
 import dotenv  from 'dotenv';
 import path from 'path';
 import bcrypt from 'bcryptjs';
@@ -7,7 +6,7 @@ import jsonWebToken from 'jsonwebtoken';
 import { User } from '../models/users_models.js';
 
 dotenv.config();
-const __driname = path.dirname(fileURLToPath(import.meta.url));
+const _driname = path.resolve();
 
 interface JwtPayload{
   iduser:number,
@@ -27,11 +26,11 @@ export const getPayload = function(req:Request):JwtPayload{
 }
 
 export const getAccount = function(req:Request,res:Response){
-  res.sendFile(path.join(__driname,'../../source/views/user_UI/account.html'));
+  res.sendFile(path.join(_driname,'app/source/views/user_UI/account.html'));
 }
 
 export const getLogin = function (req: Request, res: Response) {
-  res.sendFile(path.join(__driname, '../../source/views/user_UI/login.html'));
+  res.sendFile(path.join(_driname, 'app/source/views/user_UI/login.html'));
 }
 
 /**
@@ -80,7 +79,7 @@ export const postLogin = function (req: Request, res: Response):void {
 }
 
 export const getRegister = function (req: Request, res: Response) {
-  res.sendFile(path.join(__driname, '../../source/views/user_UI/singup.html'));
+  res.sendFile(path.join(_driname, 'app/source/views/user_UI/singup.html'));
 }
 
 /**

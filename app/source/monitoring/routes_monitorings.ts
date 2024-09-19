@@ -2,10 +2,9 @@ import cron from 'node-cron';
 import fs from 'fs';
 import path from 'path';
 import dotenv from 'dotenv';
-import {fileURLToPath} from 'url';
 import nodemailer, { SentMessageInfo } from 'nodemailer';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const _dirname = path.resolve();
 dotenv.config();
 
 /**
@@ -29,7 +28,7 @@ const sendErrorLogs = async function():Promise<SentMessageInfo> {
     attachments:[
       {
         fillname:'errorLogs.csv',
-        path:path.join(__dirname,'../controllers/errorLogs.csv')
+        path:path.join(_dirname,'app/dist/controllers/errorLogs.csv')
       }
     ]
   }
@@ -41,9 +40,9 @@ const sendErrorLogs = async function():Promise<SentMessageInfo> {
 }
 
 // establece un horario para procesar y preparar los archivo para notificar el monitoreo del sistema
-cron.schedule('0 6 * * *',()=>{ 
+export const cronJob = cron.schedule('0 6 * * *',()=>{ 
   // examina el archivo que contiene informacion sobre la actividad de las rutas 
-  const file = fs.readFileSync(path.join(__dirname,'../controllers/access.csv'),'utf-8');
+  const file = fs.readFileSync(path.join(_dirname,'app/dist/controllers/access.csv'),'utf-8');
   const rows:string[] = file.split('\n'); // crea un array que representan las filas
   const columns: string[][] = []; //crea un array que representan las columnas
   const errorLogs:object[] = [];
@@ -81,7 +80,7 @@ cron.schedule('0 6 * * *',()=>{
     // si la lista de errorLogs tiene longitud superior a 0
     // quiere decir ocurrion error en algunas peticiones
     // por ende prepara el archivo para ser enviado y notificar los errores
-    const errorLogsFile = fs.createWriteStream(path.join(__dirname,'../controllers/errorLogs.csv'),{flags:'a'});
+    const errorLogsFile = fs.createWriteStream(path.join(_dirname,'app/dist/controllers/errorLogs.csv'),{flags:'a'});
     errorLogsFile.write('date;method;url;status_code;content-length;response_time;remote_addres\n');
     errorLogs.forEach(logs => {
       const data = logs as dataLogs;
@@ -90,12 +89,12 @@ cron.schedule('0 6 * * *',()=>{
     sendErrorLogs()
     .then((result)=>{
       // borra la informacion del archivo para evitar duplpicado de datos
-      fs.writeFileSync(path.join(__dirname,'../controllers/errorLogs.csv'),'');
+      fs.writeFileSync(path.join(_dirname,'app/dist/controllers/errorLogs.csv'),'');
     })
     .catch((error)=>{console.log(error);});
   }
   // borra la informacion del archivo porque ya fue procesada
-  fs.writeFileSync(path.join(__dirname,'../controllers/access.csv'),'');
+  fs.writeFileSync(path.join(_dirname,'app/dist/controllers/access.csv'),'');
 });
 
 export default cron;

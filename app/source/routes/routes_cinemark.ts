@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import path from 'path';
-import {fileURLToPath} from 'url';
+// import {fileURLToPath} from 'url';
 import { v4 } from 'uuid';
 import dotenv from 'dotenv';
 import { Op } from 'sequelize';
@@ -12,10 +12,11 @@ import { PurchaseDetails, PurchaseOrder } from '../models/purchase_models.js';
 import { User } from '../models/users_models.js';
 
 dotenv.config();
-const __dirname  = path.dirname(fileURLToPath(import.meta.url));
+const _dirname  = path.resolve();
 
 export const getHome = function(req:Request,res:Response){
-  res.sendFile(path.join(__dirname,'../../source/views/cinemark_UI/home.html'));
+  console.log(path.join(_dirname,''));
+  res.sendFile(path.join(_dirname,'app/source/views/cinemark_UI/home.html'));
 }
 
 /**
@@ -88,7 +89,7 @@ export const get2DMovies = function(req:Request,res:Response):void{
 }
 
 export const getMoviePage = function(req:Request,res:Response){
-  res.sendFile(path.join(__dirname,'../../source/views/cinemark_UI/movie.html'));
+  res.sendFile(path.join(_dirname,'app/source/views/cinemark_UI/movie.html'));
 }
 
 /**
@@ -254,7 +255,7 @@ export const restoreTicket = function(req:Request,res:Response):void{
 }
 
 export const successfulPaymentPage = function(req:Request,res:Response){
-  res.sendFile(path.join(__dirname,'../../source/views/cinemark_UI/success_payment.html'));
+  res.sendFile(path.join(_dirname,'app/source/views/cinemark_UI/success_payment.html'));
 }
 
 /**
@@ -412,5 +413,5 @@ export const getUserPurchase = function(req:Request,res:Response):void{
 }
 
 export const serverError = function(req:Request,res:Response){
-  res.sendFile(path.join(__dirname,'../../source/views/cinemark_UI/server_error.html'))
+  res.sendFile(path.join(_dirname,'app/source/views/cinemark_UI/server_error.html'))
 }

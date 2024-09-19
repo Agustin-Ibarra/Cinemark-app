@@ -1,8 +1,8 @@
 import swaggerJsDoc, { OAS3Definition, OAS3Options } from 'swagger-jsdoc';
 import path from 'path';
-import {fileURLToPath} from 'url'
+// import {fileURLToPath} from 'url'
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const _dirname = path.resolve();
 const swaggerDefinition: OAS3Definition = {
   openapi:"3.0.0",
   info:{
@@ -22,7 +22,7 @@ const swaggerDefinition: OAS3Definition = {
 
 const swaggerOptions: OAS3Options = {
   swaggerDefinition,
-  apis:[path.join(__dirname,'../../source/docs/routes_docs.ts')]
+  apis:[path.join(_dirname,'../../source/docs/routes_docs.ts')]
 }
 
 export default swaggerJsDoc(swaggerOptions);

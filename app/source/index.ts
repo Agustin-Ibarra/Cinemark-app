@@ -1,29 +1,26 @@
 import express from 'express';
 import path from 'path';
-import {fileURLToPath} from 'url';
 import dotenv from 'dotenv';
 import router from './controllers/routes_controller.js';
 import swaggerUI from 'swagger-ui-express';
 import swaggerSetup from './docs/swagger.js';
-import cron from './monitoring/routes_monitorings.js';
+import { cronJob } from './monitoring/routes_monitorings.js';
 import sequlize from './config/db.config.js';
 
 dotenv.config();
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const _dirname = path.resolve();
 const port = process.env.PORT;
 const app = express();
 
 app.use(router);
-app.use(express.static(path.join(__dirname,'../public/styles')));
-app.use(express.static(path.join(__dirname,'../public/posters')));
-app.use(express.static(path.join(__dirname,'../public/scripts')));
-app.use(express.static(path.join(__dirname,'../public/icon')));
+app.use(express.static(path.join(_dirname,'app/public/styles')));
+app.use(express.static(path.join(_dirname,'app/public/posters')));
+app.use(express.static(path.join(_dirname,'app/public/scripts')));
+app.use(express.static(path.join(_dirname,'app/public/icon')));
 app.use('/cinemark/documentation',swaggerUI.serve,swaggerUI.setup(swaggerSetup));
-
-app.listen(port,()=>{
-  console.clear();
+const server = app.listen(port,()=>{
+  cronJob.start();
   console.log('server run on port',port);
-  cron;
   sequlize.authenticate()
   .then((result)=>{
     console.log('db connection success');
@@ -33,4 +30,4 @@ app.listen(port,()=>{
   })
 });
 
-export default app;
+export {app,server};
