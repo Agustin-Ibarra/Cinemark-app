@@ -138,11 +138,11 @@ export const profile = function(req:Request,res:Response):void{
     attributes:['fullname','email','username']
   })
   .then((result)=>{
-    res.json(result)
+    res.json(result);
   })
   .catch((error)=>{
     console.log(error);
-  })  
+  });  
 }
 
 /**

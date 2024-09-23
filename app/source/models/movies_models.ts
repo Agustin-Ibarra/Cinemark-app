@@ -9,12 +9,12 @@ export class Format extends Model{
   @PrimaryKey
   @AutoIncrement
   @Column({
-    type:DataType.INTEGER,
+    type:DataType.INTEGER
   })
   id_format!: number
 
   @Column({
-    type:DataType.STRING,
+    type:DataType.STRING
   })
   type_format!:string
 
@@ -92,7 +92,7 @@ export class Movie extends Model{
   id_movie!:number
 
   @Column({
-    type:DataType.STRING,
+    type:DataType.STRING
   })
   title!:string
 

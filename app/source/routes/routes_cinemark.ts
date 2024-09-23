@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import path from 'path';
-// import {fileURLToPath} from 'url';
 import { v4 } from 'uuid';
 import dotenv from 'dotenv';
 import { Op } from 'sequelize';
@@ -84,7 +83,7 @@ export const get2DMovies = function(req:Request,res:Response):void{
     res.send(result);
   })
   .catch((error)=>{
-    console.log(error)
+    console.log(error);
   });
 }
 
@@ -112,11 +111,11 @@ export const getMovieInfo = function(req:Request,res:Response):void{
     attributes:['title','id_movie','poster','description','duration_time','trailer']
   })
   .then((result)=>{
-    res.send(result)
+    res.send(result);
   })
   .catch((error)=>{
-    console.log(error)
-  })
+    console.log(error);
+  });
 }
 
 /**
@@ -146,11 +145,11 @@ export const getMovieTicketData = function(req:Request,res:Response):void{
     attributes:['id_ticket','date_ticket','subtitles','stock','ticket_price']
   })
   .then((result)=>{
-    res.send(result)
+    res.send(result);
   })
   .catch((error)=>{
     console.log(error);
-  })
+  });
 }
 
 /**
@@ -176,11 +175,11 @@ export const getMovieTicketDataFromat2D = function(req:Request,res:Response):voi
     attributes:['id_ticket','date_ticket','subtitles','stock','ticket_price']
   })
   .then((result)=>{
-    res.send(result)
+    res.send(result);
   })
   .catch((error)=>{
     console.log(error);
-  })
+  });
 }
 
 /**
@@ -206,11 +205,11 @@ export const getMovieTicketDataFromat3D = function(req:Request,res:Response):voi
     attributes:['id_ticket','date_ticket','subtitles','stock','ticket_price']
   })
   .then((result)=>{
-    res.send(result)
+    res.send(result);
   })
   .catch((error)=>{
     console.log(error);
-  })
+  });
 }
 
 /**
@@ -413,5 +412,5 @@ export const getUserPurchase = function(req:Request,res:Response):void{
 }
 
 export const serverError = function(req:Request,res:Response){
-  res.sendFile(path.join(_dirname,'app/source/views/cinemark_UI/server_error.html'))
+  res.sendFile(path.join(_dirname,'app/source/views/cinemark_UI/server_error.html'));
 }
