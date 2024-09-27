@@ -30,7 +30,7 @@ backend/
 |   └── index/         # punto de entrada de la aplicacion (configuracion del servidor)
 ```
 ## Base de datos
-La informacion esta almacebada en una base de datos relacional, utiliza la libreria de sequelize para definir los medelos, conexion e interaccion con la base de datos a travez de un ORM, esta diseñada y graficada con la herramienta [dbdiagram.io](https://dbdiagram.io/)
+La informacion esta almacenada en una base de datos relacional, utiliza la libreria de sequelize para definir los medelos, conexion e interaccion con la base de datos a travez de un ORM, esta diseñada y graficada con la herramienta [dbdiagram.io](https://dbdiagram.io/)
 - Base de datos relacional
 - Modelos y consultas utilizando ORM
 - Getstor de base de datos: MySql
