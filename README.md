@@ -12,7 +12,8 @@ EL proyecto esta contruido basandose en el patron de diseño (MVC).
 ## Características
 - Gestión de usuarios implementacion de tokens de autorizacion y autenticacion
 - Integración con API de terceros, utiliza los servicios de stripe para realizar pagos online
-- implementacion de varibles de entorno para el acceso a diferentes ervicios y otros usos especificos
+- Implementacion de varibles de entorno para el acceso a diferentes ervicios y otros usos especificos
+- Optimizacion de APIs mediante utlizacion de cache y limitando la cantidad de peticiones
 ## BackEnd
 - Tecnologias utilizadas: TypeScript Node.js con Express
 ```
