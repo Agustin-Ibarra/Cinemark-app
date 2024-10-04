@@ -49,7 +49,6 @@ export const postLogin = function (req: Request, res: Response):void {
     password:string
   }
   const {username,password}:userData = req.body;
-  console.log(username,password);
   User.findAll({
     where:{
       username:username

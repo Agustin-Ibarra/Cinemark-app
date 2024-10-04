@@ -21,6 +21,10 @@ const login = function(){
       if(response.status === 503){
         window.location.href = '/home/server_error';
       }
+      else if(response.status === 429){
+        $warning.textContent = 'Try again in 10 minutes!';
+        $spinner.classList.toggle('spinner');
+      }
       else{
         if(response.status === 400 || response.status === 404){
           const errorText = await response.json();

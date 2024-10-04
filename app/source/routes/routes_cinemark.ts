@@ -14,7 +14,6 @@ dotenv.config();
 const _dirname  = path.resolve();
 
 export const getHome = function(req:Request,res:Response){
-  console.log(path.join(_dirname,''));
   res.sendFile(path.join(_dirname,'app/source/views/cinemark_UI/home.html'));
 }
 
