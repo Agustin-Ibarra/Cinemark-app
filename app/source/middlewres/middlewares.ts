@@ -89,7 +89,12 @@ export const isAuth = function(req:Request,res:Response,next:NextFunction):void{
     const cookies = req.headers.cookie.split(';')
     const token = cookies.find((token)=> token.startsWith('cmjwt='));
     if(!token){
-      res.status(401).send('unauthorized!');
+      if(req.method === 'GET'){
+        res.status(401).redirect('/login');
+      }
+      else{
+        res.status(401).send('unauthorized');
+      }
     }
     else{
       next();
