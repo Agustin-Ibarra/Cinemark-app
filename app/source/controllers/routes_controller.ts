@@ -1,4 +1,4 @@
-import express, { NextFunction, Request, Response }  from 'express';
+import express, { Request, Response }  from 'express';
 import { Router } from 'express';
 import rateLimit from 'express-rate-limit';
 import morgan from 'morgan';
@@ -36,15 +36,12 @@ router.use('/home/movie_page/reserve_tickets',isAuth);
 router.use('/home',morgan(format,{stream:accesToLogStream}));
 router.use('/login',morgan(format,{stream:accesToLogStream}));
 router.use('/sing_up',morgan(format,{stream:accesToLogStream}));
-router.use('/login',limiter);
 router.use('/home',limiter);
-router.use('/login/user',loginLimit);
 
 router.get('/home',getHome);
 router.get('/home/premiers',cache('1 day'),getPremiersMovies);
 router.get('/home/movies_3D',cache('1 day'),get3DMovies);
 router.get('/home/movies_2D',cache('1 day'),get2DMovies);
-router.get('/home/movies_2D',get2DMovies);
 router.get('/home/server_error',serverError);
 router.get('/home/movie_page',getMoviePage)
 router.get('/home/movie_page/movie/id:id',getMovieInfo);
@@ -56,10 +53,10 @@ router.get('/home/movie_page/success_payment/data_purchase/code:code',getDataPur
 router.get('/home/account',getAccount);
 router.get('/home/account/user_purchase',getUserPurchase);
 router.get('/home/account/profile',profile);
-router.get('/singup',getRegister);
-router.get('/login',getLogin);
+router.get('/singup',limiter,getRegister);
+router.get('/login',limiter,getLogin);
 
-router.post('/login/user',postLogin);
+router.post('/login/user',loginLimit,postLogin);
 router.post('/singup/user',postRegister);
 router.post('/home/movie_page/success_payment/new_purchase',newPurchaseOrder);
 router.post('/home/movie_page/success_payment/new_purchase_details',newPurchaseDetails);

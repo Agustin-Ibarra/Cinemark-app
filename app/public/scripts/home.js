@@ -31,6 +31,9 @@ fetch('/home/premiers')
     const preimerError = document.getElementById('premier-error');
     preimerError.classList.add('visible');
   }
+  else if(response.status === 429){
+    sessionStorage.setItem('error',response.status);
+  }
   else{
     const movies = await response.json();
     generateMovies(movies,$premiers,"premier");
@@ -44,6 +47,9 @@ fetch('/home/movies_3D')
     const movies3DError = document.getElementById('3D-error');  
     movies3DError.classList.add('visible');
   }
+  else if(response.status === 429){
+    sessionStorage.setItem('error',response.status);
+  }
   else{
     const movies = await response.json();
     generateMovies(movies,$list3D,"3D");
@@ -56,6 +62,9 @@ fetch('/home/movies_2D')
   if(response.status === 503){
     const movies2DError = document.getElementById('2D-error');
     movies2DError.classList.add('visible');
+  }
+  else if(response.status === 429){
+    sessionStorage.setItem('error',response.status);
   }
   else{
     const movies = await response.json();
@@ -80,4 +89,8 @@ $body.addEventListener("click",(e)=>{
 
 window.addEventListener("load",()=>{
   $body.removeChild($loader);
+  if(sessionStorage.getItem('error') === '429'){
+    window.location.reload();
+    sessionStorage.removeItem('error');
+  }
 });

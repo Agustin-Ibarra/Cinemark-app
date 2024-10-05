@@ -17,7 +17,7 @@ const updateFullname = function(){
       body:JSON.stringify({newFullname:$input.value})
     })
     .then(async(response)=>{
-      if(response.status === 201){
+      if(response.status === 201 || response.status === 429){
         window.location.reload();
       }
     })
@@ -40,7 +40,7 @@ const updateEmail = function(){
       body:JSON.stringify({newEmail:$input.value})
     })
     .then(async(response)=>{
-      if(response.status === 201){
+      if(response.status === 201 || response.status === 429){
         window.location.reload();
       }
       else{
@@ -70,10 +70,8 @@ const updateUsername = function(){
     })
     .then(async(response)=>{
       const data = await response.json();
-      if(response.status === 201){
+      if(response.status === 201 || response.status === 429){
         window.location.reload();
-        console.log(response.status);
-        
       }
       else if(response.status === 503){
         window.location.href = '/home/server_error';
@@ -109,7 +107,7 @@ const updatePassword = function(){
         body:JSON.stringify({newPassword:newPassword,oldPassword:oldPassword})
       })
       .then(async(response)=>{
-        if(response.status === 200){
+        if(response.status === 201 || response.status === 429){
           window.location.reload();
         }
         else{
@@ -124,14 +122,19 @@ const updatePassword = function(){
 }
 
 fetch('/home/account/profile')
-.then(async(data)=>{
-  const profile = await data.json();
-  const $fullName = document.getElementById('name');
-  const $email = document.getElementById('email');
-  const $username = document.getElementById('username');
-  $fullName.textContent += profile[0].fullname;
-  $email.textContent += profile[0].email;
-  $username.textContent += profile[0].username
+.then(async(response)=>{
+  if(response.status === 200){
+    const profile = await response.json();
+    const $fullName = document.getElementById('name');
+    const $email = document.getElementById('email');
+    const $username = document.getElementById('username');
+    $fullName.textContent += profile[0].fullname;
+    $email.textContent += profile[0].email;
+    $username.textContent += profile[0].username
+  }
+  else if(response.status === 429){
+    window.location.reload();
+  }
 })
 .catch((error)=>{console.log(error);});
 
@@ -174,6 +177,9 @@ fetch('/home/account/user_purchase')
       $item.appendChild($divText);
       $list.appendChild($item);
     });
+  }
+  else if(response.status === 429){
+    window.location.reload();
   }
   else{
     const $title = document.getElementById('title');

@@ -15,7 +15,6 @@ let price = 0;
 let total = 0;
 
 if(localStorage.getItem('redirect') !== null){
-  localStorage.removeItem('redirect');
   fetch('/home/movie_page/restore_tickets',{
     method:"PUT",
     headers:{"Content-Type":"application/json"},
@@ -23,6 +22,10 @@ if(localStorage.getItem('redirect') !== null){
   })
   .then((response)=>{
     if(response.status === 201){
+      localStorage.removeItem('redirect');
+      window.location.reload();
+    }
+    else if(response.status === 429){
       window.location.reload();
     }
   })
@@ -54,6 +57,9 @@ fetch(`/home/movie_page/movie/id:${sessionStorage.getItem('id')}`)
   if(response.status === 503){
     window.location.href = '/home/server_error';
   }
+  else if(response.status === 429){
+    window.location.reload();
+  }
   else{
     const movie = await response.json();
     const $movie = document.querySelector('.title-movie');
@@ -79,6 +85,9 @@ if(sessionStorage.getItem('type') === 'premier'){
     if(response.status === 503){
       window.location.href = '/home/server_error';
     }
+    else if(response.status === 429){
+      window.location.reload();
+    }
     else{
       const tickets = await response.json();
       ticketInfo = tickets;
@@ -94,6 +103,9 @@ else if(sessionStorage.getItem('type') === '3D'){
     if(respons.status === 503){
       window.location.href = '/home/server_error';
     }
+    else if(respons.status === 429){
+      window.location.reload();
+    }
     else{
       const tickets = await respons.json();
       ticketInfo = tickets;
@@ -108,6 +120,9 @@ else{
   .then(async(response)=>{
     if(response.status === 503){
       window.location.href = '/home/server_error';
+    }
+    else if(response.status === 429){
+      window.location.reload();
     }
     else{
       const tickets = await response.json();
@@ -183,12 +198,20 @@ $body.addEventListener("click",(e)=>{
               body:JSON.stringify({movie:data.movies.title,amount:amountTickets,total:data.ticket_price})
             })
             .then(async(response)=>{
-              const data = await response.json();
-              window.location.href = data.url;
+              if(response.status >= 200 && response.status < 400){
+                const data = await response.json();
+                window.location.href = data.url;
+              }
+              else{
+                window.location.reload();
+              }
             })
             .catch((error)=>{console.error(error);});
           }
         });
+      }
+      else if(response.status === 429){
+        window.location.reload();
       }
       else{
         if(response.status === 400){

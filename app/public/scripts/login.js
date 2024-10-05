@@ -23,6 +23,7 @@ const login = function(){
       }
       else if(response.status === 429){
         $warning.textContent = 'Try again in 10 minutes!';
+        $warning.classList.replace('hidden','visible');
         $spinner.classList.toggle('spinner');
       }
       else{
