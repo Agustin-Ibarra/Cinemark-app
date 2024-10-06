@@ -8,7 +8,7 @@ EL proyecto esta contruido basandose en el patron de diseño (MVC).
 5. [Documentacion](#documentacion)
 6. [Pruebas unitarias](#pruebas-unitarias)
 7. [Monitoreo de rutas](#monitoreo-de-rutas)
-2. [FrontEnd](#frontEnd)
+2. [FrontEnd](#frontend)
 ## Características
 - Gestión de usuarios implementacion de tokens de autorizacion y autenticacion
 - Integración con API de terceros, utiliza los servicios de stripe para realizar pagos online
@@ -24,9 +24,9 @@ backend/
 │   ├── controllers/   # Controladores de las rutas
 |   ├── docs/          # archivos de configuracion de swagger y documentacion de los endpoints
 |   ├── middlewares/   # inspeccionan los datos de transaccion en los endpoints
-|   ├── models/        # coneccion configuracion y modelos de datos y sus consultas
+|   ├── models/        # conexion, configuracion y modelos de datos y consultas
 |   ├── monitoring/    # procesamintos y preparacion de los archivos de logs
-|   ├── routes/        # definicion de la funciones que procesaran las peticiones
+|   ├── routes/        # definicion de funciones que procesaran las peticiones
 |   ├── testing/       # archivos de testing (pruebas unitarias) para el asegurar el correcto funcionamiento de la aplicacion
 |   └── index/         # punto de entrada de la aplicacion (configuracion del servidor)
 ```
