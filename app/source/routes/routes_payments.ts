@@ -28,8 +28,8 @@ export const paymentSession = async function(req:Request,res:Response):Promise<v
       quantity:amount
     }],
     mode:"payment",
-    success_url:'http://localhost:3001/home/movie_page/success_payment',
-    cancel_url:'http://localhost:3001/home/movie_page'
+    success_url:'http://localhost:3001/home/movies/payments',
+    cancel_url:'http://localhost:3001/home/movies'
   });
   res.send({url:session.url});
 }

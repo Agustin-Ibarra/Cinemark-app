@@ -12,7 +12,7 @@ const login = function(){
   }  
   else{
   $spinner.classList.toggle('visible');
-    fetch('/login/user',{
+    fetch('/login',{
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body:JSON.stringify({username:username,password:password})

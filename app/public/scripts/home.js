@@ -12,7 +12,7 @@ const generateMovies = function(movies,$list,type){
     const title = document.createElement("h3");
     item.setAttribute("class","movie");
     link.setAttribute("class","link-movie");
-    link.setAttribute('href','/home/movie_page')
+    link.setAttribute('href','/home/movies')
     image.setAttribute("class",`poster ${type}`);
     image.setAttribute("src",movie.poster);
     image.setAttribute("id",movie.id_movie);

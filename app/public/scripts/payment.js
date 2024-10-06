@@ -4,7 +4,7 @@ const $loader = document.querySelector('.loader-section');
 
 localStorage.removeItem('redirect');
 
-fetch('/home/movie_page/success_payment/new_purchase',{
+fetch('/home/movies/payments/purchase',{
   method:"POST",
   headers:{"Content-Type":"application/json"},
   body:JSON.stringify({
@@ -15,7 +15,7 @@ fetch('/home/movie_page/success_payment/new_purchase',{
 })
 .then(async(response)=>{
   if(response.status === 200){
-    fetch('/home/movie_page/success_payment/new_purchase_details',{
+    fetch('/home/movies/payments/purchase_details',{
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body:JSON.stringify({
@@ -38,7 +38,7 @@ $body.addEventListener("click",(e)=>{
 window.addEventListener("load",(e)=>{
   $body.removeChild($loader);
   const code = localStorage.getItem('code');
-  fetch(`/home/movie_page/success_payment/data_purchase/code:${code}`)
+  fetch(`/home/movies/payments/purchase/:${code}`)
   .then(async(response)=>{
     const data = await response.json();
     let audio = ''

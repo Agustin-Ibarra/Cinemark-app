@@ -32,7 +32,7 @@ router.use(express.json());
 router.use('/login/user',checkLogin);
 router.use('/singup/user',checkSingUp);
 router.use('/home/account',isAuth);
-router.use('/home/movie_page/reserve_tickets',isAuth);
+router.use('/home/movies/reserve_tickets',isAuth);
 router.use('/home',morgan(format,{stream:accesToLogStream}));
 router.use('/login',morgan(format,{stream:accesToLogStream}));
 router.use('/sing_up',morgan(format,{stream:accesToLogStream}));
@@ -43,31 +43,31 @@ router.get('/home/premiers',cache('1 day'),getPremiersMovies);
 router.get('/home/movies_3D',cache('1 day'),get3DMovies);
 router.get('/home/movies_2D',cache('1 day'),get2DMovies);
 router.get('/home/server_error',serverError);
-router.get('/home/movie_page',getMoviePage)
-router.get('/home/movie_page/movie/id:id',getMovieInfo);
-router.get('/home/movie_page/ticket/id:id',getMovieTicketData);
-router.get('/home/movie_page/ticket2D/id:id',getMovieTicketDataFromat2D);
-router.get('/home/movie_page/ticket3D/id:id',getMovieTicketDataFromat3D);
-router.get('/home/movie_page/success_payment',successfulPaymentPage);
-router.get('/home/movie_page/success_payment/data_purchase/code:code',getDataPurchase);
+router.get('/home/movies',getMoviePage)
+router.get('/home/movies/:id',getMovieInfo);
+router.get('/home/movies/ticket/:id',getMovieTicketData);
+router.get('/home/movies/ticket_2D/:id',getMovieTicketDataFromat2D);
+router.get('/home/movies/ticket_3D/:id',getMovieTicketDataFromat3D);
+router.get('/home/movies/payments',successfulPaymentPage); // check
+router.get('/home/movies/payments/purchase/:code',getDataPurchase); //check
 router.get('/home/account',getAccount);
 router.get('/home/account/purchases',getUserPurchase);
 router.get('/home/account/profile',profile);
 router.get('/singup',limiter,getRegister);
 router.get('/login',limiter,getLogin);
 
-router.post('/login/user',loginLimit,postLogin);
-router.post('/singup/user',postRegister);
-router.post('/home/movie_page/success_payment/new_purchase',newPurchaseOrder);
-router.post('/home/movie_page/success_payment/new_purchase_details',newPurchaseDetails);
-router.post('/home/movie_page/payments',paymentSession);
+router.post('/login',loginLimit,postLogin);
+router.post('/singup',postRegister);
+router.post('/home/movies/payments/purchase',newPurchaseOrder); //cehck
+router.post('/home/movies/payments/purchase_details',newPurchaseDetails); //check
+router.post('/home/movies/payments',paymentSession);
 
 router.patch('/home/account/profile/fullname',updateFullname);
 router.patch('/home/account/profile/email',updateEmail);
 router.patch('/home/account/profile/username',updateUsername);
 router.patch('/home/account/profile/password',updatePassword);
-router.patch('/home/movie_page/reserve_tickets',reserveTickets);
-router.patch('/home/movie_page/restore_tickets',restoreTicket);
+router.patch('/home/movies/reserve_tickets',reserveTickets);
+router.patch('/home/movies/restore_tickets',restoreTicket);
 
 router.delete('/home/account/profile',deleteAccount);
 

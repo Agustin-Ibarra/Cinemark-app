@@ -87,7 +87,7 @@ export const get2DMovies = function(req:Request,res:Response):void{
 }
 
 export const getMoviePage = function(req:Request,res:Response){
-  res.sendFile(path.join(_dirname,'app/source/views/cinemark_UI/movie.html'));
+  res.sendFile(path.join(_dirname,'app/source/views/cinemark_UI/movies.html'));
 }
 
 /**

@@ -25,7 +25,7 @@ $body.addEventListener("click",(e)=>{
         $waring.classList.replace('hidden','visible');
       }
       else{
-        fetch('/singup/user',{
+        fetch('/singup',{
           method:"POST",
           headers: {"Content-Type":"application/json"},
           body:JSON.stringify({
