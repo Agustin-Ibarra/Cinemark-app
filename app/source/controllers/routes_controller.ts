@@ -25,7 +25,7 @@ const limiter = rateLimit({
     res.status(429).sendFile(path.join(_dirname,'app/source/views/cinemark_UI/limit.html'));
   },
   windowMs: 30*60*1000,
-  max:50,
+  max:100,
 });
 
 router.use(express.json());
@@ -51,7 +51,7 @@ router.get('/home/movie_page/ticket3D/id:id',getMovieTicketDataFromat3D);
 router.get('/home/movie_page/success_payment',successfulPaymentPage);
 router.get('/home/movie_page/success_payment/data_purchase/code:code',getDataPurchase);
 router.get('/home/account',getAccount);
-router.get('/home/account/user_purchase',getUserPurchase);
+router.get('/home/account/purchases',getUserPurchase);
 router.get('/home/account/profile',profile);
 router.get('/singup',limiter,getRegister);
 router.get('/login',limiter,getLogin);
@@ -62,13 +62,13 @@ router.post('/home/movie_page/success_payment/new_purchase',newPurchaseOrder);
 router.post('/home/movie_page/success_payment/new_purchase_details',newPurchaseDetails);
 router.post('/home/movie_page/payments',paymentSession);
 
-router.put('/home/account/profile/update_fullname',updateFullname);
-router.put('/home/account/profile/update_email',updateEmail);
-router.put('/home/account/profile/update_username',updateUsername);
-router.put('/home/account/profile/update_password',updatePassword);
-router.put('/home/movie_page/reserve_tickets',reserveTickets);
-router.put('/home/movie_page/restore_tickets',restoreTicket);
+router.patch('/home/account/profile/fullname',updateFullname);
+router.patch('/home/account/profile/email',updateEmail);
+router.patch('/home/account/profile/username',updateUsername);
+router.patch('/home/account/profile/password',updatePassword);
+router.patch('/home/movie_page/reserve_tickets',reserveTickets);
+router.patch('/home/movie_page/restore_tickets',restoreTicket);
 
-router.delete('/home/account/profile/delete_account',deleteAccount);
+router.delete('/home/account/profile',deleteAccount);
 
 export default router;

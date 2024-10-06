@@ -123,7 +123,7 @@ export const postRegister = async function (req: Request, res: Response):Promise
 }
 
 /**
- * obtiene informacion del perfil del usuario y la envia en la respuesta
+ * obtiene informacion del perfil del usuario
  * @param req interface Request
  * @param res interface Response
  * @returns {void}
@@ -151,10 +151,10 @@ export const profile = function(req:Request,res:Response):void{
  * @returns {void}
  */
 export const updateFullname = function(req:Request,res:Response):void{
-  const payload = getPayload(req);
   type userData = {
     newFullname:string
   }
+  const payload = getPayload(req);
   const {newFullname}: userData = req.body;
   User.update(
     {fullname:newFullname},
@@ -192,7 +192,7 @@ export const updateEmail = function(req:Request,res:Response){
   })
   .catch((error)=>{
     console.log(error);
-  })
+  });
 }
 
 /**
@@ -205,8 +205,8 @@ export const updateUsername = function(req:Request,res:Response):void{
   type userData = {
     newUsername:string
   }
-  const {newUsername}:userData = req.body;
   const payload = getPayload(req);
+  const {newUsername}:userData = req.body;
   User.update(
     {username:newUsername},
     {where:{
@@ -269,7 +269,7 @@ export const updatePassword = function(req:Request,res:Response):void{
 }
 
 /**
- * elimina de la base de datos a un usuario
+ * elimina un usuario del registro de base de datos
  * @param req interface Request
  * @param res interface Response
  * @returns {void}

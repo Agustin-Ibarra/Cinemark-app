@@ -16,7 +16,7 @@ let total = 0;
 
 if(localStorage.getItem('redirect') !== null){
   fetch('/home/movie_page/restore_tickets',{
-    method:"PUT",
+    method:"PATCH",
     headers:{"Content-Type":"application/json"},
     body:JSON.stringify({idTicket:localStorage.getItem('ticket'),amount:localStorage.getItem('amount')})
   })
@@ -174,7 +174,7 @@ $body.addEventListener("click",(e)=>{
     localStorage.setItem('total',total);
     localStorage.setItem('path','/home/movie_page');
     fetch('/home/movie_page/reserve_tickets',{
-      method:"PUT",
+      method:"PATCH",
       headers:{"Content-Type":"application/json"},
       body:JSON.stringify({
         idTicket:localStorage.getItem('ticket'),

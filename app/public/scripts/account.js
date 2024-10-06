@@ -11,8 +11,8 @@ const updateFullname = function(){
     $input.classList.add('error');
   }
   else{
-    fetch('/home/account/profile/update_fullname',{
-      method:"PUT",
+    fetch('/home/account/profile/fullname',{
+      method:"PATCH",
       headers:{"Content-Type":"application/json"},
       body:JSON.stringify({newFullname:$input.value})
     })
@@ -34,8 +34,8 @@ const updateEmail = function(){
     $email.classList.add('error');
   }
   else{
-    fetch('/home/account/profile/update_email',{
-      method:"PUT",
+    fetch('/home/account/profile/email',{
+      method:"PATCH",
       headers:{"Content-Type":"application/json"},
       body:JSON.stringify({newEmail:$input.value})
     })
@@ -63,8 +63,8 @@ const updateUsername = function(){
     $input.classList.add('error');
   }
   else{
-    fetch('/home/account/profile/update_username',{
-      method:"PUT",
+    fetch('/home/account/profile/username',{
+      method:"PATCH",
       headers:{"Content-Type":"application/json"},
       body:JSON.stringify({newUsername:$input.value})
     })
@@ -101,8 +101,8 @@ const updatePassword = function(){
       $error.classList.add('visible');
     }
     else{
-      fetch('/home/account/profile/update_password',{
-        method:"PUT",
+      fetch('/home/account/profile/password',{
+        method:"PATCH",
         headers:{"Content-Type":"application/json"},
         body:JSON.stringify({newPassword:newPassword,oldPassword:oldPassword})
       })
@@ -138,7 +138,7 @@ fetch('/home/account/profile')
 })
 .catch((error)=>{console.log(error);});
 
-fetch('/home/account/user_purchase')
+fetch('/home/account/purchases')
 .then(async(response)=>{
   if(response.status === 200){
     const purchase = await response.json();
