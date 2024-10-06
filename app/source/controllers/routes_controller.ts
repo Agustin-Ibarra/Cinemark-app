@@ -48,8 +48,8 @@ router.get('/home/movies/:id',getMovieInfo);
 router.get('/home/movies/ticket/:id',getMovieTicketData);
 router.get('/home/movies/ticket_2D/:id',getMovieTicketDataFromat2D);
 router.get('/home/movies/ticket_3D/:id',getMovieTicketDataFromat3D);
-router.get('/home/movies/payments',successfulPaymentPage); // check
-router.get('/home/movies/payments/purchase/:code',getDataPurchase); //check
+router.get('/home/movies/payments',successfulPaymentPage);
+router.get('/home/movies/payments/purchase/:code',getDataPurchase);
 router.get('/home/account',getAccount);
 router.get('/home/account/purchases',getUserPurchase);
 router.get('/home/account/profile',profile);
@@ -58,8 +58,8 @@ router.get('/login',limiter,getLogin);
 
 router.post('/login',loginLimit,postLogin);
 router.post('/singup',postRegister);
-router.post('/home/movies/payments/purchase',newPurchaseOrder); //cehck
-router.post('/home/movies/payments/purchase_details',newPurchaseDetails); //check
+router.post('/home/movies/payments/purchase',newPurchaseOrder);
+router.post('/home/movies/payments/purchase_details',newPurchaseDetails);
 router.post('/home/movies/payments',paymentSession);
 
 router.patch('/home/account/profile/fullname',updateFullname);
