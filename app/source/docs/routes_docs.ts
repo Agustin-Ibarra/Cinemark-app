@@ -791,8 +791,8 @@
 
 /**
  * @swagger
- * /home/account/profile/update_fullname:
- *  put:
+ * /home/account/profile/fullname:
+ *  patch:
  *    summary: actualiza el nobre completo del usuario
  *    tags:
  *      - user
@@ -817,8 +817,8 @@
 
 /**
  * @swagger
- * /home/account/profile/update_email:
- *  put:
+ * /home/account/profile/email:
+ *  patch:
  *    summary: actualiza el correo electronico de usuarioñ
  *    tags:
  *      - user
@@ -843,8 +843,8 @@
 
 /**
  * @swagger
- * /home/account/profile/update_username:
- *  put:
+ * /home/account/profile/username:
+ *  patch:
  *    summary: actualiza el nombre de usuario
  *    tags:
  *      - user
@@ -869,8 +869,8 @@
 
 /**
  * @swagger
- * /home/account/profile/update_password:
- *  put:
+ * /home/account/profile/password:
+ *  patch:
  *    summary: actualiza la contraseña del usuario
  *    tags:
  *      - user
@@ -896,7 +896,7 @@
 
 /**
  * @swagger
- * /home/account/profile/delete_account:
+ * /home/account/profile/account:
  *  delete:
  *    summary: elimina la cuenta del usuario
  *    tags:
@@ -1065,7 +1065,7 @@
 /**
  * @swagger
  * /home/movie_page/reserve_tickets:
- *  put:
+ *  patch:
  *    summary: crea una reserva de los tickets y actualiza el stock en la base de datos
  *    tags:
  *      - movies
@@ -1095,7 +1095,7 @@
 /**
  * @swagger
  * /home/movie_page/restore_tickets:
- *  put:
+ *  patch:
  *    summary: restaura el stock al cancelar la compra
  *    tags:
  *      - movies

@@ -22,7 +22,6 @@ const swaggerDefinition: OAS3Definition = {
 
 const swaggerOptions: OAS3Options = {
   swaggerDefinition,
-  apis:[path.join(_dirname,'../../source/docs/routes_docs.ts')]
+  apis:[path.join(_dirname,'app/source/docs/routes_docs.ts')]
 }
-
 export default swaggerJsDoc(swaggerOptions);
