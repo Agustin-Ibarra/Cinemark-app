@@ -12,7 +12,7 @@ const generateMovies = function(movies,$list,type){
     const title = document.createElement("h3");
     item.setAttribute("class","movie");
     link.setAttribute("class","link-movie");
-    link.setAttribute('href','/home/movies')
+    link.setAttribute('href','/home/movie')
     image.setAttribute("class",`poster ${type}`);
     image.setAttribute("src",movie.poster);
     image.setAttribute("id",movie.id_movie);
@@ -25,7 +25,7 @@ const generateMovies = function(movies,$list,type){
     $list.appendChild(item);
   });
 }
-fetch('/home/premiers')
+fetch('/home/list?format=premier')
 .then(async(response)=>{
   if(response.status === 503){
     const preimerError = document.getElementById('premier-error');
@@ -41,7 +41,7 @@ fetch('/home/premiers')
 })
 .catch((error)=>{console.error(error);});
 
-fetch('/home/movies_3D')
+fetch('/home/list?format=3D')
 .then(async(response)=>{
   if(response.status === 503){
     const movies3DError = document.getElementById('3D-error');  
@@ -57,7 +57,7 @@ fetch('/home/movies_3D')
 })
 .catch((error)=>{console.error(error);});
 
-fetch('/home/movies_2D')
+fetch('/home/list?format=2D')
 .then(async(response)=>{
   if(response.status === 503){
     const movies2DError = document.getElementById('2D-error');

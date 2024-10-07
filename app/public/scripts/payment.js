@@ -3,8 +3,7 @@ const $nav = document.querySelector('nav');
 const $loader = document.querySelector('.loader-section');
 
 localStorage.removeItem('redirect');
-
-fetch('/home/movies/payments/purchase',{
+fetch('/home/movie/payments/purchase',{
   method:"POST",
   headers:{"Content-Type":"application/json"},
   body:JSON.stringify({
@@ -15,12 +14,12 @@ fetch('/home/movies/payments/purchase',{
 })
 .then(async(response)=>{
   if(response.status === 200){
-    fetch('/home/movies/payments/purchase_details',{
+    fetch('/home/movie/payments/purchase_details',{
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body:JSON.stringify({
         idTicket:localStorage.getItem('ticket'),
-        purchaseOrder:localStorage.getItem('code'),
+        idPurchase:localStorage.getItem('code'),
         amount:localStorage.getItem('amount'),
         subtotal:localStorage.getItem('total')
       })
@@ -36,9 +35,8 @@ $body.addEventListener("click",(e)=>{
   }
 });
 window.addEventListener("load",(e)=>{
-  $body.removeChild($loader);
   const code = localStorage.getItem('code');
-  fetch(`/home/movies/payments/purchase/:${code}`)
+  fetch(`/home/movie/payments/purchase/code:${code}`)
   .then(async(response)=>{
     const data = await response.json();
     let audio = ''
@@ -67,5 +65,6 @@ window.addEventListener("load",(e)=>{
     $title.textContent = data.tickets.movies.title;
     $poster.setAttribute("src",`../../${data.tickets.movies.poster}`)
   })
-  .catch((error)=>{console.error(error);})
+  .catch((error)=>{console.error(error);});
+  $body.removeChild($loader);
 });

@@ -18,72 +18,64 @@ export const getHome = function(req:Request,res:Response){
 }
 
 /**
- * obtiene el catalogo de las peliculas de la categoria premier
+ * obtiene el catalago de peliculas del formato especificado en parametro query
  * @param req interface Request
  * @param res interface Response
  * @returns {void}
  */
-export const getPremiersMovies = function(req:Request,res:Response):void{
-  Movie.findAll({
-    where:{
-      premier:1
-    },
-    attributes:['id_movie','title','poster']
-  })
-  .then((result)=>{
-    res.send(result);
-  })
-  .catch((error)=>{
-    console.log(error);
-  })
-}
-
-/**
- * obtiene el catalago de peliculas del formato 3D
- * @param req interface Request
- * @param res interface Response
- * @returns {void}
- */
-export const get3DMovies = function(req:Request,res:Response): void{
-  Movie.findAll({
-    where:{
-      [Op.or]:[
-        {format:2},
-        {format:4}
-      ]
-    },
-    attributes:['id_movie','title','poster']
-  })
-  .then((result)=>{
-    res.send(result);
-  })
-  .catch((error)=>{
-    console.log(error);
-  });
-}
-
-/**
- * obtiene el catalago de peliculas del formato 2D
- * @param req 
- * @param res 
- * @returns {void}
- */
-export const get2DMovies = function(req:Request,res:Response):void{
-  Movie.findAll({
-    where:{
-      [Op.or]:[
-        {format:1},
-        {format:4}
-      ]
-    },
-    attributes:['id_movie','title','poster']
-  })
-  .then((result)=>{
-    res.send(result);
-  })
-  .catch((error)=>{
-    console.log(error);
-  });
+export const getMoviesByFormat = function(req:Request,res:Response): void{
+  if(req.query.format === 'premier'){
+    Movie.findAll({
+      where:{
+        premier:1
+      },
+      attributes:['id_movie','title','poster']
+    })
+    .then((result)=>{
+      res.send(result);
+    })
+    .catch((error)=>{
+      console.log(error);
+    });
+  }
+  else if(req.query.format === '3D'){
+    console.log(req.query.format);
+    Movie.findAll({
+      where:{
+        [Op.or]:[
+          {format:2},
+          {format:4}
+        ]
+      },
+      attributes:['id_movie','title','poster']
+    })
+    .then((result)=>{
+      res.send(result);
+    })
+    .catch((error)=>{
+      console.log(error);
+    });
+  }
+  else if(req.query.format === '2D'){
+    Movie.findAll({
+      where:{
+        [Op.or]:[
+          {format:1},
+          {format:4}
+        ]
+      },
+      attributes:['id_movie','title','poster']
+    })
+    .then((result)=>{
+      res.send(result);
+    })
+    .catch((error)=>{
+      console.log(error);
+    });
+  }
+  else{
+    res.status(404).send('not found!');
+  }
 }
 
 export const getMoviePage = function(req:Request,res:Response){
@@ -124,91 +116,64 @@ export const getMovieInfo = function(req:Request,res:Response):void{
  * @returns {void}
  */
 export const getMovieTicketData = function(req:Request,res:Response):void{
-  const idMovie:Number = Number(req.params.id.replace(':',''));
-  Ticket.findAll({
-    include:[
-    {
-      model:Format,
-      as:'formats',
-      attributes:['type_format']
-    },
-    {
-      model:Movie,
-      as:'movies',
-      attributes:['title']
-    }
-  ],
-    where:{
-      movie:idMovie,
-    },
-    attributes:['id_ticket','date_ticket','subtitles','stock','ticket_price']
-  })
-  .then((result)=>{
-    res.send(result);
-  })
-  .catch((error)=>{
-    console.log(error);
-  });
-}
-
-/**
- * obtiene informacion de los tickets de una pelicula del formato 2D
- * @param req interface Request
- * @param res interface Response
- * @returns {void}
- */
-export const getMovieTicketDataFromat2D = function(req:Request,res:Response):void{
-  const idMovie:Number = Number(req.params.id.replace(':',''));
-  Ticket.findAll({
-    include:[
-      {
-        model:Format,
-        as:'formats',
-        attributes:['type_format']
+  console.log('params',req.params);
+  if(req.params.format === 'premier'){
+    const idMovie:Number = Number(req.params.id.replace(':',''));
+    Ticket.findAll({
+      include:[
+        {
+          model:Format,
+          as:'formats',
+          attributes:['type_format']
+        },
+        {
+          model:Movie,
+          as:'movies',
+          attributes:['title']
+        }
+      ],
+      where:{
+        movie:idMovie,
       },
-    ],
-    where:{
-      movie:idMovie,
-      ticket_format:1
-    },
-    attributes:['id_ticket','date_ticket','subtitles','stock','ticket_price']
-  })
-  .then((result)=>{
-    res.send(result);
-  })
-  .catch((error)=>{
-    console.log(error);
-  });
-}
-
-/**
- * obtiene informacion de los tickets de una pelicula del formato 3D
- * @param req interface Request
- * @param res interface Response
- * @returns {void}
- */
-export const getMovieTicketDataFromat3D = function(req:Request,res:Response):void{
-  const idMovie:Number = Number(req.params.id.replace(':',''));
-  Ticket.findAll({
-    include:[
-      {
-        model:Format,
-        as:'formats',
-        attributes:['type_format']
+      attributes:['id_ticket','date_ticket','subtitles','stock','ticket_price']
+    })
+    .then((result)=>{
+      res.send(result);
+    })
+    .catch((error)=>{
+      console.log(error);
+    });
+    
+  }
+  else{
+    const idMovie:Number = Number(req.params.id.replace(':',''));
+    const format = Number(req.params.format.replace(':',''));
+    Ticket.findAll({
+      include:[
+        {
+          model:Format,
+          as:'formats',
+          attributes:['type_format']
+        },
+        {
+          model:Movie,
+          as:'movies',
+          attributes:['title']
+        }
+      ],
+      where:{
+        movie:idMovie,
+        ticket_format:format
       },
-    ],
-    where:{
-      movie:idMovie,
-      ticket_format:2
-    },
-    attributes:['id_ticket','date_ticket','subtitles','stock','ticket_price']
-  })
-  .then((result)=>{
-    res.send(result);
-  })
-  .catch((error)=>{
-    console.log(error);
-  });
+      attributes:['id_ticket','date_ticket','subtitles','stock','ticket_price']
+    })
+    .then((result)=>{
+      res.send(result);
+    })
+    .catch((error)=>{
+      console.log(error);
+    });
+  }
 }
 
 /**
@@ -263,6 +228,7 @@ export const successfulPaymentPage = function(req:Request,res:Response){
  * @returns {void}
  */
 export const newPurchaseOrder = function(req:Request,res:Response):void{
+  console.log(req.url);
   type purchase = {
     idPurchase:string,
     total:number
@@ -272,7 +238,8 @@ export const newPurchaseOrder = function(req:Request,res:Response):void{
   const purchaseData = {
     id_purchase:idPurchase,
     customer:payload.iduser,
-    total:total
+    total:total,
+    seller:'cinemark'
   }
   PurchaseOrder.create(purchaseData)
   .then((result)=>{
@@ -297,25 +264,27 @@ export const newPurchaseOrder = function(req:Request,res:Response):void{
 export const newPurchaseDetails = function(req:Request,res:Response):void{
   type purchaseData = {
     idTicket:number,
-    idPurchaseOrder:string,
+    idPurchase:string,
     amount:number,
     subtotal:number
   }
-  const {idTicket,idPurchaseOrder,amount,subtotal}: purchaseData = req.body
+  const {idTicket,idPurchase,amount,subtotal}: purchaseData = req.body
   const purchaseDetails = {
+    id_purchase_details:Math.round(Math.random() * (90 - 10 + 1)),
     ticket_movie:idTicket,
-    id_purchase_order:idPurchaseOrder,
+    id_purchase_order:idPurchase,
     amount_ticket:amount,
     unit_price:idTicket,
-    subtotal:subtotal
+    sub_total:subtotal
   }
+  console.log(idPurchase);
   PurchaseDetails.create(purchaseDetails)
   .then((result)=>{
     res.send('success');
   })
   .catch((error)=>{
     console.log(error);
-  })
+  });
 }
 
 /**
@@ -356,14 +325,15 @@ export const getDataPurchase = function(req:Request,res:Response):void{
     where:{
       id_purchase_order:idPurchase
     },
-    attributes:['amount_ticket']
+    attributes:['amount_ticket','sub_total']
   })
   .then((result)=>{
-    res.json(result[0])
+    console.log(result[0]);
+    res.json(result[0]);
   })
   .catch((error)=>{
     console.log(error);
-  })
+  });
 }
 
 /**

@@ -15,7 +15,7 @@ let price = 0;
 let total = 0;
 
 if(localStorage.getItem('redirect') !== null){
-  fetch('/home/movies/restore_tickets',{
+  fetch('/home/movie/restore_tickets',{
     method:"PATCH",
     headers:{"Content-Type":"application/json"},
     body:JSON.stringify({idTicket:localStorage.getItem('ticket'),amount:localStorage.getItem('amount')})
@@ -52,7 +52,7 @@ const generateTicket = function(array,$listTicket){
   });
 }
 
-fetch(`/home/movies/:${sessionStorage.getItem('id')}`)
+fetch(`/home/movie/id:${sessionStorage.getItem('id')}`)
 .then(async(response)=>{
   if(response.status === 503){
     window.location.href = '/home/server_error';
@@ -80,7 +80,7 @@ fetch(`/home/movies/:${sessionStorage.getItem('id')}`)
 .catch((error)=>{console.error(error);});
 
 if(sessionStorage.getItem('type') === 'premier'){
-  fetch(`/home/movies/ticket/:${sessionStorage.getItem('id')}`)
+  fetch(`/home/movie/ticket/premier/${sessionStorage.getItem('id')}`)
   .then(async(response)=>{
     if(response.status === 503){
       window.location.href = '/home/server_error';
@@ -98,7 +98,7 @@ if(sessionStorage.getItem('type') === 'premier'){
   .catch((error)=>{console.error(error);});
 }
 else if(sessionStorage.getItem('type') === '3D'){
-  fetch(`/home/movies/ticket_3D/${sessionStorage.getItem('id')}`)
+  fetch(`/home/movie/ticket/2/${sessionStorage.getItem('id')}`)
   .then(async(respons)=>{
     if(respons.status === 503){
       window.location.href = '/home/server_error';
@@ -116,7 +116,7 @@ else if(sessionStorage.getItem('type') === '3D'){
   .catch((error)=>{console.error(error);});
 }
 else{
-  fetch(`/home/movies/ticket_2D/:${sessionStorage.getItem('id')}`)
+  fetch(`/home/movie/ticket/1/${sessionStorage.getItem('id')}`)
   .then(async(response)=>{
     if(response.status === 503){
       window.location.href = '/home/server_error';
@@ -173,7 +173,7 @@ $body.addEventListener("click",(e)=>{
     localStorage.setItem('amount',amountTickets);
     localStorage.setItem('total',total);
     localStorage.setItem('path','/home/movies');
-    fetch('/home/movies/reserve_tickets',{
+    fetch('/home/movie/reserve_tickets',{
       method:"PATCH",
       headers:{"Content-Type":"application/json"},
       body:JSON.stringify({
@@ -189,13 +189,14 @@ $body.addEventListener("click",(e)=>{
         const data = await response.json();
         localStorage.setItem('code',data.code);
         localStorage.setItem('redirect','true');
-        ticketInfo.forEach(data => {
-          console.log(data);
-          if((data.id_ticket) === Number(localStorage.getItem('ticket'))){
-            fetch('/home/movies/payments',{
+        console.log(ticketInfo[0]);
+        ticketInfo.forEach(ticketData => {
+          console.log(ticketData);
+          if((ticketData.id_ticket) === Number(localStorage.getItem('ticket'))){
+            fetch('/home/movie/payments',{
               method:"post",
               headers:{"Content-Type":"application/json"},
-              body:JSON.stringify({movie:data.movies.title,amount:amountTickets,total:data.ticket_price})
+              body:JSON.stringify({movie:ticketData.movies.title,amount:amountTickets,total:ticketData.ticket_price})
             })
             .then(async(response)=>{
               if(response.status >= 200 && response.status < 400){

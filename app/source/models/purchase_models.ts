@@ -14,9 +14,10 @@ export class PurchaseOrder extends Model{
   id_purchase!:string
 
   @Column({
-    type:DataType.DATE
+    type:DataType.DATE,
+    defaultValue:DataType.NOW
   })
-  date_purchase!:string
+  date_purchase!:Date
 
   @Column({
     type:DataType.STRING
