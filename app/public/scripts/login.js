@@ -12,14 +12,14 @@ const login = function(){
   }  
   else{
   $spinner.classList.toggle('visible');
-    fetch('/login',{
+    fetch('/login/user',{
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body:JSON.stringify({username:username,password:password})
     })
     .then(async(response)=>{
       if(response.status === 503){
-        window.location.href = '/home/server_error';
+        window.location.href = '/home/error';
       }
       else if(response.status === 429){
         $warning.textContent = 'Try again in 10 minutes!';
@@ -27,13 +27,12 @@ const login = function(){
         $spinner.classList.toggle('spinner');
       }
       else{
-        if(response.status === 401){
+        if(response.status === 401 || response.status === 400){
           const errorText = await response.json();
           $warning.textContent = errorText.error;
           $warning.classList.replace('hidden','visible');
           $spinner.classList.toggle('spinner');
         }
-        else{window.location.href = localStorage.getItem('path');}
       }
     })
     .catch((error)=>{console.error(error);});

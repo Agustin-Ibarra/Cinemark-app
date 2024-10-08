@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import path from 'path';
 import { v4 } from 'uuid';
 import dotenv from 'dotenv';
@@ -23,7 +23,7 @@ export const getHome = function(req:Request,res:Response){
  * @param res interface Response
  * @returns {void}
  */
-export const getMoviesByFormat = function(req:Request,res:Response): void{
+export const getMoviesByFormat = function(req:Request,res:Response,next:NextFunction): void{
   if(req.query.format === 'premier'){
     Movie.findAll({
       where:{
@@ -35,11 +35,10 @@ export const getMoviesByFormat = function(req:Request,res:Response): void{
       res.send(result);
     })
     .catch((error)=>{
-      console.log(error);
+      next(error);
     });
   }
   else if(req.query.format === '3D'){
-    console.log(req.query.format);
     Movie.findAll({
       where:{
         [Op.or]:[
@@ -53,7 +52,7 @@ export const getMoviesByFormat = function(req:Request,res:Response): void{
       res.send(result);
     })
     .catch((error)=>{
-      console.log(error);
+      next(error);
     });
   }
   else if(req.query.format === '2D'){
@@ -70,7 +69,7 @@ export const getMoviesByFormat = function(req:Request,res:Response): void{
       res.send(result);
     })
     .catch((error)=>{
-      console.log(error);
+      next(error);
     });
   }
   else{
@@ -88,7 +87,7 @@ export const getMoviePage = function(req:Request,res:Response){
  * @param res interface Response
  * @returns {void}
  */
-export const getMovieInfo = function(req:Request,res:Response):void{
+export const getMovieInfo = function(req:Request,res:Response,next:NextFunction):void{
   const id:Number = Number(req.params.id.replace(':',''));
   Movie.findAll({
     include:[{
@@ -105,7 +104,7 @@ export const getMovieInfo = function(req:Request,res:Response):void{
     res.send(result);
   })
   .catch((error)=>{
-    console.log(error);
+    next(error);
   });
 }
 
@@ -115,7 +114,7 @@ export const getMovieInfo = function(req:Request,res:Response):void{
  * @param res interface Response
  * @returns {void}
  */
-export const getMovieTicketData = function(req:Request,res:Response):void{
+export const getMovieTicketData = function(req:Request,res:Response,next:NextFunction):void{
   console.log('params',req.params);
   if(req.params.format === 'premier'){
     const idMovie:Number = Number(req.params.id.replace(':',''));
@@ -141,7 +140,7 @@ export const getMovieTicketData = function(req:Request,res:Response):void{
       res.send(result);
     })
     .catch((error)=>{
-      console.log(error);
+      next(error);
     });
     
   }

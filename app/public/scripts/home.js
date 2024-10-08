@@ -28,13 +28,12 @@ const generateMovies = function(movies,$list,type){
 fetch('/home/list?format=premier')
 .then(async(response)=>{
   if(response.status === 503){
-    const preimerError = document.getElementById('premier-error');
-    preimerError.classList.add('visible');
+    window.location.href = '/home/error';
   }
-  else if(response.status === 429){
-    sessionStorage.setItem('error',response.status);
+  if(response.status === 429){
+    window.location.reload();
   }
-  else{
+  else if(response.status === 200){
     const movies = await response.json();
     generateMovies(movies,$premiers,"premier");
   }
@@ -44,13 +43,12 @@ fetch('/home/list?format=premier')
 fetch('/home/list?format=3D')
 .then(async(response)=>{
   if(response.status === 503){
-    const movies3DError = document.getElementById('3D-error');  
-    movies3DError.classList.add('visible');
+    window.location.href = '/home/error';
   }
-  else if(response.status === 429){
-    sessionStorage.setItem('error',response.status);
+  if(response.status === 429){
+    window.location.reload();
   }
-  else{
+  else if(response.status === 200){
     const movies = await response.json();
     generateMovies(movies,$list3D,"3D");
   }
@@ -60,13 +58,12 @@ fetch('/home/list?format=3D')
 fetch('/home/list?format=2D')
 .then(async(response)=>{
   if(response.status === 503){
-    const movies2DError = document.getElementById('2D-error');
-    movies2DError.classList.add('visible');
+    window.location.href = '/home/error';
   }
-  else if(response.status === 429){
-    sessionStorage.setItem('error',response.status);
+  if(response.status === 429){
+    window.location.reload();
   }
-  else{
+  else if(response.status === 200){
     const movies = await response.json();
     generateMovies(movies,$list2D,"2D");
   }
@@ -89,8 +86,4 @@ $body.addEventListener("click",(e)=>{
 
 window.addEventListener("load",()=>{
   $body.removeChild($loader);
-  if(sessionStorage.getItem('error') === '429'){
-    window.location.reload();
-    sessionStorage.removeItem('error');
-  }
 });

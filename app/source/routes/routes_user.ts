@@ -1,4 +1,4 @@
-import { Request, Response } from 'express'
+import { NextFunction, Request, Response } from 'express'
 import dotenv  from 'dotenv';
 import path from 'path';
 import bcrypt from 'bcryptjs';
@@ -43,7 +43,7 @@ export const getLogin = function (req: Request, res: Response) {
  * @param res interface Response
  * @returns {void}
  */
-export const postLogin = function (req: Request, res: Response):void {
+export const postLogin = function (req:Request, res: Response, next:NextFunction):void {
   type userData = {
     username:string,
     password:string
@@ -77,7 +77,7 @@ export const postLogin = function (req: Request, res: Response):void {
     }
   })
   .catch((error)=>{
-    console.log(error);
+    next(error)
   });
 }
 

@@ -55,7 +55,7 @@ const generateTicket = function(array,$listTicket){
 fetch(`/home/movie/id:${sessionStorage.getItem('id')}`)
 .then(async(response)=>{
   if(response.status === 503){
-    window.location.href = '/home/server_error';
+    window.location.href = '/home/error';
   }
   else if(response.status === 429){
     window.location.reload();

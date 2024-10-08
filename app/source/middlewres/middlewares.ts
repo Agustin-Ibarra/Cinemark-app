@@ -22,12 +22,12 @@ const verifyString =  function(value:String):boolean{
  * @returns {void}
  */
 export const checkLogin = function(req:Request,res:Response,next:NextFunction): void{
-  const username:String = req.body.username;
-  const password:String = req.body.password;
-  if(!username || !password){
+  if(!req.body || !req.body.username || !req.body.password){
     res.status(400).send({error:'All fields must be complete!'})
   }
   else{
+    const username:String = req.body.username;
+    const password:String = req.body.password;
     const resultUsername:Boolean = verifyString(username);
     const resultPassword:Boolean = verifyString(password);
     if(resultUsername === false || resultPassword === false){
@@ -99,5 +99,22 @@ export const isAuth = function(req:Request,res:Response,next:NextFunction):void{
     else{
       next();
     }
+  }
+}
+
+/**
+ * envia una codigo de estado 503 cuando la base de datos esta caida
+ * @param {error} error sequelize error
+ * @param {Request} req objeto Request
+ * @param {Response} res objeto Response
+ * @param {NextFunction} next obejeto nextFunction
+ * @returns {void}
+ */
+export const errorServer = function(error:any,req:Request,res:Response,next:NextFunction):void{
+  if(error.parent.errno === -4078){
+    res.status(503).send('Content not avaliable!');
+  }
+  else{
+    next();
   }
 }

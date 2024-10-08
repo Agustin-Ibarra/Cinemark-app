@@ -7,7 +7,7 @@ import path from 'path';
 import apicache from 'apicache'
 import { getHome, getMoviePage, getMovieInfo, getMovieTicketData, reserveTickets, successfulPaymentPage, newPurchaseOrder, newPurchaseDetails, getDataPurchase, getUserPurchase, restoreTicket, serverError, getMoviesByFormat } from '../routes/routes_cinemark.js'
 import { deleteAccount, getAccount, getLogin, getRegister, postLogin, postRegister, profile, updateEmail, updateFullname, updatePassword, updateUsername } from '../routes/routes_user.js';
-import { checkLogin, checkSingUp, isAuth } from '../middlewres/middlewares.js';
+import { checkLogin, checkSingUp, errorServer, isAuth } from '../middlewres/middlewares.js';
 import { paymentSession } from '../routes/routes_payments.js';
 
 const _dirname = path.resolve();
@@ -28,9 +28,10 @@ const limiter = rateLimit({
   max:100,
 });
 
-router.use(express.json());
+router.use('/home',express.json());
+router.use('/login',express.json());
 router.use('/login/user',checkLogin);
-router.use('/singup/user',checkSingUp);
+router.use('/singup',checkSingUp);
 router.use('/home/account',isAuth);
 router.use('/home/movies/reserve_tickets',isAuth);
 router.use('/home',morgan(format,{stream:accesToLogStream}));
@@ -40,6 +41,7 @@ router.use('/home',limiter);
 
 router.get('/home',getHome);
 router.get('/home/list',cache('1 day'),getMoviesByFormat);
+router.get('/home/list',getMoviesByFormat);
 router.get('/home/movie',getMoviePage)
 router.get('/home/movie/id:id',getMovieInfo);
 router.get('/home/movie/ticket/:format/:id',getMovieTicketData);
@@ -50,9 +52,9 @@ router.get('/home/account/purchases',getUserPurchase);
 router.get('/home/account/profile',profile);
 router.get('/singup',limiter,getRegister);
 router.get('/login',limiter,getLogin);
-router.get('/home/server_error',serverError);
+router.get('/home/error',serverError);
 
-router.post('/login',loginLimit,postLogin);
+router.post('/login/user',loginLimit,postLogin);
 router.post('/singup',postRegister);
 router.post('/home/movie/payments/purchase',newPurchaseOrder);
 router.post('/home/movie/payments/purchase_details',newPurchaseDetails);
@@ -66,5 +68,9 @@ router.patch('/home/movie/reserve_tickets',reserveTickets);
 router.patch('/home/movie/restore_tickets',restoreTicket);
 
 router.delete('/home/account/profile',deleteAccount);
+
+router.use('/home',errorServer);
+router.use('/login',errorServer);
+router.use('/singup',errorServer);
 
 export default router;
