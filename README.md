@@ -8,7 +8,7 @@ EL proyecto esta contruido basandose en el patron de diseño (MVC).
 5. [Documentacion](#documentacion)
 6. [Pruebas unitarias](#pruebas-unitarias)
 7. [Monitoreo de rutas](#monitoreo-de-rutas)
-2. [FrontEnd](#frontEnd)
+2. [FrontEnd](#frontend)
 ## Características
 - Gestión de usuarios implementacion de tokens de autorizacion y autenticacion
 - Integración con API de terceros, utiliza los servicios de stripe para realizar pagos online
@@ -24,9 +24,9 @@ backend/
 │   ├── controllers/   # Controladores de las rutas
 |   ├── docs/          # archivos de configuracion de swagger y documentacion de los endpoints
 |   ├── middlewares/   # inspeccionan los datos de transaccion en los endpoints
-|   ├── models/        # coneccion configuracion y modelos de datos y sus consultas
+|   ├── models/        # conexion, configuracion y modelos de datos y consultas
 |   ├── monitoring/    # procesamintos y preparacion de los archivos de logs
-|   ├── routes/        # definicion de la funciones que procesaran las peticiones
+|   ├── routes/        # definicion de funciones que procesaran las peticiones
 |   ├── testing/       # archivos de testing (pruebas unitarias) para el asegurar el correcto funcionamiento de la aplicacion
 |   └── index/         # punto de entrada de la aplicacion (configuracion del servidor)
 ```
@@ -34,7 +34,7 @@ backend/
 La informacion esta almacenada en una base de datos relacional, utiliza la libreria de sequelize para definir los medelos, conexion e interaccion con la base de datos a travez de un ORM, esta diseñada y graficada con la herramienta [dbdiagram.io](https://dbdiagram.io/)
 - Base de datos relacional
 - Modelos y consultas utilizando ORM
-- Getstor de base de datos: MySql
+- Gestor de base de datos: MySql
 ## Documentacion
 - Documentacion de APIs: la documentacion de los endpoint y APIs fue creada con Swagger Open.io
 - Documentacion del codigo fuente: la documentacion del codigo fuente fue creada con JSDoc
@@ -48,21 +48,21 @@ npm test
 ## Monitoreo de rutas
 - Monitoreo: se realiza con la libreria morgan, node-cron y nodemailer, se implementa node-cron para ejecutar scripts, estos scripts, realizan procesaminto de los archivos en un horario de poca actividad en el servidor, una vez procesados los datos, son enviados en un formato de archivo csv como notificacion a travez de un mail, posteriormente son analizados para resolver errores ocurridos durante el ciclo de funcionamiento del sistema
 ## FrontEnd
-- Tecnologias utilizadas: html5 CSS3 JavaScript
+- Tecnologias utilizadas: HTML5 CSS3 JavaScript
 ```
 frontend/
 |── app/
-|   ├── public/    #archivos staticos (stilos, scripts, imagenes)
+|   ├── public/    #archivos estaticos (estilos, scripts, imagenes)
 |   ├── source/
 |       └── views/ # archivos de vistas
 ```
 ## Inicio
-- Inicio de la plicacion: una vez clonado el repositorio se debe escribir el siguiente comando en la terminal
+- Inicio de la aplicacion: una vez clonado el repositorio se debe escribir el siguiente comando en la terminal
 ```bash
 npm start
 ```
 ## Instalacion
-- Dependencias: para instalar las dependencias para el correcto funcionamineto de la applicacion, ejecuta el siguiente comando en la terminal
+- Dependencias: para instalar las dependencias necesarias para el correcto funcionamineto de la applicacion, ejecuta el siguiente comando en la terminal
 ```bash
 npm install
 ```
