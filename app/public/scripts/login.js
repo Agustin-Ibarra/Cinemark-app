@@ -27,7 +27,7 @@ const login = function(){
         $spinner.classList.toggle('spinner');
       }
       else{
-        if(response.status === 400 || response.status === 404){
+        if(response.status === 401){
           const errorText = await response.json();
           $warning.textContent = errorText.error;
           $warning.classList.replace('hidden','visible');

@@ -12,6 +12,10 @@ interface JwtPayload{
   iduser:number,
   levelAccess:number
 }
+interface user {
+  id_user:number,
+  user_password:string,
+}
 
 /**
  * verifica un token de autorizacion de una peticion
@@ -19,9 +23,9 @@ interface JwtPayload{
  * @returns {JwtPayload} token extraido de la cookie que incluye la peticion
  */
 export const getPayload = function(req:Request):JwtPayload{
-  const cookies = req.headers.cookie?.split(';') as string[]
+  const cookies = req.headers.cookie?.split(';') as string[];
   const token = cookies.find((cookie)=>cookie.startsWith('cmjwt='))?.replace('cmjwt=','') as string;
-  const payload = jsonWebToken.verify(token,process.env.SECRET as string) as JwtPayload
+  const payload = jsonWebToken.verify(token,process.env.SECRET as string) as JwtPayload;
   return payload;
 }
 
@@ -40,10 +44,6 @@ export const getLogin = function (req: Request, res: Response) {
  * @returns {void}
  */
 export const postLogin = function (req: Request, res: Response):void {
-  interface user {
-    id_user:number,
-    user_password:string,
-  }
   type userData = {
     username:string,
     password:string
@@ -57,22 +57,22 @@ export const postLogin = function (req: Request, res: Response):void {
   })
   .then(async(result)=>{
     if(result.length < 1){
-      res.status(404).send({error:'The username or password are incorrect!'});
+      res.status(401).send({error:'The username or password are incorrect!'});
     }
     else{
       const userData = result[0].dataValues as user
       const isEqual = await bcrypt.compare(password,userData.user_password);
       if(isEqual === true){
         const payload: Object = { iduser: userData.id_user, levelAccess: 1 }
-        const secret: string = process.env.SECRET || '';
-        const expires: string = process.env.EXPIRES || '';
-        const token: string = jsonWebToken.sign(payload, secret, { expiresIn: expires }); // creacion del token
-        const sessionLimit: object = new Date(Date.now() + 1000 * 60 * 60 * 24); // duracion del token
+        const secret: string = process.env.SECRET as string;
+        const expires: string = process.env.EXPIRES as string;
+        const token: string = jsonWebToken.sign(payload, secret, { expiresIn: expires });
+        const sessionLimit: object = new Date(Date.now() + 1000 * 60 * 60 * 24); // tiempo de duracion del token
         const cookieOptions: object = { expires: sessionLimit };
         res.cookie('cmjwt', token, cookieOptions).send('succes');
       }
       else{
-        res.status(400).send({error:'The username or password are incorrect!'});
+        res.status(401).send({error:'The username or password are incorrect!'});
       }
     }
   })
