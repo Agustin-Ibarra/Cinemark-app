@@ -86,7 +86,7 @@ export const isAuth = function(req:Request,res:Response,next:NextFunction):void{
     }
   }
   else{
-    const cookies = req.headers.cookie.split(';')
+    const cookies = req.headers.cookie.split(';');
     const token = cookies.find((token)=> token.startsWith('cmjwt='));
     if(!token){
       if(req.method === 'GET'){
