@@ -1,18 +1,13 @@
-/* body{
-  background-color: #000000;
-} */
 .movie-container{
   margin: 4rem 0;
   display: flex;
   justify-content: space-around;
   color: #ffffff;
-  /* border: #ffffff thin solid; */
   }
 .poster-container{
   width: 350px;
   display: flex;
   flex-direction: column;
-  /* justify-content: start; */
   align-items: start;
 }
 .poster{
@@ -20,7 +15,6 @@
 }
 .movie-add{
   width: 50%;
-  /* border: #ffffff thin solid; */
 }
 .description{
   padding: 2rem 0;
@@ -31,17 +25,14 @@
   font-size: 32px;
   font-weight: 600;
   margin-bottom: 1rem;
-  /* color: #36409e; */
 }
 .info{
   border: #a1a1a1 2px solid;
   border-radius: 5px;
-  /* padding-top: 1rem; */
   font-weight: 600;
   font-size: 18px;
   color: #a1a1a1;
   padding: 6px;
-  /* display: inline-block; */
   margin-top: 1rem;
 }
 .list_ticket{
@@ -53,37 +44,29 @@
   background-color: #0c3cda8e;
   border: 0;
   width: 450px;
-  /* color: #a1a1a1; */
   color: #ffffff;
   font-size: 20px;
   transition: all .4s;
-  /* border: #a1a1a1 2px solid; */
   border-radius: 8px;
   cursor: pointer;
 }
 .choice:hover{
-  /* border: #ffffff 2px solid;
-  color: #ffffff; */
   background-color: #0c3cdabd;
 }
 .ticket{
   list-style: none;
-  /* padding: 10px 0; */
   text-align: center;
   cursor: pointer;
   transition: all .5s;
-  /* border-bottom: #616161 2px solid; */
 }
 .ticket-info{
   padding: 15px 5px;
   transition: all.5s;
-  /* background-color: #616161; */
   color: #a1a1a1;
   border-bottom: #a1a1a100 2px solid;
 }
 .ticket-info:hover{
   color: #ffffff;
-  /* background-color: #0c3cda3a; */
   border-bottom: #ffffff 2px solid;
 }
 .ticket-set{
@@ -126,7 +109,6 @@
   border: #ffffff 2px solid;
 }
 .btn-container{
-  /* border: #1a1a1a thin solid; */
   margin-top: 2rem;
   display: flex;
 }
@@ -164,13 +146,11 @@
 }
 iframe{
   width: 100%;
-  /* border: #ffffff thin solid; */
 }
 .amount-div{
   margin-top: 2rem;
   display: flex;
   align-items: center;
-  /* border: #5c5c5c thin solid; */
 }
 .amount-div .icon{
   font-size: 30px;
@@ -318,7 +298,6 @@ iframe{
 @media (max-width:850px) {
   .movie-container{
     flex-direction: column;
-    /* align-items: center; */
   }
   .movie-add{
     margin: 0 auto;
@@ -351,7 +330,6 @@ iframe{
     width: 90%;
   }
   .text-info{
-    /* width: 100%; */
     padding: 8px;
   }
   .btn-container{

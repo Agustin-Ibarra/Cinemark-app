@@ -6,7 +6,7 @@
 }
 body{
   margin: 0 auto;
-  background-color: #050b14;
+  background-color: #07111f;
   max-width: 1200px;
 }
 h2{
@@ -29,6 +29,9 @@ header{
   text-decoration: none;
   color: #ffffff;
 }
+header .open{
+  color: #00000000;
+}
 .nav-list{
   list-style: none;
   display: flex;
@@ -36,12 +39,16 @@ header{
 .nav-item{
   display: flex;
   align-items: center;
-  border-bottom: #000000 2px solid;
+  border-bottom: #00000000 2px solid;
   transition: all .4s;
   cursor: pointer;
 }
 .nav-item:hover{
   border-bottom: #ffffff 2px solid;
+}
+.nav-item .back{
+  color: #00000000;
+  border: #00000000 2px solid;
 }
 .nav-item .icon{
   color: #ffffff;
@@ -61,10 +68,11 @@ header{
 }
 
 .nav-back{
-  display: flex;
+  /* display: flex;
   justify-content: right;
+  border-bottom: #00000000 2px solid; */
+  display: none;
 }
-
 footer{
   margin: 4rem auto;
   background-color: #ffffff2a;
@@ -133,14 +141,15 @@ footer{
     margin: 8rem 0 2rem 0;
   }
   header{
+    background-color: #07111f;
+    border: #ffffff 2px solid;
+    padding: 10px;
     position: fixed;
-    margin: 0;
     top: 0;
-    width: 100%;
+    width: 95%;
     left: 0;
-    padding: 1.5rem 1.5rem;
-    background-color: #000000;
-    border  : 0;
+    right: 0;
+    margin: 10px auto;
   }
   header .open{
     color: #ffffff;
@@ -151,8 +160,7 @@ footer{
   }
   nav{
     position: fixed;
-    /* background-color: #0e0e0e; */
-    background-color: #000000;
+    background-color: #07111f;
     width: 50%;
     height: 100vh;
     top: 0;
@@ -169,12 +177,17 @@ footer{
   .nav-item{
     width: 80%;
     margin: 1rem 0;
-    border: #000000 2px solid;
+    border: #00000000 2px solid;
+  }
+  .nav-back{
+    display: flex;
+    justify-content: right;
+    border-bottom: #00000000 2px solid;
   }
   .nav-item .back{
     color: #ffffff;
     font-size: 30px;
-    margin-top: 1.8rem;
+    margin-top: 1rem;
     padding: 1rem;
     padding: 5px;
     border: #ffffff 2px solid;
