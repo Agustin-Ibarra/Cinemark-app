@@ -33,7 +33,7 @@ router.use('/login',express.json());
 router.use('/login/user',checkLogin);
 router.use('/singup',checkSingUp);
 router.use('/home/account',isAuth);
-router.use('/home/movies/reserve_tickets',isAuth);
+router.use('/home/movie/reserve_tickets',isAuth);
 router.use('/home',morgan(format,{stream:accesToLogStream}));
 router.use('/login',morgan(format,{stream:accesToLogStream}));
 router.use('/sing_up',morgan(format,{stream:accesToLogStream}));

@@ -24,7 +24,7 @@ interface user {
  */
 export const getPayload = function(req:Request):JwtPayload{
   const cookies = req.headers.cookie?.split(';') as string[];
-  const token = cookies.find((cookie)=>cookie.startsWith('cmjwt='))?.replace('cmjwt=','') as string;
+  const token = cookies.find((cookie)=>cookie.startsWith(' cmjwt='))?.replace(' cmjwt=','') as string;
   const payload = jsonWebToken.verify(token,process.env.SECRET as string) as JwtPayload;
   return payload;
 }
@@ -129,19 +129,26 @@ export const postRegister = async function (req: Request, res: Response):Promise
  * @returns {void}
  */
 export const profile = function(req:Request,res:Response):void{
-  const payload = getPayload(req)
-  User.findAll({
-    where:{
-      id_user:payload.iduser
-    },
-    attributes:['fullname','email','username']
-  })
-  .then((result)=>{
-    res.json(result);
-  })
-  .catch((error)=>{
-    console.log(error);
-  });  
+  console.log('profile');
+  const payload = getPayload(req);
+  res.send();
+  // if(payload !== undefined){
+  //   User.findAll({
+  //     where:{
+  //       id_user:payload.iduser
+  //     },
+  //     attributes:['fullname','email','username']
+  //   })
+  //   .then((result)=>{
+  //     res.json(result);
+  //   })
+  //   .catch((error)=>{
+  //     console.log(error);
+  //   });  
+  // }
+  // else{
+  //   res.status(401).send();
+  // }
 }
 
 /**

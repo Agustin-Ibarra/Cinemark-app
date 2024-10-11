@@ -26,13 +26,14 @@ const login = function(){
         $warning.classList.replace('hidden','visible');
         $spinner.classList.toggle('spinner');
       }
+      else if(response.status === 401 || response.status === 400){
+        const errorText = await response.json();
+        $warning.textContent = errorText.error;
+        $warning.classList.replace('hidden','visible');
+        $spinner.classList.toggle('spinner');
+      }
       else{
-        if(response.status === 401 || response.status === 400){
-          const errorText = await response.json();
-          $warning.textContent = errorText.error;
-          $warning.classList.replace('hidden','visible');
-          $spinner.classList.toggle('spinner');
-        }
+        window.location.href = localStorage.getItem('path');
       }
     })
     .catch((error)=>{console.error(error);});

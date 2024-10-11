@@ -1,4 +1,7 @@
 import {NextFunction, Request, Response} from 'express';
+import path from 'path';
+
+const _dirname = path.resolve();
 
 /**
  * evalua si un string contiene caracteres no validos
@@ -77,28 +80,25 @@ export const checkSingUp = function(req:Request,res:Response,next:NextFunction):
  * @returns {void}
  */
 export const isAuth = function(req:Request,res:Response,next:NextFunction):void{
-  if(!req.headers.cookie){
+  let pass:boolean = false;
+  if(req.headers.cookie){
+    const cookies = req.headers.cookie.split(';');
+    cookies.forEach(cookie => {
+      if(cookie.replace(' ','').startsWith('cmjwt=') === true){
+        pass = true;
+      }
+    });
+  }
+  if(pass === false){
     if(req.method === 'GET'){
       res.status(401).redirect('/login');
     }
-    else{
-      res.status(401).send('unauthorized');
+    else if(req.method === 'PATCH'){
+      res.status(401).send('unathourized')
     }
   }
   else{
-    const cookies = req.headers.cookie.split(';');
-    const token = cookies.find((token)=> token.startsWith('cmjwt='));
-    if(!token){
-      if(req.method === 'GET'){
-        res.status(401).redirect('/login');
-      }
-      else{
-        res.status(401).send('unauthorized');
-      }
-    }
-    else{
-      next();
-    }
+    next();
   }
 }
 
