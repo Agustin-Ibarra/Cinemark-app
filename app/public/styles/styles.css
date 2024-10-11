@@ -6,7 +6,7 @@
 }
 body{
   margin: 0 auto;
-  background-color: #000000;
+  background-color: #050b14;
   max-width: 1200px;
 }
 h2{
@@ -22,7 +22,8 @@ header{
   align-items: center;
   padding: 1rem;
   margin: 2rem 0;
-  border: #ffffff 2px solid;
+  border: #c5c5c5 thin solid;
+  border-radius: 8px;
 }
 .title{
   text-decoration: none;
@@ -31,7 +32,6 @@ header{
 .nav-list{
   list-style: none;
   display: flex;
-  /* border: #929292 thin solid; */
 }
 .nav-item{
   display: flex;
@@ -55,7 +55,11 @@ header{
   text-decoration: none;
   display: flex;
   align-items: center;
+  margin-right: 8px;
+  border-radius: 5px;
+  transition: all .4s;
 }
+
 .nav-back{
   display: flex;
   justify-content: right;
@@ -63,7 +67,7 @@ header{
 
 footer{
   margin: 4rem auto;
-  background-color: #222222;
+  background-color: #ffffff2a;
   color: #ffffff;
   padding: 4rem 3rem;
   width: 100%;
