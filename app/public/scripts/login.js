@@ -11,7 +11,7 @@ const login = function(){
     $warning.textContent = 'All fields must be complete!';
   }  
   else{
-  $spinner.classList.toggle('visible');
+    $spinner.classList.add('visible');
     fetch('/login/user',{
       method:"POST",
       headers:{"Content-Type":"application/json"},
@@ -24,13 +24,15 @@ const login = function(){
       else if(response.status === 429){
         $warning.textContent = 'Try again in 10 minutes!';
         $warning.classList.replace('hidden','visible');
-        $spinner.classList.toggle('spinner');
+        $spinner.classList.remove('visible');
       }
       else if(response.status === 401 || response.status === 400){
         const errorText = await response.json();
-        $warning.textContent = errorText.error;
-        $warning.classList.replace('hidden','visible');
-        $spinner.classList.toggle('spinner');
+        setTimeout(() => {
+          $warning.textContent = errorText.error;
+          $warning.classList.replace('hidden','visible');
+          $spinner.classList.remove('visible');
+        }, 500);
       }
       else{
         window.location.href = localStorage.getItem('path');
