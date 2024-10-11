@@ -23,9 +23,13 @@ interface user {
  * @returns {JwtPayload} token extraido de la cookie que incluye la peticion
  */
 export const getPayload = function(req:Request):JwtPayload{
+  console.log('getpayload')
   const cookies = req.headers.cookie?.split(';') as string[];
-  const token = cookies.find((cookie)=>cookie.startsWith(' cmjwt='))?.replace(' cmjwt=','') as string;
+  const token:string = String(cookies.find(cookie => cookie.replace(' ','').startsWith('cmjwt='))?.replace('cmjwt=',''));
+  console.log('token',token);
   const payload = jsonWebToken.verify(token,process.env.SECRET as string) as JwtPayload;
+  console.log('test');
+  console.log('payload',payload)
   return payload;
 }
 
@@ -129,8 +133,8 @@ export const postRegister = async function (req: Request, res: Response):Promise
  * @returns {void}
  */
 export const profile = function(req:Request,res:Response):void{
-  console.log('profile');
   const payload = getPayload(req);
+  console.log('payload',payload);
   res.send();
   // if(payload !== undefined){
   //   User.findAll({
