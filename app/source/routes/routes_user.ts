@@ -18,18 +18,14 @@ interface user {
 }
 
 /**
- * verifica un token de autorizacion de una peticion
+ * verifica un token de autenticacion de una peticion
  * @param req interface Request
  * @returns {JwtPayload} token extraido de la cookie que incluye la peticion
  */
 export const getPayload = function(req:Request):JwtPayload{
-  console.log('getpayload')
   const cookies = req.headers.cookie?.split(';') as string[];
-  const token:string = String(cookies.find(cookie => cookie.replace(' ','').startsWith('cmjwt='))?.replace('cmjwt=',''));
-  console.log('token',token);
+  const token:string = String(cookies.find(cookie => cookie.replace(' ','').startsWith('cmjwt='))?.replace('cmjwt=','').replace(' ',''));
   const payload = jsonWebToken.verify(token,process.env.SECRET as string) as JwtPayload;
-  console.log('test');
-  console.log('payload',payload)
   return payload;
 }
 
