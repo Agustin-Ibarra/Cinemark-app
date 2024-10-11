@@ -134,25 +134,23 @@ export const postRegister = async function (req: Request, res: Response):Promise
  */
 export const profile = function(req:Request,res:Response):void{
   const payload = getPayload(req);
-  console.log('payload',payload);
-  res.send();
-  // if(payload !== undefined){
-  //   User.findAll({
-  //     where:{
-  //       id_user:payload.iduser
-  //     },
-  //     attributes:['fullname','email','username']
-  //   })
-  //   .then((result)=>{
-  //     res.json(result);
-  //   })
-  //   .catch((error)=>{
-  //     console.log(error);
-  //   });  
-  // }
-  // else{
-  //   res.status(401).send();
-  // }
+  if(payload !== undefined){
+    User.findAll({
+      where:{
+        id_user:payload.iduser
+      },
+      attributes:['fullname','email','username']
+    })
+    .then((result)=>{
+      res.json(result);
+    })
+    .catch((error)=>{
+      console.log(error);
+    });  
+  }
+  else{
+    res.status(401).send();
+  }
 }
 
 /**
