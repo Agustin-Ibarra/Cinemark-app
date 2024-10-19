@@ -196,7 +196,9 @@ export const updateEmail = function(req:Request,res:Response){
     res.status(201).send('update email');
   })
   .catch((error)=>{
-    console.log(error);
+    if(error.parent.errno === 1062){
+      res.status(400).json({error:'This email is already in use!'});
+    }
   });
 }
 
@@ -222,7 +224,9 @@ export const updateUsername = function(req:Request,res:Response):void{
     res.status(201).send('update username');
   })
   .catch((error)=>{
-    console.log(error);
+    if(error.parent.errno === 1062){
+      res.status(400).json({error:'This username is already in use!'});
+    }
   });
 }
 
