@@ -26,6 +26,7 @@ const updateFullname = function(e){
         $error.textContent = data.error;
         $error.classList.add('visible');
         $input.classList.add('error');
+        e.target.childNodes[1].classList.remove('visible');
       }
     })
     .catch((error)=>{console.log(error);});
