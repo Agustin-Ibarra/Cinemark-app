@@ -129,7 +129,7 @@ const updatePassword = function(e){
       fetch('/home/account/profile/password',{
         method:"PATCH",
         headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({newValue:newPassword})
+        body:JSON.stringify({newValue:newPassword.value})
       })
       .then(async(response)=>{
         if(response.status === 201 || response.status === 429){

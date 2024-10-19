@@ -4,7 +4,6 @@ import path from 'path';
 import bcrypt from 'bcryptjs';
 import jsonWebToken from 'jsonwebtoken';
 import { User } from '../models/users_models.js';
-import { IsEmail } from 'sequelize-typescript';
 
 dotenv.config();
 const _driname = path.resolve();
