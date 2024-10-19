@@ -7,7 +7,7 @@ import path from 'path';
 import apicache from 'apicache'
 import { getHome, getMoviePage, getMovieInfo, getMovieTicketData, reserveTickets, successfulPaymentPage, newPurchaseOrder, newPurchaseDetails, getDataPurchase, getUserPurchase, restoreTicket, serverError, getMoviesByFormat } from '../routes/routes_cinemark.js'
 import { deleteAccount, getAccount, getLogin, getRegister, postLogin, postRegister, profile, updateEmail, updateFullname, updatePassword, updateUsername } from '../routes/routes_user.js';
-import { checkLogin, checkSingUp, errorServer, isAuth } from '../middlewres/middlewares.js';
+import { checkLogin, checkSingUp, checkValuesToUpdate, errorServer, isAuth } from '../middlewres/middlewares.js';
 import { paymentSession } from '../routes/routes_payments.js';
 
 const _dirname = path.resolve();
@@ -34,6 +34,10 @@ router.use('/login/user',checkLogin);
 router.use('/singup',checkSingUp);
 router.use('/home/account',isAuth);
 router.use('/home/movie/reserve_tickets',isAuth);
+router.use('/home/account/profile/fullname',checkValuesToUpdate);
+router.use('/home/account/profile/email',checkValuesToUpdate);
+router.use('/home/account/profile/username',checkValuesToUpdate);
+router.use('/home/account/profile/password',checkValuesToUpdate);
 router.use('/home',morgan(format,{stream:accesToLogStream}));
 router.use('/login',morgan(format,{stream:accesToLogStream}));
 router.use('/sing_up',morgan(format,{stream:accesToLogStream}));
@@ -69,8 +73,8 @@ router.patch('/home/movie/restore_tickets',restoreTicket);
 
 router.delete('/home/account/profile',deleteAccount);
 
-router.use('/home',errorServer);
-router.use('/login',errorServer);
-router.use('/singup',errorServer);
+// router.use('/home',errorServer);
+// router.use('/login',errorServer);
+// router.use('/singup',errorServer);
 
 export default router;

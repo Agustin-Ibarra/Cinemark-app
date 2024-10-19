@@ -4,6 +4,7 @@ import path from 'path';
 import bcrypt from 'bcryptjs';
 import jsonWebToken from 'jsonwebtoken';
 import { User } from '../models/users_models.js';
+import { IsEmail } from 'sequelize-typescript';
 
 dotenv.config();
 const _driname = path.resolve();
@@ -157,12 +158,12 @@ export const profile = function(req:Request,res:Response):void{
  */
 export const updateFullname = function(req:Request,res:Response):void{
   type userData = {
-    newFullname:string
+    newValue:string
   }
   const payload = getPayload(req);
-  const {newFullname}: userData = req.body;
+  const {newValue}: userData = req.body;
   User.update(
-    {fullname:newFullname},
+    {fullname:newValue},
     {where:{
         id_user:payload.iduser
     }}
@@ -182,12 +183,12 @@ export const updateFullname = function(req:Request,res:Response):void{
  */
 export const updateEmail = function(req:Request,res:Response){
   type userData = {
-    newEmail:string
+    newValue:string
   }
   const payload = getPayload(req);
-  const {newEmail}:userData = req.body;
+  const {newValue}:userData = req.body;
   User.update(
-    {email:newEmail},
+    {email:newValue},
     {where:{
       id_user:payload.iduser
     }}
@@ -210,12 +211,12 @@ export const updateEmail = function(req:Request,res:Response){
  */
 export const updateUsername = function(req:Request,res:Response):void{
   type userData = {
-    newUsername:string
+    newValue:string
   }
   const payload = getPayload(req);
-  const {newUsername}:userData = req.body;
+  const {newValue}:userData = req.body;
   User.update(
-    {username:newUsername},
+    {username:newValue},
     {where:{
       id_user:payload.iduser
     }}
@@ -236,45 +237,27 @@ export const updateUsername = function(req:Request,res:Response):void{
  * @param res interface Response
  * @returns {void}
  */
-export const updatePassword = function(req:Request,res:Response):void{
+
+export const updatePassword = async function(req:Request,res:Response):Promise<void>{
   type UserData = {
-    newPassword:string,
-    oldPassword:string
+    newValue:string,
   }
-  type userPasword = {
-    user_password:string
-  }
-  const {newPassword,oldPassword}:UserData = req.body;
   const payload = getPayload(req);
-  User.findAll({
-    where:{
+  const {newValue}:UserData = req.body;
+  const salt = await bcrypt.genSalt(5);
+  const hash = await bcrypt.hash(newValue,salt);
+  User.update(
+    {user_password:hash},
+    {where:{
       id_user:payload.iduser
-    },
-    attributes:['user_password']
+    }}
+  )
+  .then((result)=>{
+    res.status(201).send('update password');
   })
-  .then(async(resutl)=>{
-    const data = resutl[0].dataValues as userPasword
-    const isEqual = await bcrypt.compare(oldPassword,data.user_password);
-    if(isEqual === true){
-      const salt = await bcrypt.genSalt(5);
-      const hash = await bcrypt.hash(newPassword,salt);
-      User.update(
-        {user_password:hash},
-        {where:{
-          id_user:payload.iduser
-        }}
-      )
-      .then((result)=>{
-        res.status(201).send('update password');
-      })
-      .catch((error)=>{
-        console.log(error);
-      });
-    }
-    else{
-      res.status(400).json({error:'the password are incorrect'});
-    }
-  })
+  .catch((error)=>{
+    console.log(error);
+  });
 }
 
 /**

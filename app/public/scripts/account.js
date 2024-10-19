@@ -15,11 +15,17 @@ const updateFullname = function(e){
     fetch('/home/account/profile/fullname',{
       method:"PATCH",
       headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({newFullname:$input.value})
+      body:JSON.stringify({newValue:$input.value})
     })
     .then(async(response)=>{
       if(response.status === 201 || response.status === 429){
         window.location.reload();
+      }
+      else{
+        const data = await response.json();
+        $error.textContent = data.error;
+        $error.classList.add('visible');
+        $input.classList.add('error');
       }
     })
     .catch((error)=>{console.log(error);});
@@ -39,7 +45,7 @@ const updateEmail = function(e){
     fetch('/home/account/profile/email',{
       method:"PATCH",
       headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({newEmail:$input.value})
+      body:JSON.stringify({newValue:$input.value})
     })
     .then(async(response)=>{
       if(response.status === 201 || response.status === 429){
@@ -70,7 +76,7 @@ const updateUsername = function(e){
     fetch('/home/account/profile/username',{
       method:"PATCH",
       headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({newUsername:$input.value})
+      body:JSON.stringify({newValue:$input.value})
     })
     .then(async(response)=>{
       const data = await response.json();
@@ -110,7 +116,7 @@ const updatePassword = function(e){
       fetch('/home/account/profile/password',{
         method:"PATCH",
         headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({newPassword:newPassword,oldPassword:oldPassword})
+        body:JSON.stringify({newValue:newPassword})
       })
       .then(async(response)=>{
         if(response.status === 201 || response.status === 429){
