@@ -68,9 +68,6 @@ header .open{
 }
 
 .nav-back{
-  /* display: flex;
-  justify-content: right;
-  border-bottom: #00000000 2px solid; */
   display: none;
 }
 footer{

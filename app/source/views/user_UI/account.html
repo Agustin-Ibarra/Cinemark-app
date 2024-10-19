@@ -57,23 +57,48 @@
         <p class="title-update">Update Full name</p>
         <input type="text" placeholder="new fullname" id="new-fullname">
         <p class="error-text" id="name-error"></p>
-        <button class="fullname">Update Full name</button>
+        <button class="fullname">
+          Update Full name
+          <div class="spinner"></div>
+        </button>
         <p class="title-update">Update Email</p>
         <input type="text" placeholder="new email" id="new-email">
         <p class="error-text" id="email-error"></p>
-        <button class="email">Update Email</button>
+        <button class="email">
+          Update Email
+          <div class="spinner"></div>
+        </button>
         <p class="title-update">Update Username</p>
         <input type="text" placeholder="new username" id="new-username">
         <p class="error-text" id="username-error"></p>
-        <button class="username">Update Username</button>
+        <button class="username">
+          Update Username
+          <div class="spinner"></div>
+        </button>
         <p class="title-update">Update Password</p>
         <input type="password" placeholder="password" id="old-password">
         <input type="password" placeholder="new password" id="new-password">
         <input type="password" placeholder="confirm new password" id="confirm-password">
         <p class="error-text" id="password-error"></p>
-        <button class="password">Update Password</button>
-        <button class="account-btn logout" id="logout">Logout</button>
-        <button id="delete" class="account-btn">Delete account</button>
+        <button class="password">
+          Update Password
+          <div class="spinner"></div>
+        </button>
+        <p class="warnings">You will need to log in to access your account.</p>
+        <button class="account-btn logout" id="logout">Logout
+          <span class="material-symbols-outlined icon logout">
+            logout
+          </span>
+          <div class="spinner"></div>
+        </button>
+        <p class="warnings error">Warning! If you decide to delete your account, your data will be permanently deleted.</p>
+        <button id="delete" class="account-btn">
+          Delete account
+          <span class="material-symbols-outlined">
+            delete
+            </span>
+          <div class="spinner"></div>
+        </button>
       </section>
     </section>
   <footer>

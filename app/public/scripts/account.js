@@ -2,7 +2,7 @@ const $body = document.querySelector('body');
 const $loader = document.querySelector('.loader-section');
 const $nav = document.querySelector('nav');
 
-const updateFullname = function(){
+const updateFullname = function(e){
   const $input = document.getElementById('new-fullname');
   const $error = document.getElementById('name-error');
   if(!$input.value){
@@ -11,6 +11,7 @@ const updateFullname = function(){
     $input.classList.add('error');
   }
   else{
+    e.target.childNodes[1].classList.add('visible');
     fetch('/home/account/profile/fullname',{
       method:"PATCH",
       headers:{"Content-Type":"application/json"},
@@ -25,7 +26,7 @@ const updateFullname = function(){
   }
 }
 
-const updateEmail = function(){
+const updateEmail = function(e){
   const $input = document.getElementById('new-email');
   const $error = document.getElementById('email-error');
   if(!$input.value){
@@ -34,6 +35,7 @@ const updateEmail = function(){
     $email.classList.add('error');
   }
   else{
+    e.target.childNodes[1].classList.add('visible');
     fetch('/home/account/profile/email',{
       method:"PATCH",
       headers:{"Content-Type":"application/json"},
@@ -48,13 +50,14 @@ const updateEmail = function(){
         $error.classList.add('visible');
         $input.classList.add('error');
         $error.textContent = data.error;
+        e.target.childNodes[1].classList.remove('visible');
       }
     })
     .catch((error)=>{console.log(error);});
   }
 }
 
-const updateUsername = function(){
+const updateUsername = function(e){
   const $input = document.getElementById('new-username');
   const $error = document.getElementById('username-error');
   if(!$input.value){
@@ -63,6 +66,7 @@ const updateUsername = function(){
     $input.classList.add('error');
   }
   else{
+    e.target.childNodes[1].classList.add('visible');
     fetch('/home/account/profile/username',{
       method:"PATCH",
       headers:{"Content-Type":"application/json"},
@@ -80,13 +84,14 @@ const updateUsername = function(){
         $error.textContent = data.error;
         $error.classList.add('visible');
         $input.classList.add('error');
+        e.target.childNodes[1].classList.remove('visible');
       }
     })
     .catch((error)=>{console.log(error);});
   }
 }
 
-const updatePassword = function(){
+const updatePassword = function(e){
   const newPassword = document.getElementById('new-password').value;
   const oldPassword = document.getElementById('old-password').value;
   const confirmPassword = document.getElementById('confirm-password').value;
@@ -101,6 +106,7 @@ const updatePassword = function(){
       $error.classList.add('visible');
     }
     else{
+      e.target.childNodes[1].classList.add('visible');
       fetch('/home/account/profile/password',{
         method:"PATCH",
         headers:{"Content-Type":"application/json"},
@@ -114,6 +120,7 @@ const updatePassword = function(){
           const data = await response.json();
           $error.textContent = data.error;
           $error.classList.add('visible');
+          e.target.childNodes[1].classList.remove('visible');
         }
       })
       .catch((error)=>{console.log(error);});
@@ -190,23 +197,29 @@ fetch('/home/account/purchases')
 
 $body.addEventListener("click",(e)=>{
   if(e.target.matches('.logout')){
+    e.target.childNodes[3].classList.add('visible');
     document.cookie = 'cmjwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     window.location.reload();
   }
   else if(e.target.matches('.fullname')){
-    updateFullname()
+    updateFullname(e);
   }
   else if(e.target.matches('.email')){
-    updateEmail();
+    updateEmail(e);
   }
   else if(e.target.matches('.username')){
-    updateUsername();
+    updateUsername(e);
   }
   else if(e.target.matches('.password')){
-    updatePassword();
+    updatePassword(e);
   }
   else if(e.target.matches('.open') || e.target.matches('.nav-link') || e.target.matches('.close')){
     $nav.classList.toggle('open-nav');
+  }
+  else if(e.target.matches('#delete')){
+    e.target.childNodes[3].classList.add('visible');
+    document.cookie = 'cmjwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    window.location.reload();
   }
 });
 
