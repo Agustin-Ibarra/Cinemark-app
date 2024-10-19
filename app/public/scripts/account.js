@@ -112,7 +112,12 @@ const updatePassword = function(e){
     $error.classList.add('visible');
   }
   else{
-    if(newPassword.value !== confirmPassword.value){
+    if(newPassword.value.length < 8){
+      newPassword.classList.add('error');
+      $error.textContent = 'The password cannot be less than 8 characters!'
+      $error.classList.add('visible');
+    }
+    else if(newPassword.value !== confirmPassword.value){
       newPassword.classList.add('error');
       confirmPassword.classList.add('error');
       $error.textContent = 'Passwords do not match!'
@@ -139,6 +144,8 @@ const updatePassword = function(e){
           const data = await response.json();
           $error.textContent = data.error;
           $error.classList.add('visible');
+          newPassword.classList.add('error');
+          confirmPassword.classList.add('error');
           e.target.childNodes[1].classList.remove('visible');
         }
       })
