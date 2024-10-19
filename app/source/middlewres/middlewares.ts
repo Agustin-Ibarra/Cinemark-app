@@ -120,7 +120,6 @@ export const errorServer = function(error:any,req:Request,res:Response,next:Next
 }
 
 export const checkValuesToUpdate = function(req:Request,res:Response,next:NextFunction):void{
-  console.log('middleware');
   if(!req.body.newValue){
     res.status(400).json({error:'this field must be complete!'});
   }

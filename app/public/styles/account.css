@@ -25,6 +25,7 @@ input{
   background: none;
   margin-bottom: 25px;
   width: 100%;
+  outline: none;
 }
 input::placeholder{
   color: #bbbbbb;
@@ -86,7 +87,7 @@ button:hover{
   text-align: center;
 }
 .error{
-  border: #ee0707 thin solid;
+  border: #ee0707 2px solid;
   color: #ff0000;
 }
 .error-text{
@@ -95,7 +96,7 @@ button:hover{
   display: none;
   text-align: center;
   color: #ff0000;
-  border: #ff0000 2px solid;
+  /* border: #ff0000 2px solid; */
 }
 .visible{
   display: block;

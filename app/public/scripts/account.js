@@ -38,6 +38,7 @@ const updateEmail = function(e){
   if(!$input.value){
     $error.classList.add('visible');
     $error.textContent = 'Empty data cannot be sent!';
+    $input.classList.add('error');
     $email.classList.add('error');
   }
   else{
@@ -98,17 +99,28 @@ const updateUsername = function(e){
 }
 
 const updatePassword = function(e){
-  const newPassword = document.getElementById('new-password').value;
-  const oldPassword = document.getElementById('old-password').value;
-  const confirmPassword = document.getElementById('confirm-password').value;
+  const newPassword = document.getElementById('new-password');
+  const oldPassword = document.getElementById('old-password');
+  const confirmPassword = document.getElementById('confirm-password');
   const $error = document.getElementById('password-error');
-  if(!oldPassword || !newPassword || !confirmPassword){
-    $error.textContent = 'All fields must be completed!'
+  if(!oldPassword.value || !newPassword.value || !confirmPassword.value){
+    $error.textContent = 'All fields must be completed!';
+    newPassword.classList.add('error');
+    oldPassword.classList.add('error');
+    confirmPassword.classList.add('error');
     $error.classList.add('visible');
   }
   else{
-    if(newPassword !== confirmPassword){
-      $error.textContent = 'las contraseñas no coinciden!'
+    if(newPassword.value !== confirmPassword.value){
+      newPassword.classList.add('error');
+      confirmPassword.classList.add('error');
+      $error.textContent = 'Passwords do not match!'
+      $error.classList.add('visible');
+    }
+    else if(newPassword.value === oldPassword.value){
+      newPassword.classList.add('error');
+      oldPassword.classList.add('error');
+      $error.textContent = 'The new password cannot be the same as your current password!'
       $error.classList.add('visible');
     }
     else{
@@ -226,6 +238,9 @@ $body.addEventListener("click",(e)=>{
     e.target.childNodes[3].classList.add('visible');
     document.cookie = 'cmjwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     window.location.reload();
+  }
+  else if(e.target.matches('input')){
+    e.target.classList.remove('error');
   }
 });
 
