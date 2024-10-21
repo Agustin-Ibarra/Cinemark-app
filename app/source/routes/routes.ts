@@ -5,10 +5,10 @@ import morgan from 'morgan';
 import fs from 'fs';
 import path from 'path';
 import apicache from 'apicache'
-import { getHome, getMoviePage, getMovieInfo, getMovieTicketData, reserveTickets, successfulPaymentPage, newPurchaseOrder, newPurchaseDetails, getDataPurchase, getUserPurchase, restoreTicket, serverError, getMoviesByFormat } from '../routes/routes_cinemark.js'
-import { deleteAccount, getAccount, getLogin, getRegister, postLogin, postRegister, profile, updateEmail, updateFullname, updatePassword, updateUsername } from '../routes/routes_user.js';
+import { getHome, getMoviePage, getMovieInfo, getMovieTicketData, reserveTickets, successfulPaymentPage, newPurchaseOrder, newPurchaseDetails, getDataPurchase, getUserPurchase, restoreTicket, serverError, getMoviesByFormat } from '../controller/controllers.cinemark.js'
+import { deleteAccount, getAccount, getLogin, getRegister, postLogin, postRegister, profile, updateEmail, updateFullname, updatePassword, updateUsername } from '../controller/controllers.user.js';
 import { checkLogin, checkSingUp, checkValuesToUpdate, errorServer, isAuth } from '../middlewres/middlewares.js';
-import { paymentSession } from '../routes/routes_payments.js';
+import { paymentSession } from '../controller/controller.payments.js';
 
 const _dirname = path.resolve();
 const accesToLogStream = fs.createWriteStream(path.join(_dirname,'app/dist/controllers/access.csv'),{flags:'a'});

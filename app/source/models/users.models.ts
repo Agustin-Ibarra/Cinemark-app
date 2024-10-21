@@ -1,5 +1,5 @@
 import { AutoIncrement, Column, DataType, ForeignKey, HasMany, Model, PrimaryKey, Table } from "sequelize-typescript";
-import { PurchaseOrder } from "./purchase_models.js";
+import { PurchaseOrder } from "./purchase.models.js";
 
 @Table({
   tableName:'roles',

@@ -1,9 +1,9 @@
 import { Sequelize } from 'sequelize-typescript';
 import dotenv from 'dotenv';
-import { Clasification, Format, Movie, Supplier } from '../models/movies_models.js';
-import { Hall, Ticket } from '../models/tickets_models.js';
-import { PurchaseDetails, PurchaseOrder } from '../models/purchase_models.js';
-import { User } from '../models/users_models.js';
+import { Clasification, Format, Movie, Supplier } from '../models/movies.models.js';
+import { Hall, Ticket } from '../models/tickets.models.js';
+import { PurchaseDetails, PurchaseOrder } from '../models/purchase.models.js';
+import { User } from '../models/users.models.js';
 
 dotenv.config();
 

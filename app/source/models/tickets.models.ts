@@ -1,5 +1,5 @@
 import { AutoIncrement, BelongsTo, Column, DataType, ForeignKey, HasMany, Model, PrimaryKey, Table } from "sequelize-typescript";
-import { Format, Movie } from "./movies_models.js";
+import { Format, Movie } from "./movies.models.js";
 
 @Table({
   tableName:'halls',

@@ -1,5 +1,5 @@
 import { AutoIncrement, BelongsTo, Column, DataType, ForeignKey, HasMany, Model, PrimaryKey, Table } from "sequelize-typescript";
-import { Ticket } from "./tickets_models.js";
+import { Ticket } from "./tickets.models.js";
 
 @Table({
   tableName:'formats',

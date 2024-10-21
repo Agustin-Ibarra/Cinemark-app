@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import {app,server} from '../index.js';
 import request from 'supertest';
-import { cronJob } from '../monitoring/routes_monitorings.js';
+import { cronJob } from '../monitoring/routes.monitorings.js';
 import { describe } from 'node:test';
 
 dotenv.config();

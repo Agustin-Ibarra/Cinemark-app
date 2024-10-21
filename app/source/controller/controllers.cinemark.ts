@@ -3,12 +3,12 @@ import path from 'path';
 import { v4 } from 'uuid';
 import dotenv from 'dotenv';
 import { Op } from 'sequelize';
-import { getPayload } from '../routes/routes_user.js';
-import { Clasification, Format, Movie } from '../models/movies_models.js';
-import { Ticket } from '../models/tickets_models.js';
+import { getPayload } from './controllers.user.js';
+import { Clasification, Format, Movie } from '../models/movies.models.js';
+import { Ticket } from '../models/tickets.models.js';
 import { Sequelize } from 'sequelize-typescript';
-import { PurchaseDetails, PurchaseOrder } from '../models/purchase_models.js';
-import { User } from '../models/users_models.js';
+import { PurchaseDetails, PurchaseOrder } from '../models/purchase.models.js';
+import { User } from '../models/users.models.js';
 
 dotenv.config();
 const _dirname  = path.resolve();

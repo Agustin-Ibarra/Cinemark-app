@@ -3,7 +3,7 @@ import dotenv  from 'dotenv';
 import path from 'path';
 import bcrypt from 'bcryptjs';
 import jsonWebToken from 'jsonwebtoken';
-import { User } from '../models/users_models.js';
+import { User } from '../models/users.models.js';
 
 dotenv.config();
 const _driname = path.resolve();
