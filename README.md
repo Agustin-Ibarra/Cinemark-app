@@ -21,12 +21,12 @@ backend/
 │
 ├── source/            # carpeta donde se encuentra el codigo fuente
 |   ├── config/        # configuracion y conexion a la base de datos
-│   ├── controllers/   # Controladores de las rutas
+│   ├── controllers/   # procesan las peticiones y logica de las respuestas
 |   ├── docs/          # archivos de configuracion de swagger y documentacion de los endpoints
 |   ├── middlewares/   # inspeccionan los datos de transaccion en los endpoints
 |   ├── models/        # conexion, configuracion y modelos de datos y consultas
 |   ├── monitoring/    # procesamintos y preparacion de los archivos de logs
-|   ├── routes/        # definicion de funciones que procesaran las peticiones
+|   ├── routes/        # define las rutas y se especifica qué controlador debe manejar la petición
 |   ├── testing/       # archivos de testing (pruebas unitarias) para el asegurar el correcto funcionamiento de la aplicacion
 |   └── index/         # punto de entrada de la aplicacion (configuracion del servidor)
 ```
