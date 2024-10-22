@@ -11,8 +11,8 @@ import { checkLogin, checkSingUp, checkValuesToUpdate, errorServer, isAuth } fro
 import { paymentSession } from '../controller/controller.payments.js';
 
 const _dirname = path.resolve();
-const accesToLogStream = fs.createWriteStream(path.join(_dirname,'app/dist/controllers/access.csv'),{flags:'a'});
-accesToLogStream.write('date;method;url;status_code;content-length;response_time;remote_addres\n');
+const accesToLogStream = fs.createWriteStream(path.join(_dirname,'app/dist/monitoring/access.csv'),{flags:'a'}); // crea archivo logs
+accesToLogStream.write('date;method;url;status_code;content-length;response_time;remote_addres\n'); // escribe el archivo logs
 const format = ':date;:method;:url;:status;:res[content-length];:response-time;:remote-addr';
 const router = Router();
 const cache = apicache.middleware;
@@ -25,7 +25,7 @@ const limiter = rateLimit({
     res.status(429).sendFile(path.join(_dirname,'app/source/views/cinemark_UI/limit.html'));
   },
   windowMs: 30*60*1000,
-  max:100,
+  max:50,
 });
 
 router.use('/home',express.json());

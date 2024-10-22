@@ -28,7 +28,7 @@ const sendErrorLogs = async function():Promise<SentMessageInfo> {
     attachments:[
       {
         fillname:'errorLogs.csv',
-        path:path.join(_dirname,'app/dist/controllers/errorLogs.csv')
+        path:path.join(_dirname,'app/dist/routes/errorLogs.csv')
       }
     ]
   }
@@ -41,60 +41,33 @@ const sendErrorLogs = async function():Promise<SentMessageInfo> {
 
 // establece un horario para procesar y preparar los archivo para notificar el monitoreo del sistema
 export const cronJob = cron.schedule('0 6 * * *',()=>{ 
-  // examina el archivo que contiene informacion sobre la actividad de las rutas 
-  const file = fs.readFileSync(path.join(_dirname,'app/dist/controllers/access.csv'),'utf-8');
+  const file = fs.readFileSync(path.join(_dirname,'app/dist/monitoring/access.csv'),'utf-8'); // lee el archivo de logs
   const rows:string[] = file.split('\n'); // crea un array que representan las filas
   const columns: string[][] = []; //crea un array que representan las columnas
-  const errorLogs:object[] = [];
-  interface dataLogs {
-    date:string,
-    method:string,
-    url:string,
-    statusCode:string,
-    contentLength:string
-    reponseTime:string,
-    remoteAddres:string
-  }
+  const errorLogs:string[][] = []
   rows.forEach(element => {columns.push(element.split(';'));});
-  columns.forEach(col => {
-    if(col.length > 1 && col[0] !== 'date'){
-      // en cada iteracion de las columnas filtra las rutas que no son relevantes
-      if(col[2].includes('css') === false && col[2].includes('js') === false && col.includes('html') === false && col[2].includes('jpg') === false && col[2].includes('/login') === false){
-        // filtra por peticiones que tuviron no tuvieron errores
-        if(col[3] !== '200' && col[3] !== '304' && col[3] !== '401'){
-          const data:object = {
-            date:col[0],
-            method:col[1],
-            url:col[2],
-            statusCode:col[3],
-            contentLength:col[4],
-            reponseTime:col[5],
-            remoteAddres:col[6]
-          } as dataLogs
-          errorLogs.push(data); 
-        }
+  columns.forEach(column => {
+    if(column[0]){
+      if(Number(column[3]) >= 400 && Number(column[3]) !== 401){ // si encuentra peticiones fallidas las agreg a la lista
+        errorLogs.push(column);
       }
     }
   });
-  if(errorLogs.length > 0){
-    // si la lista de errorLogs tiene longitud superior a 0
-    // quiere decir ocurrion error en algunas peticiones
-    // por ende prepara el archivo para ser enviado y notificar los errores
-    const errorLogsFile = fs.createWriteStream(path.join(_dirname,'app/dist/controllers/errorLogs.csv'),{flags:'a'});
+  if(errorLogs.length > 0){ // verifica que la lista de errores tenga contenido
+    const errorLogsFile = fs.createWriteStream(path.join(_dirname,'app/dist/routes/errorLogs.csv'),{flags:'a'});
     errorLogsFile.write('date;method;url;status_code;content-length;response_time;remote_addres\n');
     errorLogs.forEach(logs => {
-      const data = logs as dataLogs;
-      errorLogsFile.write(`${data.date};${data.method};${data.url};${data.statusCode};${data.contentLength};${data.reponseTime};${data.remoteAddres}\n`);
+      errorLogsFile.write(`${logs[0]};${logs[1]};${logs[2]};${logs[3]};${logs[4]};${logs[5]};${logs[6]}\n`);
     });
     sendErrorLogs()
     .then((result)=>{
-      // borra la informacion del archivo para evitar duplpicado de datos
-      fs.writeFileSync(path.join(_dirname,'app/dist/controllers/errorLogs.csv'),'');
+      // borra la informacion del archivo para evitar datos duplicados
+      fs.writeFileSync(path.join(_dirname,'app/dist/monitoring/errorLogs.csv'),'');
     })
     .catch((error)=>{console.log(error);});
   }
-  // borra la informacion del archivo porque ya fue procesada
-  fs.writeFileSync(path.join(_dirname,'app/dist/controllers/access.csv'),'');
+  // borra la informacion del archivo porque fue procesado
+  fs.writeFileSync(path.join(_dirname,'app/dist/monitoring/access.csv'),'');
 });
 
 export default cron;
