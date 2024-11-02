@@ -75,64 +75,66 @@ fetch(`/home/movie/id:${sessionStorage.getItem('id')}`)
     $poster.setAttribute("src",`../${movie[0].poster}`);
     $description.textContent = movie[0].description;
     $div.innerHTML = movie[0].trailer;
+
+    if(sessionStorage.getItem('type') === 'premier'){
+      fetch(`/home/movie/ticket/premier/${sessionStorage.getItem('id')}`)
+      .then(async(response)=>{
+        if(response.status === 503){
+          // window.location.href = '/home/server_error';
+        }
+        else if(response.status === 429){
+          window.location.reload();
+        }
+        else{
+          const tickets = await response.json();
+          ticketInfo = tickets;
+          const $listTicket = document.querySelector('.list_ticket');
+          generateTicket(tickets,$listTicket);
+        }
+      })
+      .catch((error)=>{console.error(error);});
+    }
+    else if(sessionStorage.getItem('type') === '3D'){
+      fetch(`/home/movie/ticket/2/${sessionStorage.getItem('id')}`)
+      .then(async(respons)=>{
+        if(respons.status === 503){
+          // window.location.href = '/home/server_error';
+        }
+        else if(respons.status === 429){
+          window.location.reload();
+        }
+        else{
+          const tickets = await respons.json();
+          ticketInfo = tickets;
+          const $listTicket = document.querySelector('.list_ticket');
+          generateTicket(tickets,$listTicket);
+        }
+      })
+      .catch((error)=>{console.error(error);});
+    }
+    else{
+      fetch(`/home/movie/ticket/1/${sessionStorage.getItem('id')}`)
+      .then(async(response)=>{
+        if(response.status === 503){
+          // window.location.href = '/home/server_error';
+        }
+        else if(response.status === 429){
+          window.location.reload();
+        }
+        else{
+          const tickets = await response.json();
+          ticketInfo = tickets;
+          const $listTicket = document.querySelector('.list_ticket');
+          generateTicket(tickets,$listTicket);
+        }
+      })
+      .catch((error)=>{console.error(error);});
+    }
   }
 })
 .catch((error)=>{console.error(error);});
 
-if(sessionStorage.getItem('type') === 'premier'){
-  fetch(`/home/movie/ticket/premier/${sessionStorage.getItem('id')}`)
-  .then(async(response)=>{
-    if(response.status === 503){
-      window.location.href = '/home/server_error';
-    }
-    else if(response.status === 429){
-      window.location.reload();
-    }
-    else{
-      const tickets = await response.json();
-      ticketInfo = tickets;
-      const $listTicket = document.querySelector('.list_ticket');
-      generateTicket(tickets,$listTicket);
-    }
-  })
-  .catch((error)=>{console.error(error);});
-}
-else if(sessionStorage.getItem('type') === '3D'){
-  fetch(`/home/movie/ticket/2/${sessionStorage.getItem('id')}`)
-  .then(async(respons)=>{
-    if(respons.status === 503){
-      window.location.href = '/home/server_error';
-    }
-    else if(respons.status === 429){
-      window.location.reload();
-    }
-    else{
-      const tickets = await respons.json();
-      ticketInfo = tickets;
-      const $listTicket = document.querySelector('.list_ticket');
-      generateTicket(tickets,$listTicket);
-    }
-  })
-  .catch((error)=>{console.error(error);});
-}
-else{
-  fetch(`/home/movie/ticket/1/${sessionStorage.getItem('id')}`)
-  .then(async(response)=>{
-    if(response.status === 503){
-      window.location.href = '/home/server_error';
-    }
-    else if(response.status === 429){
-      window.location.reload();
-    }
-    else{
-      const tickets = await response.json();
-      ticketInfo = tickets;
-      const $listTicket = document.querySelector('.list_ticket');
-      generateTicket(tickets,$listTicket);
-    }
-  })
-  .catch((error)=>{console.error(error);});
-}
+
 
 $body.addEventListener("click",(e)=>{
   if(e.target.matches('.choice')){

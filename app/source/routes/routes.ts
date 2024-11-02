@@ -45,7 +45,6 @@ router.use('/home',limiter);
 
 router.get('/home',getHome);
 router.get('/home/list',cache('1 day'),getMoviesByFormat);
-router.get('/home/list',getMoviesByFormat);
 router.get('/home/movie',getMoviePage)
 router.get('/home/movie/id:id',getMovieInfo);
 router.get('/home/movie/ticket/:format/:id',getMovieTicketData);
@@ -73,8 +72,8 @@ router.patch('/home/movie/restore_tickets',restoreTicket);
 
 router.delete('/home/account/profile',deleteAccount);
 
-// router.use('/home',errorServer);
-// router.use('/login',errorServer);
-// router.use('/singup',errorServer);
+router.use('/home',errorServer);
+router.use('/login',errorServer);
+router.use('/singup',errorServer);
 
 export default router;

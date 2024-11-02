@@ -14,6 +14,7 @@ dotenv.config();
 const _dirname  = path.resolve();
 
 export const getHome = function(req:Request,res:Response){
+  console.log(req.url);
   res.sendFile(path.join(_dirname,'app/source/views/cinemark_UI/home.html'));
 }
 
@@ -32,6 +33,7 @@ export const getMoviesByFormat = function(req:Request,res:Response,next:NextFunc
       attributes:['id_movie','title','poster']
     })
     .then((result)=>{
+      next();
       res.send(result);
     })
     .catch((error)=>{
@@ -49,6 +51,7 @@ export const getMoviesByFormat = function(req:Request,res:Response,next:NextFunc
       attributes:['id_movie','title','poster']
     })
     .then((result)=>{
+      next()
       res.send(result);
     })
     .catch((error)=>{
@@ -66,6 +69,7 @@ export const getMoviesByFormat = function(req:Request,res:Response,next:NextFunc
       attributes:['id_movie','title','poster']
     })
     .then((result)=>{
+      next();
       res.send(result);
     })
     .catch((error)=>{
@@ -115,7 +119,6 @@ export const getMovieInfo = function(req:Request,res:Response,next:NextFunction)
  * @returns {void}
  */
 export const getMovieTicketData = function(req:Request,res:Response,next:NextFunction):void{
-  console.log('params',req.params);
   if(req.params.format === 'premier'){
     const idMovie:Number = Number(req.params.id.replace(':',''));
     Ticket.findAll({

@@ -1,7 +1,7 @@
 import {NextFunction, Request, Response} from 'express';
-import path from 'path';
+import apicache from 'apicache';
 
-const _dirname = path.resolve();
+const cahce = apicache.middleware;
 
 /**
  * evalua si un string contiene caracteres no validos
@@ -111,6 +111,8 @@ export const isAuth = function(req:Request,res:Response,next:NextFunction):void{
  * @returns {void}
  */
 export const errorServer = function(error:any,req:Request,res:Response,next:NextFunction):void{
+  console.log('middleware')
+  console.log(req.method,req.url);
   if(error.parent.errno === -4078){
     res.status(503).send('Content not avaliable!');
   }
