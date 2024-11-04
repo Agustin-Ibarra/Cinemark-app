@@ -27,11 +27,11 @@
   margin-bottom: 1rem;
 }
 .info{
-  border: #a1a1a1 2px solid;
+  border: #ffffff 2px solid;
   border-radius: 5px;
   font-weight: 600;
   font-size: 18px;
-  color: #a1a1a1;
+  color: #ffffff;
   padding: 6px;
   margin-top: 1rem;
 }
@@ -266,6 +266,10 @@ iframe{
   text-align: center;
   font-weight: 600;
   list-style: none;
+}
+.empty:hover{
+  color:#ff1717 ;
+  border-bottom: #ff1717 2px solid;
 }
 .hidden{
   display: none;

@@ -80,7 +80,7 @@ fetch(`/home/movie/id:${sessionStorage.getItem('id')}`)
       fetch(`/home/movie/ticket/premier/${sessionStorage.getItem('id')}`)
       .then(async(response)=>{
         if(response.status === 503){
-          // window.location.href = '/home/server_error';
+          window.location.href = '/home/server_error';
         }
         else if(response.status === 429){
           window.location.reload();
@@ -98,7 +98,7 @@ fetch(`/home/movie/id:${sessionStorage.getItem('id')}`)
       fetch(`/home/movie/ticket/2/${sessionStorage.getItem('id')}`)
       .then(async(respons)=>{
         if(respons.status === 503){
-          // window.location.href = '/home/server_error';
+          window.location.href = '/home/server_error';
         }
         else if(respons.status === 429){
           window.location.reload();
@@ -116,7 +116,7 @@ fetch(`/home/movie/id:${sessionStorage.getItem('id')}`)
       fetch(`/home/movie/ticket/1/${sessionStorage.getItem('id')}`)
       .then(async(response)=>{
         if(response.status === 503){
-          // window.location.href = '/home/server_error';
+          window.location.href = '/home/server_error';
         }
         else if(response.status === 429){
           window.location.reload();
@@ -141,34 +141,36 @@ $body.addEventListener("click",(e)=>{
     $items.classList.toggle('hidden');
   }
   else if(e.target.matches('.ticket-info')){
-    localStorage.setItem('ticket',e.target.id);
-    $choice.classList.add('show');
-    ticketInfo.forEach(element => {
-      if(element.id_ticket === Number(e.target.id)){
-        const formatDate = new Date(element.date_ticket);
-        const $date = document.getElementById('date');
-        const $format = document.getElementById('format-audio');
-        const $stock = document.getElementById('stock');
-        const $price = document.getElementById('price');
-        $date.textContent = `Movie date | ${formatDate.toLocaleString()}`;
-        $price.textContent = `Ticket price | $${element.ticket_price}`;
-        price = Number(element.ticket_price);
-        $stock.textContent = `tickets available | ${element.stock}`;
-        localStorage.setItem('stock',element.stock);
-        $amount.textContent = 'Ticktes: 1';
-        amountTickets = 1;
-        total = Number(element.ticket_price)
-        $totalTickets.textContent = `Amount Tickets: ${amountTickets} x $${total.toFixed(2)}`;
-        $total.textContent = `Total: $${total.toFixed(2)}`;
-        if(element.subtitles === 0){
-          $format.textContent = `Format ${element.formats.type_format} audio english`;
+    if(ticketInfo.length > 0){
+      localStorage.setItem('ticket',e.target.id);
+      $choice.classList.add('show');
+      ticketInfo.forEach(element => {
+        if(element.id_ticket === Number(e.target.id)){
+          const formatDate = new Date(element.date_ticket);
+          const $date = document.getElementById('date');
+          const $format = document.getElementById('format-audio');
+          const $stock = document.getElementById('stock');
+          const $price = document.getElementById('price');
+          $date.textContent = `Movie date | ${formatDate.toLocaleString()}`;
+          $price.textContent = `Ticket price | $${element.ticket_price}`;
+          price = Number(element.ticket_price);
+          $stock.textContent = `tickets available | ${element.stock}`;
+          localStorage.setItem('stock',element.stock);
+          $amount.textContent = 'Ticktes: 1';
+          amountTickets = 1;
+          total = Number(element.ticket_price)
+          $totalTickets.textContent = `Amount Tickets: ${amountTickets} x $${total.toFixed(2)}`;
+          $total.textContent = `Total: $${total.toFixed(2)}`;
+          if(element.subtitles === 0){
+            $format.textContent = `Format ${element.formats.type_format} audio english`;
+          }
+          else{
+            $format.textContent = `Format ${element.formats.type_format} audio orginal w/ subtitles`;
+          }
+          $items.classList.toggle('hidden');
         }
-        else{
-          $format.textContent = `Format ${element.formats.type_format} audio orginal w/ subtitles`;
-        }
-        $items.classList.toggle('hidden');
-      }
-    });
+      });
+    }
   }
   else if(e.target.matches('.pay')){
     $spinner.classList.add('visible');

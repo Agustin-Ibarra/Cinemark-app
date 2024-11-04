@@ -40,6 +40,12 @@
 .visible{
   display: block;
 }
+  
+@media (max-width:950px) {
+  #movies-2D,#movies-3D, #first{
+    padding-top: 6rem;
+  }
+}
 
 @media (max-width:590px) {
   .list-movies{

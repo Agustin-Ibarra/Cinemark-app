@@ -135,7 +135,7 @@ footer{
 @media (max-width:950px) {
   .subtitle{
     color: #ffffff;
-    margin: 8rem 0 2rem 0;
+    /* margin: 8rem 0 2rem 0; */
   }
   header{
     background-color: #07111f;
