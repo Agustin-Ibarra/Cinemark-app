@@ -7,7 +7,7 @@ import path from 'path';
 import apicache from 'apicache'
 import { getHome, getMoviePage, getMovieInfo, getMovieTicketData, reserveTickets, successfulPaymentPage, newPurchaseOrder, newPurchaseDetails, getDataPurchase, getUserPurchase, restoreTicket, serverError, getMoviesByFormat } from '../controller/controllers.cinemark.js'
 import { deleteAccount, getAccount, getLogin, getRegister, postLogin, postRegister, profile, updateEmail, updateFullname, updatePassword, updateUsername } from '../controller/controllers.user.js';
-import { checkLogin, checkSingUp, checkValuesToUpdate, errorServer, isAuth } from '../middlewres/middlewares.js';
+import { emailRules, errorServer, fullnameRules, isAuth, paramIdMovieRules, passwordRules, usernameRules, validateResult } from '../middlewares/middlewares.js';
 import { paymentSession } from '../controller/controller.payments.js';
 
 const _dirname = path.resolve();
@@ -28,25 +28,21 @@ const limiter = rateLimit({
   max:50,
 });
 
-router.use('/home',express.json());
-router.use('/login',express.json());
-router.use('/login/user',checkLogin);
-router.use('/singup',checkSingUp);
+router.use(express.json());
+router.use('/home',morgan(format,{stream:accesToLogStream}));
+router.use('/home',limiter);
 router.use('/home/account',isAuth);
 router.use('/home/movie/reserve_tickets',isAuth);
-router.use('/home/account/profile/fullname',checkValuesToUpdate);
-router.use('/home/account/profile/email',checkValuesToUpdate);
-router.use('/home/account/profile/username',checkValuesToUpdate);
-router.use('/home/account/profile/password',checkValuesToUpdate);
-router.use('/home',morgan(format,{stream:accesToLogStream}));
-router.use('/login',morgan(format,{stream:accesToLogStream}));
-router.use('/sing_up',morgan(format,{stream:accesToLogStream}));
-router.use('/home',limiter);
+router.use('/login',morgan(format,{stream:accesToLogStream}),loginLimit);
+router.use('/login',usernameRules,passwordRules,validateResult);
+router.use('/singup',morgan(format,{stream:accesToLogStream}),loginLimit);
+router.use('/singup',fullnameRules,emailRules,usernameRules,passwordRules,validateResult);
+router.use('/home/movie/:id',paramIdMovieRules,validateResult);
 
 router.get('/home',getHome);
 router.get('/home/list',cache('1 day'),getMoviesByFormat);
 router.get('/home/movie',getMoviePage)
-router.get('/home/movie/id:id',getMovieInfo);
+router.get('/home/movie/:id',getMovieInfo);
 router.get('/home/movie/ticket/:format/:id',getMovieTicketData);
 router.get('/home/movie/payments',successfulPaymentPage);
 router.get('/home/movie/payments/purchase/code:code',getDataPurchase);
@@ -57,7 +53,7 @@ router.get('/singup',limiter,getRegister);
 router.get('/login',limiter,getLogin);
 router.get('/home/error',serverError);
 
-router.post('/login/user',loginLimit,postLogin);
+router.post('/login/',postLogin);
 router.post('/singup',postRegister);
 router.post('/home/movie/payments/purchase',newPurchaseOrder);
 router.post('/home/movie/payments/purchase_details',newPurchaseDetails);

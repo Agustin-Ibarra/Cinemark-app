@@ -56,7 +56,7 @@ export const postLogin = function (req:Request, res: Response, next:NextFunction
     attributes:['user_password','id_user']
   })
   .then(async(result)=>{
-    if(result.length < 1){
+    if(result.length === 0){
       res.status(401).send({error:'The username or password are incorrect!'});
     }
     else{
@@ -69,7 +69,7 @@ export const postLogin = function (req:Request, res: Response, next:NextFunction
         const token: string = jsonWebToken.sign(payload, secret, { expiresIn: expires });
         const sessionLimit: object = new Date(Date.now() + 1000 * 60 * 60 * 24); // tiempo de duracion del token
         const cookieOptions: object = { expires: sessionLimit };
-        res.cookie('cmjwt', token, cookieOptions).send('succes');
+        res.cookie('cmjwt', token, cookieOptions).send('authorized');
       }
       else{
         res.status(401).send({error:'The username or password are incorrect!'});
@@ -91,7 +91,7 @@ export const getRegister = function (req: Request, res: Response) {
  * @param res interface Response
  * @returns {void}
  */
-export const postRegister = async function (req: Request, res: Response):Promise<void>{
+export const postRegister = async function (req: Request, res: Response,next: NextFunction):Promise<void>{
   type userData = {
     fullname:string,
     email:string,
@@ -117,7 +117,7 @@ export const postRegister = async function (req: Request, res: Response):Promise
       res.status(400).json({error:'This user already exist!'});
     }
     else{
-      console.log(error);
+      next(error);
     }
   });
 }
