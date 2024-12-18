@@ -91,7 +91,7 @@ export const getMoviePage = function(req:Request,res:Response){
  * @returns {void}
  */
 export const getMovieInfo = function(req:Request,res:Response,next:NextFunction):void{
-  const id:Number = Number(req.params.id.replace(':',''));
+  const id:Number = Number(req.params.id);
   Movie.findAll({
     include:[{
       model:Clasification,
@@ -118,8 +118,9 @@ export const getMovieInfo = function(req:Request,res:Response,next:NextFunction)
  * @returns {void}
  */
 export const getMovieTicketData = function(req:Request,res:Response,next:NextFunction):void{
+  console.log(req.params);
+  const idMovie:Number = Number(req.params.id);
   if(req.params.format === 'premier'){
-    const idMovie:Number = Number(req.params.id.replace(':',''));
     Ticket.findAll({
       include:[
         {
@@ -147,11 +148,9 @@ export const getMovieTicketData = function(req:Request,res:Response,next:NextFun
     
   }
   else{
-    const idMovie:Number = Number(req.params.id.replace(':',''));
-    const format = Number(req.params.format.replace(':',''));
+    const format = Number(req.params.format);
     Ticket.findAll({
-      include:[
-        {
+      include:[{
           model:Format,
           as:'formats',
           attributes:['type_format']
@@ -160,8 +159,7 @@ export const getMovieTicketData = function(req:Request,res:Response,next:NextFun
           model:Movie,
           as:'movies',
           attributes:['title']
-        }
-      ],
+        }],
       where:{
         movie:idMovie,
         ticket_format:format
@@ -228,16 +226,16 @@ export const successfulPaymentPage = function(req:Request,res:Response){
  * @param res interface Response
  * @returns {void}
  */
-export const newPurchaseOrder = function(req:Request,res:Response):void{
-  console.log(req.url);
+export const newPurchaseOrder = function(req:Request,res:Response,next:NextFunction):void{
   type purchase = {
-    idPurchase:string,
+    id_purchase:string,
     total:number
   }
   const payload = getPayload(req);
-  const {idPurchase,total}: purchase = req.body;
+  const {id_purchase,total}: purchase = req.body;
+  console.log(id_purchase)
   const purchaseData = {
-    id_purchase:idPurchase,
+    id_purchase:id_purchase,
     customer:payload.iduser,
     total:total,
     seller:'cinemark'
@@ -247,11 +245,12 @@ export const newPurchaseOrder = function(req:Request,res:Response):void{
     res.send('success');
   })
   .catch((error)=>{
+    console.log(error);
     if(error.parent.errno === 1062){
       res.status(400).send('Duplicate entry!');
     }
     else{
-      console.log(error);
+      next(error);
     }
   });
 }
@@ -262,29 +261,29 @@ export const newPurchaseOrder = function(req:Request,res:Response):void{
  * @param res interface Response
  * @returns {void}
  */
-export const newPurchaseDetails = function(req:Request,res:Response):void{
+export const newPurchaseDetails = function(req:Request,res:Response,next:NextFunction):void{
   type purchaseData = {
     idTicket:number,
-    idPurchase:string,
+    id_purchase:string,
     amount:number,
     subtotal:number
   }
-  const {idTicket,idPurchase,amount,subtotal}: purchaseData = req.body
+  const {idTicket,id_purchase,amount,subtotal}: purchaseData = req.body
   const purchaseDetails = {
     id_purchase_details:Math.round(Math.random() * (90 - 10 + 1)),
     ticket_movie:idTicket,
-    id_purchase_order:idPurchase,
+    id_purchase_order:id_purchase,
     amount_ticket:amount,
     unit_price:idTicket,
     sub_total:subtotal
   }
-  console.log(idPurchase);
+  console.log(id_purchase);
   PurchaseDetails.create(purchaseDetails)
   .then((result)=>{
     res.send('success');
   })
   .catch((error)=>{
-    console.log(error);
+    next(error);
   });
 }
 
@@ -294,7 +293,7 @@ export const newPurchaseDetails = function(req:Request,res:Response):void{
  * @param res interface Response
  * @returns {void}
  */
-export const getDataPurchase = function(req:Request,res:Response):void{
+export const getDataPurchase = function(req:Request,res:Response,next:NextFunction):void{
   const idPurchase:string = req.params.code.replace(':','');
   PurchaseDetails.findAll({
     include:[{
@@ -332,8 +331,8 @@ export const getDataPurchase = function(req:Request,res:Response):void{
     console.log(result[0]);
     res.json(result[0]);
   })
-  .catch((error)=>{
-    console.log(error);
+  .catch((error)=>{ 
+    next(error);
   });
 }
 

@@ -7,7 +7,7 @@ import path from 'path';
 import apicache from 'apicache'
 import { getHome, getMoviePage, getMovieInfo, getMovieTicketData, reserveTickets, successfulPaymentPage, newPurchaseOrder, newPurchaseDetails, getDataPurchase, getUserPurchase, restoreTicket, serverError, getMoviesByFormat } from '../controller/controllers.cinemark.js'
 import { deleteAccount, getAccount, getLogin, getRegister, postLogin, postRegister, profile, updateEmail, updateFullname, updatePassword, updateUsername } from '../controller/controllers.user.js';
-import { emailRules, errorServer, fullnameRules, isAuth, paramIdMovieRules, passwordRules, usernameRules, validateResult } from '../middlewares/middlewares.js';
+import { amountRules, emailRules, errorServer, formatIdRules, fullnameRules, idPurchaseRules, isAuth, paramIdMovieRules, passwordRules, ticketRules, totalRules, usernameRules, validateResult } from '../middlewares/middlewares.js';
 import { paymentSession } from '../controller/controller.payments.js';
 
 const _dirname = path.resolve();
@@ -34,18 +34,15 @@ router.use('/home',limiter);
 router.use('/home/account',isAuth);
 router.use('/home/movie/reserve_tickets',isAuth);
 router.use('/login',morgan(format,{stream:accesToLogStream}),loginLimit);
-router.use('/login',usernameRules,passwordRules,validateResult);
 router.use('/singup',morgan(format,{stream:accesToLogStream}),loginLimit);
-router.use('/singup',fullnameRules,emailRules,usernameRules,passwordRules,validateResult);
-router.use('/home/movie/:id',paramIdMovieRules,validateResult);
 
 router.get('/home',getHome);
 router.get('/home/list',cache('1 day'),getMoviesByFormat);
 router.get('/home/movie',getMoviePage)
-router.get('/home/movie/:id',getMovieInfo);
-router.get('/home/movie/ticket/:format/:id',getMovieTicketData);
+router.get('/home/movie/:id',paramIdMovieRules,validateResult,getMovieInfo);
+router.get('/home/movie/ticket/:format/:id',formatIdRules,validateResult,getMovieTicketData);
 router.get('/home/movie/payments',successfulPaymentPage);
-router.get('/home/movie/payments/purchase/code:code',getDataPurchase);
+router.get('/home/movie/payments/purchase/:id_purchase',idPurchaseRules,validateResult,getDataPurchase);
 router.get('/home/account',getAccount);
 router.get('/home/account/purchases',cache('1 day'),getUserPurchase);
 router.get('/home/account/profile',cache('1 day'),profile);
@@ -53,18 +50,18 @@ router.get('/singup',limiter,getRegister);
 router.get('/login',limiter,getLogin);
 router.get('/home/error',serverError);
 
-router.post('/login/',postLogin);
-router.post('/singup',postRegister);
-router.post('/home/movie/payments/purchase',newPurchaseOrder);
-router.post('/home/movie/payments/purchase_details',newPurchaseDetails);
+router.post('/login/',usernameRules,passwordRules,validateResult,postLogin);
+router.post('/singup',fullnameRules,emailRules,usernameRules,passwordRules,validateResult,postRegister);
+router.post('/home/movie/payments/purchase',idPurchaseRules,totalRules,validateResult,newPurchaseOrder);
+router.post('/home/movie/payments/purchase_details',ticketRules,idPurchaseRules,amountRules,totalRules,validateResult,newPurchaseDetails);
 router.post('/home/movie/payments',paymentSession);
 
-router.patch('/home/account/profile/fullname',updateFullname);
-router.patch('/home/account/profile/email',updateEmail);
-router.patch('/home/account/profile/username',updateUsername);
-router.patch('/home/account/profile/password',updatePassword);
-router.patch('/home/movie/reserve_tickets',reserveTickets);
-router.patch('/home/movie/restore_tickets',restoreTicket);
+router.patch('/home/account/profile/fullname',fullnameRules,validateResult,updateFullname);
+router.patch('/home/account/profile/email',emailRules,validateResult,updateEmail);
+router.patch('/home/account/profile/username',usernameRules,validateResult,updateUsername);
+router.patch('/home/account/profile/password',passwordRules,validateResult,updatePassword);
+router.patch('/home/movie/reserve_tickets',ticketRules,amountRules,validateResult,reserveTickets);
+router.patch('/home/movie/restore_tickets',ticketRules,amountRules,validateResult,restoreTicket);
 
 router.delete('/home/account/profile',deleteAccount);
 
