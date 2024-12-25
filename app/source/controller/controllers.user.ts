@@ -24,7 +24,6 @@ interface user {
 export const getPayload = function(req:Request):JwtPayload{
   const cookies = req.headers.cookie?.split(';') as string[];
   const token:string = String(cookies.find(cookie => cookie.replace(' ','').startsWith('cmjwt='))?.replace('cmjwt=','').replace(' ',''));
-  // const payload = jsonWebToken.verify(token,process.env.SECRET as string) as JwtPayload;
   const payload = jsonWebToken.verify(token,config.SECRET) as JwtPayload;
   return payload;
 }
@@ -64,8 +63,6 @@ export const postLogin = function (req:Request, res: Response, next:NextFunction
       const isEqual = await bcrypt.compare(password,userData.user_password);
       if(isEqual === true){
         const payload: Object = { iduser: userData.id_user, levelAccess: 1 }
-        // const secret: string = config.SECRET;
-        // const expires: string = config.EXPRIRES;
         const token:string = jsonWebToken.sign(payload, config.SECRET, { expiresIn: config.EXPIRES });
         const sessionLimit:object = new Date(Date.now() + 1000 * 60 * 60 * 24);
         const cookieOptions:object = {expires:sessionLimit};

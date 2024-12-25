@@ -31,8 +31,6 @@ const limiter = rateLimit({
 router.use(express.json());
 router.use('/home',morgan(format,{stream:accesToLogStream}));
 router.use('/home',limiter);
-router.use('/home/account',isAuth);
-router.use('/home/movie/reserve_tickets',isAuth);
 router.use('/login',morgan(format,{stream:accesToLogStream}),loginLimit);
 router.use('/singup',morgan(format,{stream:accesToLogStream}),loginLimit);
 
@@ -43,9 +41,9 @@ router.get('/home/movie/:id',paramIdMovieRules,validateResult,getMovieInfo);
 router.get('/home/movie/ticket/:format/:id',formatIdRules,validateResult,getMovieTicketData);
 router.get('/home/movie/payments',successfulPaymentPage);
 router.get('/home/movie/payments/purchase/:id_purchase',idPurchaseRules,validateResult,getDataPurchase);
-router.get('/home/account',getAccount);
-router.get('/home/account/purchases',cache('1 day'),getUserPurchase);
-router.get('/home/account/profile',cache('1 day'),profile);
+router.get('/home/account',isAuth,getAccount);
+router.get('/home/account/purchases',isAuth,cache('1 day'),getUserPurchase);
+router.get('/home/account/profile',isAuth,cache('1 day'),profile);
 router.get('/singup',limiter,getRegister);
 router.get('/login',limiter,getLogin);
 router.get('/home/error',serverError);
@@ -56,14 +54,14 @@ router.post('/home/movie/payments/purchase',idPurchaseRules,totalRules,validateR
 router.post('/home/movie/payments/purchase_details',ticketRules,idPurchaseRules,amountRules,totalRules,validateResult,newPurchaseDetails);
 router.post('/home/movie/payments',paymentSession);
 
-router.patch('/home/account/profile/fullname',fullnameRules,validateResult,updateFullname);
-router.patch('/home/account/profile/email',emailRules,validateResult,updateEmail);
-router.patch('/home/account/profile/username',usernameRules,validateResult,updateUsername);
-router.patch('/home/account/profile/password',passwordRules,validateResult,updatePassword);
-router.patch('/home/movie/reserve_tickets',ticketRules,amountRules,validateResult,reserveTickets);
-router.patch('/home/movie/restore_tickets',ticketRules,amountRules,validateResult,restoreTicket);
+router.patch('/home/account/profile/fullname',isAuth,fullnameRules,validateResult,updateFullname);
+router.patch('/home/account/profile/email',isAuth,emailRules,validateResult,updateEmail);
+router.patch('/home/account/profile/username',isAuth,usernameRules,validateResult,updateUsername);
+router.patch('/home/account/profile/password',isAuth,passwordRules,validateResult,updatePassword);
+router.patch('/home/movie/reserve_tickets',isAuth,ticketRules,amountRules,validateResult,reserveTickets);
+router.patch('/home/movie/restore_tickets',isAuth,ticketRules,amountRules,validateResult,restoreTicket);
 
-router.delete('/home/account/profile',deleteAccount);
+router.delete('/home/account/profile',isAuth,deleteAccount);
 
 router.use('/home',errorServer);
 router.use('/login',errorServer);

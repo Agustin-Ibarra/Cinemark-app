@@ -1,5 +1,10 @@
+import path from 'path';
+import jsonWebToken from 'jsonwebtoken';
 import {NextFunction, Request, Response} from 'express';
 import { body, check, param, ValidationChain, validationResult } from 'express-validator';
+import { config } from '../config/config.js';
+
+const dirname = path.resolve();
 
 export const fullnameRules:ValidationChain[]=[
   body("fullname").notEmpty().withMessage('the fullname is required!'),
@@ -88,32 +93,42 @@ export const validateResult = (req:Request,res:Response,next:NextFunction)=>{
 }   
 
 /**
- * verifica que las peticiones contengan una cookie generada por el servidor
+ * redirecciona a la pagina login para iniciar sesion
+ * dependiendo el metodo http se utliza un metodo de respuesta
+ * @param {Request} req 
+ * @param {Response} res 
+ * @returns {void}
+ */
+const redirectLogin = function(req:Request,res:Response):void{
+  if(req.method === 'GET'){
+    res.status(401).redirect('/login');
+  }
+  else{
+    res.status(401).sendFile(path.join(dirname,'/app/source/views/user_UI/login.html'));
+  }
+}
+
+/**
+ * verifica que el usuario este autorizado si no esta autorizado se le niega el acceso
  * @param {Request} req
  * @param {Response} res 
  * @param {NextFunction} next 
  * @returns {void}
  */
 export const isAuth = function(req:Request,res:Response,next:NextFunction):void{
-  let pass:boolean = false;
   if(req.headers.cookie){
-    const cookies = req.headers.cookie.split(';');
-    cookies.forEach(cookie => {
-      if(cookie.replace(' ','').startsWith('cmjwt=') === true){
-        pass = true;
-      }
-    });
-  }
-  if(pass === false){
-    if(req.method === 'GET'){
-      res.status(401).redirect('/login');
+    try {
+      const token = req.headers.cookie?.replace('cmjwt=','');
+      jsonWebToken.verify(token,config.SECRET);
+      next();
     }
-    else if(req.method === 'PATCH'){
-      res.status(401).send('unathourized')
+    catch(error){
+      console.log(error);
+      redirectLogin(req,res);
     }
   }
   else{
-    next();
+    redirectLogin(req,res);
   }
 }
 

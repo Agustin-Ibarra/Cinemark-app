@@ -52,7 +52,7 @@ const generateTicket = function(array,$listTicket){
   });
 }
 
-fetch(`/home/movie/id:${sessionStorage.getItem('id')}`)
+fetch(`/home/movie/${sessionStorage.getItem('id')}`)
 .then(async(response)=>{
   if(response.status === 503){
     window.location.href = '/home/error';
@@ -62,6 +62,7 @@ fetch(`/home/movie/id:${sessionStorage.getItem('id')}`)
   }
   else{
     const movie = await response.json();
+    console.log(movie);
     const $movie = document.querySelector('.title-movie');
     const $time = document.querySelector('.time');
     const $description = document.querySelector('.description');
