@@ -1,8 +1,9 @@
 import { Request, Response } from 'express';
 import Stripe from 'stripe';
 import dotenv from 'dotenv';
+import { config } from '../config/config.js';
 
-const stripe = new Stripe(`${process.env.STRIPE}`);
+const stripe = new Stripe(`${config.STRIPE}`);
 dotenv.config();
 
 /**
@@ -28,8 +29,8 @@ export const paymentSession = async function(req:Request,res:Response):Promise<v
       quantity:amount
     }],
     mode:"payment",
-    success_url:'http://localhost:3001/home/movie/payments',
-    cancel_url:'http://localhost:3001/home/movie'
+    success_url:config.SUCCESS_URL,
+    cancel_url:config.CANCEL_URL
   });
   res.send({url:session.url});
 }

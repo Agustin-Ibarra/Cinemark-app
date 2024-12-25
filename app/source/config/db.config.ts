@@ -4,16 +4,17 @@ import { Clasification, Format, Movie, Supplier } from '../models/movies.models.
 import { Hall, Ticket } from '../models/tickets.models.js';
 import { PurchaseDetails, PurchaseOrder } from '../models/purchase.models.js';
 import { User } from '../models/users.models.js';
+import { config } from './config.js';
 
 dotenv.config();
 
 const sequlize = new Sequelize({
-  host: process.env.DB_HOST,
+  host: config.DB_HOST,
   dialect: 'mysql',
-  database: process.env.DB_NAME,
-  username: process.env.DB_USERNAME,
-  password: process.env.DB_PASSWORD,
-  port: Number(process.env.DB_PORT),
+  database: config.DB_NAME,
+  username: config.DB_USERNAME,
+  password: config.DB_PASSWORD,
+  port: config.DB_PORT,
   models: [Movie,Format,Supplier,Clasification,Ticket,Hall,PurchaseOrder,User,PurchaseDetails]
 });
 

@@ -1,11 +1,10 @@
 import cron from 'node-cron';
 import fs from 'fs';
 import path from 'path';
-import dotenv from 'dotenv';
 import nodemailer, { SentMessageInfo } from 'nodemailer';
+import { config } from '../config/config.js';
 
 const _dirname = path.resolve();
-dotenv.config();
 
 /**
  * envia por mail el archivos con errores en la aplicacion
@@ -15,14 +14,14 @@ const sendErrorLogs = async function():Promise<SentMessageInfo> {
   const transporter = nodemailer.createTransport({
     service:'gmail',
     auth:{
-      user:process.env.DELIVERY,
-      pass:process.env.CODES
+      user:config.DELIVERY,
+      pass:config.CODES
     }
   });
   
   const mailOptions = {
-    from:process.env.DELIVERY,
-    to:process.env.RECEIVER,
+    from:config.DELIVERY,
+    to:config.RECEIVER,
     subject:'Application error notification',
     text:'file with error logs',
     attachments:[

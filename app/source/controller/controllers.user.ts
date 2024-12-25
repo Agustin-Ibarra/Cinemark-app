@@ -1,11 +1,10 @@
 import { NextFunction, Request, Response } from 'express'
-import dotenv  from 'dotenv';
 import path from 'path';
 import bcrypt from 'bcryptjs';
 import jsonWebToken from 'jsonwebtoken';
 import { User } from '../models/users.models.js';
+import { config } from '../config/config.js';
 
-dotenv.config();
 const _driname = path.resolve();
 
 interface JwtPayload{
@@ -25,7 +24,8 @@ interface user {
 export const getPayload = function(req:Request):JwtPayload{
   const cookies = req.headers.cookie?.split(';') as string[];
   const token:string = String(cookies.find(cookie => cookie.replace(' ','').startsWith('cmjwt='))?.replace('cmjwt=','').replace(' ',''));
-  const payload = jsonWebToken.verify(token,process.env.SECRET as string) as JwtPayload;
+  // const payload = jsonWebToken.verify(token,process.env.SECRET as string) as JwtPayload;
+  const payload = jsonWebToken.verify(token,config.SECRET) as JwtPayload;
   return payload;
 }
 
@@ -44,11 +44,11 @@ export const getLogin = function (req: Request, res: Response) {
  * @returns {void}
  */
 export const postLogin = function (req:Request, res: Response, next:NextFunction):void {
-  type userData = {
+  type requestType = {
     username:string,
     password:string
   }
-  const {username,password}:userData = req.body;
+  const {username,password}:requestType = req.body;
   User.findAll({
     where:{
       username:username
@@ -64,11 +64,11 @@ export const postLogin = function (req:Request, res: Response, next:NextFunction
       const isEqual = await bcrypt.compare(password,userData.user_password);
       if(isEqual === true){
         const payload: Object = { iduser: userData.id_user, levelAccess: 1 }
-        const secret: string = process.env.SECRET as string;
-        const expires: string = process.env.EXPIRES as string;
-        const token: string = jsonWebToken.sign(payload, secret, { expiresIn: expires });
-        const sessionLimit: object = new Date(Date.now() + 1000 * 60 * 60 * 24); // tiempo de duracion del token
-        const cookieOptions: object = { expires: sessionLimit };
+        // const secret: string = config.SECRET;
+        // const expires: string = config.EXPRIRES;
+        const token:string = jsonWebToken.sign(payload, config.SECRET, { expiresIn: config.EXPIRES });
+        const sessionLimit:object = new Date(Date.now() + 1000 * 60 * 60 * 24);
+        const cookieOptions:object = {expires:sessionLimit};
         res.cookie('cmjwt', token, cookieOptions).send('authorized');
       }
       else{
@@ -92,13 +92,13 @@ export const getRegister = function (req: Request, res: Response) {
  * @returns {void}
  */
 export const postRegister = async function (req: Request, res: Response,next: NextFunction):Promise<void>{
-  type userData = {
+  type requestType = {
     fullname:string,
     email:string,
     username:string,
     password:string
   }
-  const {fullname,email,username,password}: userData = req.body
+  const {fullname,email,username,password}: requestType = req.body
   const salt = await bcrypt.genSalt(5);
   const hash: String = await bcrypt.hash(password, salt);
   const userData = {
@@ -156,11 +156,11 @@ export const profile = function(req:Request,res:Response):void{
  * @returns {void}
  */
 export const updateFullname = function(req:Request,res:Response):void{
-  type userData = {
+  type requestType = {
     newValue:string
   }
   const payload = getPayload(req);
-  const {newValue}: userData = req.body;
+  const {newValue}: requestType = req.body;
   User.update(
     {fullname:newValue},
     {where:{
@@ -181,11 +181,11 @@ export const updateFullname = function(req:Request,res:Response):void{
  * @param res interface Response
  */
 export const updateEmail = function(req:Request,res:Response){
-  type userData = {
+  type requestType = {
     newValue:string
   }
   const payload = getPayload(req);
-  const {newValue}:userData = req.body;
+  const {newValue}:requestType = req.body;
   User.update(
     {email:newValue},
     {where:{
@@ -209,11 +209,11 @@ export const updateEmail = function(req:Request,res:Response){
  * @returns {void}
  */
 export const updateUsername = function(req:Request,res:Response):void{
-  type userData = {
+  type requestType = {
     newValue:string
   }
   const payload = getPayload(req);
-  const {newValue}:userData = req.body;
+  const {newValue}:requestType = req.body;
   User.update(
     {username:newValue},
     {where:{
@@ -238,11 +238,11 @@ export const updateUsername = function(req:Request,res:Response):void{
  */
 
 export const updatePassword = async function(req:Request,res:Response):Promise<void>{
-  type UserData = {
+  type requestType = {
     newValue:string,
   }
   const payload = getPayload(req);
-  const {newValue}:UserData = req.body;
+  const {newValue}:requestType = req.body;
   const salt = await bcrypt.genSalt(5);
   const hash = await bcrypt.hash(newValue,salt);
   User.update(

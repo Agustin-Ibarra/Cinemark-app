@@ -1,15 +1,14 @@
 import express from 'express';
 import path from 'path';
-import dotenv from 'dotenv';
 import router from './routes/routes.js';
 import swaggerUI from 'swagger-ui-express';
 import swaggerSetup from './docs/swagger.js';
 import { cronJob } from './monitoring/routes.monitorings.js';
 import sequlize from './config/db.config.js';
+import { config } from './config/config.js';
 
-dotenv.config();
 const _dirname = path.resolve();
-const port = process.env.PORT;
+const port = config.PORT;
 const app = express();
 
 app.use(router);

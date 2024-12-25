@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import path from 'path';
 import { v4 } from 'uuid';
-import dotenv from 'dotenv';
 import { Op } from 'sequelize';
 import { getPayload } from './controllers.user.js';
 import { Clasification, Format, Movie } from '../models/movies.models.js';
@@ -10,7 +9,6 @@ import { Sequelize } from 'sequelize-typescript';
 import { PurchaseDetails, PurchaseOrder } from '../models/purchase.models.js';
 import { User } from '../models/users.models.js';
 
-dotenv.config();
 const _dirname  = path.resolve();
 
 export const getHome = function(req:Request,res:Response){
@@ -227,12 +225,12 @@ export const successfulPaymentPage = function(req:Request,res:Response){
  * @returns {void}
  */
 export const newPurchaseOrder = function(req:Request,res:Response,next:NextFunction):void{
-  type purchase = {
+  type requestType = {
     id_purchase:string,
     total:number
   }
   const payload = getPayload(req);
-  const {id_purchase,total}: purchase = req.body;
+  const {id_purchase,total}: requestType = req.body;
   console.log(id_purchase)
   const purchaseData = {
     id_purchase:id_purchase,
@@ -262,13 +260,13 @@ export const newPurchaseOrder = function(req:Request,res:Response,next:NextFunct
  * @returns {void}
  */
 export const newPurchaseDetails = function(req:Request,res:Response,next:NextFunction):void{
-  type purchaseData = {
+  type requetsType = {
     idTicket:number,
     id_purchase:string,
     amount:number,
     subtotal:number
   }
-  const {idTicket,id_purchase,amount,subtotal}: purchaseData = req.body
+  const {idTicket,id_purchase,amount,subtotal}: requetsType = req.body
   const purchaseDetails = {
     id_purchase_details:Math.round(Math.random() * (90 - 10 + 1)),
     ticket_movie:idTicket,
