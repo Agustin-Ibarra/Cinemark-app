@@ -16,6 +16,7 @@ accesToLogStream.write('date;method;url;status_code;content-length;response_time
 const format = ':date;:method;:url;:status;:res[content-length];:response-time;:remote-addr';
 const router = Router();
 const cache = apicache.middleware;
+
 const loginLimit = rateLimit({
   windowMs: 10 * 60 * 1000,
   max:10,
@@ -32,7 +33,7 @@ router.use(express.json());
 router.use('/home',morgan(format,{stream:accesToLogStream}));
 router.use('/home',limiter);
 router.use('/login',morgan(format,{stream:accesToLogStream}),loginLimit);
-router.use('/singup',morgan(format,{stream:accesToLogStream}),loginLimit);
+router.use('/signup',morgan(format,{stream:accesToLogStream}),loginLimit);
 
 router.get('/home',getHome);
 router.get('/home/list',cache('1 day'),getMoviesByFormat);
@@ -44,12 +45,12 @@ router.get('/home/movie/payments/purchase/:id_purchase',idPurchaseRules,validate
 router.get('/home/account',isAuth,getAccount);
 router.get('/home/account/purchases',isAuth,cache('1 day'),getUserPurchase);
 router.get('/home/account/profile',isAuth,cache('1 day'),profile);
-router.get('/singup',limiter,getRegister);
+router.get('/signup',limiter,getRegister);
 router.get('/login',limiter,getLogin);
 router.get('/home/error',serverError);
 
-router.post('/login/',usernameRules,passwordRules,validateResult,postLogin);
-router.post('/singup',fullnameRules,emailRules,usernameRules,passwordRules,validateResult,postRegister);
+router.post('/login/api',usernameRules,passwordRules,validateResult,postLogin);
+router.post('/signup',fullnameRules,emailRules,usernameRules,passwordRules,validateResult,postRegister);
 router.post('/home/movie/payments/purchase',idPurchaseRules,totalRules,validateResult,newPurchaseOrder);
 router.post('/home/movie/payments/purchase_details',ticketRules,idPurchaseRules,amountRules,totalRules,validateResult,newPurchaseDetails);
 router.post('/home/movie/payments',paymentSession);
@@ -65,6 +66,6 @@ router.delete('/home/account/profile',isAuth,deleteAccount);
 
 router.use('/home',errorServer);
 router.use('/login',errorServer);
-router.use('/singup',errorServer);
+router.use('/signup',errorServer);
 
 export default router;

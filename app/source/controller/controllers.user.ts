@@ -79,7 +79,7 @@ export const postLogin = function (req:Request, res: Response, next:NextFunction
 }
 
 export const getRegister = function (req: Request, res: Response) {
-  res.sendFile(path.join(_driname, 'app/source/views/user_UI/singup.html'));
+  res.sendFile(path.join(_driname, 'app/source/views/user_UI/signup.html'));
 }
 
 /**

@@ -10,7 +10,6 @@ $body.addEventListener("click",(e)=>{
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
     const confirmPassword = document.getElementById('confirm-password').value;
-    console.log(!fullname,email,username,password,confirmPassword)
     if(!fullname || !email || !username || !password || !confirmPassword){
       $waring.classList.replace('hidden','visible');
       $waring.textContent = 'All fields must be complete!'
@@ -25,7 +24,7 @@ $body.addEventListener("click",(e)=>{
         $waring.classList.replace('hidden','visible');
       }
       else{
-        fetch('/singup',{
+        fetch('/signup',{
           method:"POST",
           headers: {"Content-Type":"application/json"},
           body:JSON.stringify({
@@ -41,11 +40,15 @@ $body.addEventListener("click",(e)=>{
           }
           if(response.status === 400){
             const result = await response.json();
-            $waring.textContent = result.error;
+            $waring.textContent = 'some flied be a contains a invalid format!';
             $waring.classList.replace('hidden','visible');
           }
           else if(response.status === 200){
             window.location.href = '/login';
+          }
+          else if(response.status === 429){
+            $waring.textContent = 'Try again in 10 minutes!';
+            $waring.classList.replace('hidden','visible');
           }
         })
         .catch((error)=>{
