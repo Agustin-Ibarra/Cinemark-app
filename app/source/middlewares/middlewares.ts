@@ -8,29 +8,29 @@ const dirname = path.resolve();
 
 export const fullnameRules:ValidationChain[]=[
   body("fullname").notEmpty().withMessage('the fullname is required!'),
-  body("fullname").isLength({min:3,max:20}).withMessage('el nombre completo debe tener entre 4 a 20 caracteres!'),
-  body("fullname").matches(/^[a-zA-Z\s]+$/).withMessage('el nombre de usuario solo debe contener letras numeros y guiones bajos!'),
+  body("fullname").isLength({min:3,max:20}).withMessage('the full name must be between 4 to 20 characters!'),
+  body("fullname").matches(/^[a-zA-Z\s]+$/).withMessage('username must only contain letters!'),
   body("fullname").trim(),
   body("fullname").escape()
 ];
 
 export const emailRules:ValidationChain[]=[
   body("email").notEmpty().withMessage('the email is required!'),
-  body("email").isEmail().withMessage('no es una mail valido!'),
+  body("email").isEmail().withMessage('invalid mail!'),
   body("email").escape()
 ];
 
 export const usernameRules:ValidationChain[]=[
   body("username").notEmpty().withMessage('the username is required!'),
-  body("username").isLength({min:4,max:20}).withMessage('el nombre de usuario debe tener entre 4 a 20 caracteres!'),
-  body("username").matches(/^[a-zA-Z0-9_-]+$/).withMessage('el nombre de usuario solo debe contener letras numeros y guiones bajos!'),
+  body("username").isLength({min:4,max:20}).withMessage('Username must be between 4 to 20 characters!'),
+  body("username").matches(/^[a-zA-Z0-9_-]+$/).withMessage('Username must only contain letters, numbers and underscores!'),
   body("username").escape()
 ];
 
 export const passwordRules:ValidationChain[]=[
   body("password").notEmpty().withMessage('the password is required!'),
-  body("password").isLength({min:8,max:20}).withMessage('la contraseña no debe ser menor a 8 caracteres'),
-  body("password").matches(/^[a-zA-Z0-9_-]+$/).withMessage('la contraseña solo debe contener letras numeros y guiones bajos!'),
+  body("password").isLength({min:8,max:20}).withMessage('The password must not be less than 8 characters'),
+  body("password").matches(/^[a-zA-Z0-9_-]+$/).withMessage('Password must only contain letters, numbers and underscores!'),
   body("password").escape()
 ];
 
@@ -43,7 +43,7 @@ export const paramIdMovieRules:ValidationChain[]=[
 
 export const idPurchaseRules:ValidationChain[]=[
   check("id_purchase").notEmpty().withMessage('the code is required!'),
-  check("id_purchase").isUUID().withMessage('el fromato del codigo debe ser uuid'),
+  check("id_purchase").isUUID().withMessage('the code must be UUID'),
   check("id_purchase").trim(),
   check("id_purchase").escape(),
 ]
