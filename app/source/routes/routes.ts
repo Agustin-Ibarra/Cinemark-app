@@ -32,10 +32,15 @@ const cache = apicache.middleware;
 apicache.options({statusCodes:{exclude:[400,401,404,409,429,500,503]}});
 
 router.use(express.json());
-router.use('/home',morgan(format,{stream:accesToLogStream}));
+router.use(morgan(format,
+  {
+    stream:accesToLogStream,
+    skip:(req)=> req.url.match(/\.(css|js|html|png|jpg)$/) !== null
+  }
+));
 router.use('/home',limiter);
-router.use('/login',morgan(format,{stream:accesToLogStream}),loginLimit);
-router.use('/signup',morgan(format,{stream:accesToLogStream}),loginLimit);
+router.use('/login',loginLimit);
+router.use('/signup',loginLimit);
 
 router.get('/home',getHome);
 router.get('/home/list',cache('1 day'),getMoviesByFormat);

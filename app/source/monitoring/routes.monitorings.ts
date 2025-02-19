@@ -26,8 +26,12 @@ const sendErrorLogs = async function():Promise<SentMessageInfo> {
     text:'file with error logs',
     attachments:[
       {
-        fillname:'errorLogs.csv',
+        filename:'errorLogs.csv',
         path:path.join(_dirname,'app/dist/routes/errorLogs.csv')
+      },
+      {
+        filename:'access.csv',
+        path:path.join(_dirname,'app/dist/routes/access.csv')
       }
     ]
   }
