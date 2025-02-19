@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import path from 'path';
 import { v4 } from 'uuid';
 import { Op } from 'sequelize';
+import apiCache from 'apicache';
 import { getPayload } from './controllers.user.js';
 import { Clasification, Format, Movie } from '../models/movies.models.js';
 import { Ticket } from '../models/tickets.models.js';
@@ -10,6 +11,7 @@ import { PurchaseDetails, PurchaseOrder } from '../models/purchase.models.js';
 import { User } from '../models/users.models.js';
 
 const _dirname  = path.resolve();
+const cache = apiCache.middleware(); 
 
 export const getHome = function(req:Request,res:Response){
   res.sendFile(path.join(_dirname,'app/source/views/cinemark_UI/home.html'));

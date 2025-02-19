@@ -15,7 +15,6 @@ const accesToLogStream = fs.createWriteStream(path.join(_dirname,'app/dist/monit
 accesToLogStream.write('date;method;url;status_code;content-length;response_time;remote_addres\n'); // escribe el archivo logs
 const format = ':date;:method;:url;:status;:res[content-length];:response-time;:remote-addr';
 const router = Router();
-const cache = apicache.middleware;
 
 const loginLimit = rateLimit({
   windowMs: 10 * 60 * 1000,
@@ -28,6 +27,9 @@ const limiter = rateLimit({
   windowMs: 30*60*1000,
   max:50,
 });
+
+const cache = apicache.middleware;
+apicache.options({statusCodes:{exclude:[400,401,404,409,429,500,503]}});
 
 router.use(express.json());
 router.use('/home',morgan(format,{stream:accesToLogStream}));

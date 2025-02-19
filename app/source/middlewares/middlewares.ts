@@ -141,6 +141,7 @@ export const isAuth = function(req:Request,res:Response,next:NextFunction):void{
  * @returns {void}
  */
 export const errorServer = function(error:any,req:Request,res:Response,next:NextFunction):void{
+  console.log(req.url);
   if(error.parent){
     if(error.parent.errno === -4078){
       res.status(503).send('Content not avaliable!');
