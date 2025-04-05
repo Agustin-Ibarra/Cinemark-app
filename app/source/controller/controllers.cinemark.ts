@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import path from 'path';
 import { v4 } from 'uuid';
-import { Op } from 'sequelize';
 import apiCache from 'apicache';
 import { getPayload } from './controllers.user.js';
 import { Clasification, Format, Movie } from '../models/movies.models.js';
@@ -24,60 +23,43 @@ export const getHome = function(req:Request,res:Response){
  * @returns {void}
  */
 export const getMoviesByFormat = function(req:Request,res:Response,next:NextFunction): void{
-  if(req.query.format === 'premier'){
-    Movie.findAll({
-      where:{
-        premier:1
-      },
-      attributes:['id_movie','title','poster']
-    })
-    .then((result)=>{
-      next();
-      res.send(result);
-    })
-    .catch((error)=>{
-      next(error);
-    });
+  interface movieData {
+    id_movie:number,
+    poster:string,
+    format:number
   }
-  else if(req.query.format === '3D'){
-    Movie.findAll({
-      where:{
-        [Op.or]:[
-          {format:2},
-          {format:4}
-        ]
-      },
-      attributes:['id_movie','title','poster']
-    })
-    .then((result)=>{
-      next()
-      res.send(result);
-    })
-    .catch((error)=>{
-      next(error);
-    });
+  interface movieList {
+    movies2D:movieData[],
+    movies3D:movieData[],
+    moviesPremier:movieData[]
   }
-  else if(req.query.format === '2D'){
-    Movie.findAll({
-      where:{
-        [Op.or]:[
-          {format:1},
-          {format:4}
-        ]
-      },
-      attributes:['id_movie','title','poster']
-    })
-    .then((result)=>{
-      next();
-      res.status(200).send(result);
-    })
-    .catch((error)=>{
-      next(error);
-    });
+  const movies:movieList = {
+    movies2D:[],
+    movies3D:[],
+    moviesPremier:[]
   }
-  else{
-    res.status(404).send('not found!');
-  }
+  Movie.findAll({attributes:['id_movie','title','poster','format','premier']})
+  .then((result)=>{
+    for(let i=0; i<result.length; i++){
+      if(result[i].dataValues.premier === 1){
+        movies.moviesPremier.push(result[i].dataValues);
+      }
+      else if(result[i].dataValues.format === 1){
+        movies.movies2D.push(result[i].dataValues);
+      }
+      else if(result[i].dataValues.format === 2){
+        movies.movies3D.push(result[i].dataValues);
+      }
+      else if(result[i].dataValues.format === 4){
+        movies.movies3D.push(result[i].dataValues);
+        movies.movies2D.push(result[i].dataValues);
+      }
+    }
+    res.status(200).json(movies);
+  })
+  .catch((error)=>{
+    next(error);
+  });
 }
 
 export const getMoviePage = function(req:Request,res:Response){
@@ -104,7 +86,7 @@ export const getMovieInfo = function(req:Request,res:Response,next:NextFunction)
     attributes:['title','id_movie','poster','description','duration_time','trailer']
   })
   .then((result)=>{
-    res.send(result);
+    res.json(result);
   })
   .catch((error)=>{
     next(error);
@@ -118,7 +100,6 @@ export const getMovieInfo = function(req:Request,res:Response,next:NextFunction)
  * @returns {void}
  */
 export const getMovieTicketData = function(req:Request,res:Response,next:NextFunction):void{
-  console.log(req.params);
   const idMovie:Number = Number(req.params.id);
   if(req.params.format === 'premier'){
     Ticket.findAll({
@@ -140,12 +121,11 @@ export const getMovieTicketData = function(req:Request,res:Response,next:NextFun
       attributes:['id_ticket','date_ticket','subtitles','stock','ticket_price']
     })
     .then((result)=>{
-      res.send(result);
+      res.json(result);
     })
     .catch((error)=>{
       next(error);
     });
-    
   }
   else{
     const format = Number(req.params.format);
@@ -167,7 +147,7 @@ export const getMovieTicketData = function(req:Request,res:Response,next:NextFun
       attributes:['id_ticket','date_ticket','subtitles','stock','ticket_price']
     })
     .then((result)=>{
-      res.send(result);
+      res.json(result);
     })
     .catch((error)=>{
       console.log(error);
@@ -328,7 +308,6 @@ export const getDataPurchase = function(req:Request,res:Response,next:NextFuncti
     attributes:['amount_ticket','sub_total']
   })
   .then((result)=>{
-    console.log(result[0]);
     res.json(result[0]);
   })
   .catch((error)=>{ 
@@ -373,7 +352,7 @@ export const getUserPurchase = function(req:Request,res:Response):void{
     attributes:['id_purchase_order','amount_ticket'],
   })
   .then((result)=>{
-    res.send(result);
+    res.json(result);
   })
   .catch((error)=>{
     console.log(error);

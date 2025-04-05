@@ -142,7 +142,7 @@ export const profile = function(req:Request,res:Response):void{
     });  
   }
   else{
-    res.status(401).send();
+    res.status(401).send('unauthorized!');
   }
 }
 

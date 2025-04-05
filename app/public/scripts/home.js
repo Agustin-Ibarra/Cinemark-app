@@ -25,22 +25,8 @@ const generateMovies = function(movies,$list,type){
     $list.appendChild(item);
   });
 }
-fetch('/home/list?format=premier')
-.then(async(response)=>{
-  if(response.status === 503){
-    window.location.href = '/home/error';
-  }
-  if(response.status === 429){
-    window.location.reload();
-  }
-  else if(response.status === 200){
-    const movies = await response.json();
-    generateMovies(movies,$premiers,"premier");
-  }
-})
-.catch((error)=>{console.error(error);});
 
-fetch('/home/list?format=3D')
+fetch('/home/list')
 .then(async(response)=>{
   if(response.status === 503){
     window.location.href = '/home/error';
@@ -50,22 +36,9 @@ fetch('/home/list?format=3D')
   }
   else if(response.status === 200){
     const movies = await response.json();
-    generateMovies(movies,$list3D,"3D");
-  }
-})
-.catch((error)=>{console.error(error);});
-
-fetch('/home/list?format=2D')
-.then(async(response)=>{
-  if(response.status === 503){
-    window.location.href = '/home/error';
-  }
-  if(response.status === 429){
-    window.location.reload();
-  }
-  else if(response.status === 200){
-    const movies = await response.json();
-    generateMovies(movies,$list2D,"2D");
+    generateMovies(movies.movies2D,$list2D,"2d");
+    generateMovies(movies.movies3D,$list3D,"3d");
+    generateMovies(movies.moviesPremier,$premiers,"premier");
   }
 })
 .catch((error)=>{console.error(error);});

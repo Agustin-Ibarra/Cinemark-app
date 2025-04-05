@@ -29,7 +29,7 @@ const limiter = rateLimit({
 });
 
 const cache = apicache.middleware;
-apicache.options({statusCodes:{exclude:[400,401,404,409,429,500,503]}});
+apicache.options({statusCodes:{exclude:[400,404,409,429,500,503]}});
 
 router.use(express.json());
 router.use(morgan(format,
