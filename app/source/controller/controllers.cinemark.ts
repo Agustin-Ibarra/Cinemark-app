@@ -69,7 +69,7 @@ export const getMoviesByFormat = function(req:Request,res:Response,next:NextFunc
     })
     .then((result)=>{
       next();
-      res.send(result);
+      res.status(200).send(result);
     })
     .catch((error)=>{
       next(error);

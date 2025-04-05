@@ -135,7 +135,7 @@ export const profile = function(req:Request,res:Response):void{
       attributes:['fullname','email','username']
     })
     .then((result)=>{
-      res.json(result);
+      res.status(200).json(result);
     })
     .catch((error)=>{
       console.log(error);
