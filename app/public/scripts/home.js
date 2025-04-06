@@ -36,8 +36,8 @@ fetch('/home/movie/api')
   }
   else if(response.status === 200){
     const movies = await response.json();
-    generateMovies(movies.movies2D,$list2D,"2d");
-    generateMovies(movies.movies3D,$list3D,"3d");
+    generateMovies(movies.movies2D,$list2D,"2D");
+    generateMovies(movies.movies3D,$list3D,"3D");
     generateMovies(movies.moviesPremier,$premiers,"premier");
   }
 })
