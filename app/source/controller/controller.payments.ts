@@ -32,5 +32,5 @@ export const paymentSession = async function(req:Request,res:Response):Promise<v
     success_url:config.SUCCESS_URL,
     cancel_url:config.CANCEL_URL
   });
-  res.json({url:session.url});
+  res.status(200).json({url:session.url});
 }

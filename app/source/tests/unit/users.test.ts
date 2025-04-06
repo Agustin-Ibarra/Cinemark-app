@@ -44,7 +44,7 @@ describe("POST /login/api",()=>{
   test('deberia realizar una consulta a la base de datos',async()=>{
     await postLogin(req,res,next);
     expect(User.findAll).toHaveBeenCalled();
-  })
+  });
 });
 
 

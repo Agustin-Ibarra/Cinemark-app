@@ -26,7 +26,7 @@ const generateMovies = function(movies,$list,type){
   });
 }
 
-fetch('/home/list')
+fetch('/home/movie/api')
 .then(async(response)=>{
   if(response.status === 503){
     window.location.href = '/home/error';

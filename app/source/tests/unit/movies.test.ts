@@ -65,5 +65,4 @@ describe("PATCH /home/movie/reserve_tickets",()=>{
     await reserveTickets(req,res);
     expect(Ticket.update).toHaveBeenCalled();
   }); 
-
 });

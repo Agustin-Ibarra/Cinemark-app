@@ -13,7 +13,7 @@ const config: Config = {
     }],
   },
   transformIgnorePatterns: ['<rootDir>/node_modules/'],
-  testMatch: ['<rootDir>app/source/testing/unit/**/*.ts'], // Solo ejecuta archivos de prueba en source/testing
+  testMatch: ['<rootDir>app/source/tests/**/*.ts'], // Solo ejecuta archivos de prueba en source/testing
   verbose:true
 };
 

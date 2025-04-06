@@ -25,7 +25,7 @@ const server = app.listen(port,()=>{
     console.log('db connection success');
   })
   .catch((error)=>{
-    console.log('no conection');
+    console.log('failed conection');
   })
 });
 

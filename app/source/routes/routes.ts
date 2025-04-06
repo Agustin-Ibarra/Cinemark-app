@@ -43,7 +43,7 @@ router.use('/login',loginLimit);
 router.use('/signup',loginLimit);
 
 router.get('/home',getHome);
-router.get('/home/list',cache('1 day'),getMoviesByFormat);
+router.get('/home/movie/api',cache('1 day'),getMoviesByFormat);
 router.get('/home/movie',getMoviePage)
 router.get('/home/movie/:id',paramIdMovieRules,validateResult,getMovieInfo);
 router.get('/home/movie/ticket/:format/:id',formatIdRules,validateResult,getMovieTicketData);
