@@ -27,7 +27,7 @@ backend/
 |   ├── models/        # conexion, configuracion y modelos de datos y consultas
 |   ├── monitoring/    # procesamintos y preparacion de los archivos de logs
 |   ├── routes/        # define las rutas y se especifica qué controlador debe manejar la petición
-|   ├── testing/       # archivos de testing (pruebas unitarias) para el asegurar el correcto funcionamiento de la aplicacion
+|   ├── tests/         # archivos de tests (pruebas unitarias y de integracion) para el asegurar el correcto funcionamiento de la aplicacion
 |   └── index/         # punto de entrada de la aplicacion (configuracion del servidor)
 ```
 ## Base de datos
