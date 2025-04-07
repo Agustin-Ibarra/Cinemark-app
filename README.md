@@ -40,7 +40,7 @@ La informacion esta almacenada en una base de datos relacional, utiliza la libre
 - Documentacion del codigo fuente: la documentacion del codigo fuente fue creada con JSDoc
 - Enlace: documentacion disponible en [docs](http://localhost:3001/cinemark/documentation)
 ## Pruebas unitarias
-- Librerias: las pruebas unitarias estan creadas con las librerias de Jest y Mock
+- Librerias: las pruebas unitarias estan creadas con la libreria de Jest y Mock
 - Iniciar test: con el siguiente comando ejecuta las pruebas unitarias
 ```bash
 npm test
