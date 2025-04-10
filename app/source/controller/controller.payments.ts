@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import Stripe from 'stripe';
-import dotenv from 'dotenv';
 import { config } from '../config/config.js';
 
 const stripe = new Stripe(`${config.STRIPE}`);
