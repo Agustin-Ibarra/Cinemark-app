@@ -1,10 +1,8 @@
 import { Request, Response } from 'express';
 import Stripe from 'stripe';
-import dotenv from 'dotenv';
 import { config } from '../config/config.js';
 
 const stripe = new Stripe(`${config.STRIPE}`);
-dotenv.config();
 
 /**
  * crea una sesion para poder realizar los pagos a travez de la API de srtipe

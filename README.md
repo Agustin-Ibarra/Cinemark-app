@@ -12,7 +12,7 @@ EL proyecto esta contruido basandose en el patron de diseño (MVC).
 ## Características
 - Gestión de usuarios implementacion de tokens de autorizacion y autenticacion
 - Integración con API de terceros, utiliza los servicios de stripe para realizar pagos online
-- Implementacion de varibles de entorno para el acceso a diferentes ervicios y otros usos especificos
+- Implementacion de varibles de entorno para el acceso a diferentes servicios y otros usos especificos
 - Optimizacion de APIs mediante utlizacion de cache y limitando la cantidad de peticiones
 ## BackEnd
 - Tecnologias utilizadas: TypeScript Node.js con Express
@@ -27,7 +27,7 @@ backend/
 |   ├── models/        # conexion, configuracion y modelos de datos y consultas
 |   ├── monitoring/    # procesamintos y preparacion de los archivos de logs
 |   ├── routes/        # define las rutas y se especifica qué controlador debe manejar la petición
-|   ├── testing/       # archivos de testing (pruebas unitarias) para el asegurar el correcto funcionamiento de la aplicacion
+|   ├── tests/         # archivos de tests (pruebas unitarias y de integracion) para el asegurar el correcto funcionamiento de la aplicacion
 |   └── index/         # punto de entrada de la aplicacion (configuracion del servidor)
 ```
 ## Base de datos
@@ -40,7 +40,13 @@ La informacion esta almacenada en una base de datos relacional, utiliza la libre
 - Documentacion del codigo fuente: la documentacion del codigo fuente fue creada con JSDoc
 - Enlace: documentacion disponible en [docs](http://localhost:3001/cinemark/documentation)
 ## Pruebas unitarias
-- Librerias: las pruebas unitarias estan creadas con las librerias de Jest y supertest
+- Librerias: las pruebas unitarias estan creadas con la libreria de Jest y Mock
+- Iniciar test: con el siguiente comando ejecuta las pruebas unitarias
+```bash
+npm test
+```
+## Pruebas de integracion
+- Librerias: las pruebas de integracion estan creadas con las librerias de Jest y supertest
 - Iniciar test: con el siguiente comando ejecuta las pruebas unitarias
 ```bash
 npm test
