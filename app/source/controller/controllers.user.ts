@@ -107,7 +107,7 @@ export const postRegister = async function (req: Request, res: Response,next: Ne
   }
   User.create(userData)
   .then((result)=>{
-    res.send('success');
+    res.status(201).json({message:'user created'});
   })  
   .catch((error)=>{
     if(error.parent.errno === 1062){
@@ -142,7 +142,7 @@ export const profile = function(req:Request,res:Response):void{
     });  
   }
   else{
-    res.status(401).send('unauthorized!');
+    res.status(401).send({error:'unauthorized!'});
   }
 }
 
@@ -165,7 +165,7 @@ export const updateFullname = function(req:Request,res:Response):void{
     }}
   )
   .then((result)=>{
-    res.status(201).send('update fullname');
+    res.status(201).json({message:'update fullname'});
   })
   .catch((error)=>{
     console.log(error);
@@ -190,7 +190,7 @@ export const updateEmail = function(req:Request,res:Response){
     }}
   )
   .then((result)=>{
-    res.status(201).send('update email');
+    res.status(201).json({message:'update email'});
   })
   .catch((error)=>{
     if(error.parent.errno === 1062){
@@ -218,7 +218,7 @@ export const updateUsername = function(req:Request,res:Response):void{
     }}
   )
   .then((result)=>{
-    res.status(201).send('update username');
+    res.status(201).json({message:'update username'});
   })
   .catch((error)=>{
     if(error.parent.errno === 1062){
@@ -249,7 +249,7 @@ export const updatePassword = async function(req:Request,res:Response):Promise<v
     }}
   )
   .then((result)=>{
-    res.status(201).send('update password');
+    res.status(201).json({message:'update password'});
   })
   .catch((error)=>{
     console.log(error);
@@ -270,7 +270,7 @@ export const deleteAccount = function(req:Request,res:Response):void{
     }
   })
   .then((result)=>{
-    res.send('delete');
+    res.status(204).send();
   })
   .catch((error)=>{
     console.log(error);

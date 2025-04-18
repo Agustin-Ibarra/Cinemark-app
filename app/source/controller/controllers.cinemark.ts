@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import path from 'path';
 import { v4 } from 'uuid';
-import apiCache from 'apicache';
 import { getPayload } from './controllers.user.js';
 import { Clasification, Format, Movie } from '../models/movies.models.js';
 import { Ticket } from '../models/tickets.models.js';
@@ -10,7 +9,6 @@ import { PurchaseDetails, PurchaseOrder } from '../models/purchase.models.js';
 import { User } from '../models/users.models.js';
 
 const _dirname  = path.resolve();
-const cache = apiCache.middleware(); 
 
 export const getHome = function(req:Request,res:Response){
   res.sendFile(path.join(_dirname,'app/source/views/cinemark_UI/home.html'));
@@ -189,7 +187,7 @@ export const restoreTicket = function(req:Request,res:Response):void{
     {where:{id_ticket:Number(idTicket)}}
   )
   .then((result)=>{
-    res.status(201).send('cancel');
+    res.status(201).json({message:'modified reserve'});
   })
   .catch((error)=>{
     console.log(error);
@@ -222,12 +220,12 @@ export const newPurchaseOrder = function(req:Request,res:Response,next:NextFunct
   }
   PurchaseOrder.create(purchaseData)
   .then((result)=>{
-    res.send('success');
+    res.json({message:'purchase created'});
   })
   .catch((error)=>{
     console.log(error);
     if(error.parent.errno === 1062){
-      res.status(400).send('Duplicate entry!');
+      res.status(400).json({error:'duplicate purchase id!'});
     }
     else{
       next(error);
@@ -260,7 +258,7 @@ export const newPurchaseDetails = function(req:Request,res:Response,next:NextFun
   console.log(id_purchase);
   PurchaseDetails.create(purchaseDetails)
   .then((result)=>{
-    res.send('success');
+    res.json({message:'purchase details created'});
   })
   .catch((error)=>{
     next(error);
