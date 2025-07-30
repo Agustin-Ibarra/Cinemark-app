@@ -3,7 +3,7 @@ Este software soluciona la organizacion y descongestion al momento de comprar en
 EL proyecto esta contruido basandose en el patron de diseño (MVC).
 ## Tabla de contenido
 1. [Características](#características)
-3. [BackEnd](#backEnd)
+3. [BackEnd](#backend)
 4. [Base de datos](#base-de-datos)
 5. [Documentacion](#documentacion)
 6. [Pruebas unitarias](#pruebas-unitarias)
@@ -69,6 +69,6 @@ npm start
 ```
 ## Instalacion
 - Dependencias: para instalar las dependencias necesarias para el correcto funcionamineto de la applicacion, ejecuta el siguiente comando en la terminal
-```bash
+```javascript
 npm install
 ```
